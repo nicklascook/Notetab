@@ -1,21 +1,8 @@
-# New Tab Notepad for Chrome
+# Flow
 
 ## Features
 
-* Persistent notepad on the "New Tab" page using Chrome's storage API.
-
-## Todo
-
-* [ ] Nicer icon, maybe something like [this](http://www.flaticon.com/free-icon/note_33410#term=notes&page=1&position=35)
-* [ ] Automate deployment to Chrome Web Store, based on [this](https://github.com/jonnor/chrome-webstore-deploy/)
-* [ ] Better Chrome Extension Javascript, based on [this](https://github.com/sidenotes/sidenotes)
-* [ ] Tests, lint.
-
-## Credits
-
-* Chrome Extensions by [coleifer](https://github.com/coleifer/chrome-extensions)
-* Textarea CSS by [eliotsykes](http://www.webdevbreak.com/episodes/zen-textarea-pure-css/demo)
-
-## Screenshot
-
-![](https://raw.githubusercontent.com/sweenzor/new-tab-notepad/master/screenshot.png)
+  * A To Do List / Notepad that persists using Chrome Sync API.
+  * Built in timer with Pomodoro settings available
+  * 'Notebooks' - The ability to create separate notebooks to store other info. (Ex: Books to read, Recipes to make, Things to work on)
+ 
