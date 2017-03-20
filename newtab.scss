@@ -1,0 +1,272 @@
+$backgroundColor: #0e2439;
+$toolbarColor: #1f364d;
+$headerText: #fff;
+$bodyText: #fff;
+$accentColor: #009688;
+
+body{
+  background-color: $backgroundColor;
+  max-height: 100vh;
+  overflow: hidden;
+  font-family: 'Roboto', sans-serif;
+
+
+}
+.textarea{
+  width: 100%;
+  margin: 0 auto;
+  textarea{
+    padding-top: 60px;
+    padding-left: 20%;
+    padding-right: 20%;
+    color: $bodyText;
+    background-color: $backgroundColor;
+    border: none;
+    width: 100%;
+    height: 100%;
+    outline:0;
+    font-size: 1.9rem;
+    resize: none;
+  }
+  textarea:focus{
+    border: none;
+  }
+}
+
+.toolbar{
+  width: 60px;
+  height: auto;
+  padding-bottom: 20px;
+  background-color: $toolbarColor;
+  position: absolute;
+  right: 20px;
+  top:20px;
+  text-align: center;
+  .toolbar__icons{
+    margin-top: 20px;
+    span{
+      color: #fff;
+      font-size: 2rem;
+      cursor: pointer;
+      display: block;
+      margin-top: 10px;
+    }
+    span:hover{
+      color: $accentColor;
+    }
+    .toolbar__icons--notebook{
+      margin-top: 15px;
+    }
+  }
+
+}
+
+.timerbox{
+  display: none;
+  position: absolute;
+  width: 200px;
+  height: 300px;
+  background-color: $toolbarColor;
+  border: 1px solid $accentColor;
+  right: 100px;
+  top: 20px;
+  z-index: 10;
+  .timerbox__numbers{
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 35%;
+    background-color: $accentColor;
+    text-align: center;
+    h3{
+      font-size: 3rem;
+      display: inline-block;
+      color: white;
+      // top: 100%;
+      margin-top: 0.5rem;
+      vertical-align: middle;
+
+    }
+  }
+  .timerbox__start{
+    position: absolute;
+    cursor: pointer;
+    top: 35%;
+    width: 100%;
+    background-color: darken($accentColor,5%);
+    height: 18%;
+    color: white;
+    text-align: center;
+
+    h3{
+      margin-top:14px;
+      text-transform: uppercase;
+      font-weight: 100;
+    }
+  }
+  .timerbox__start:hover{
+    background-color: lighten($accentColor,5%);
+  }
+  .timerbox__stop{
+    @extend .timerbox__start;
+    top: 35%+18%;
+    background-color: darken($accentColor,10%);
+  }
+  .timerbox__plusminus{
+    @extend .timerbox__start;
+    top: 35%+18%+18%;
+    width: 50%;
+    right: 0;
+    background-color: darken($accentColor,13%);
+    -webkit-box-shadow: inset 1px 0px 0px 0px darken($accentColor,10%);
+    -moz-box-shadow: inset 1px 0px 0px 0px darken($accentColor,10%);
+    box-shadow: inset 1px 0px 0px 0px darken($accentColor,10%);
+    h2{
+      display: inline-block;
+      margin-top: 12px;
+      text-align: center;
+    }
+  }
+  .timerbox__plusminus--left{
+    left: 0;
+    -webkit-box-shadow: inset -1px 0px 0px 0px darken($accentColor,10%);
+    -moz-box-shadow: inset -1px 0px 0px 0px darken($accentColor,10%);
+    box-shadow: inset -1px 0px 0px 0px darken($accentColor,10%);
+  }
+  .timerbox__presets--25min{
+    @extend .timerbox__start;
+    height: 11%;
+    bottom: 0;
+    h3{
+      font-size: 0.7rem;
+      font-weight: lighter;
+      margin-top: 11px;
+    }
+    top: auto;
+    width: 33.333%;
+    background-color: darken($accentColor,10%);
+    -webkit-box-shadow: inset -1px 0px 0px 0px darken($accentColor,15%);
+    -moz-box-shadow: inset -1px 0px 0px 0px darken($accentColor,15%);
+    box-shadow: inset -1px 0px 0px 0px darken($accentColor,15%);
+  }
+  .timerbox__presets--5min{
+    @extend .timerbox__presets--25min;
+    left: 33.333%;
+  }
+  .timerbox__presets--1min{
+    @extend .timerbox__presets--25min;
+    left: 66.666%;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+  }
+
+}
+.tooltip{
+  position: absolute;
+  min-width: 70px;
+  height: 20px;
+  background-color: $accentColor;
+  text-align: center;
+  color: white;
+  border-radius: 5px;
+  line-height: 20px;
+  padding: 5px;
+  z-index: 1;
+  font-size: 0.9rem;
+}
+.tooltip::after{
+  left: 99%;
+	top: 50%;
+	border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+	border-left-color: $accentColor;
+	border-width: 13px;
+	margin-top: -13px;
+
+}
+.notepad{
+  display: block;
+  width: 600px;
+  height: 80%;
+  background-color: $toolbarColor;
+  border: 1px solid $toolbarColor;
+  position: absolute;
+  top: 20px;
+  right: 100px;
+  .notepad__name{
+    height: 10%;
+    width: 100%;
+    margin-top: 5%;
+    input[type=text]{
+      padding-top: 5px;
+      padding-bottom: 5px;
+      margin: 0 auto;
+      display: block;
+      max-width: 60%;
+      text-align: center;
+      font-size: 1.8rem;
+      background-color: lighten($toolbarColor,5%);
+      outline: none;
+      resize: none;
+      border: none;
+      color: white;
+    }
+  }
+  .notepad__textarea{
+    @extend .notepad__name;
+    height: 65%;
+    textarea{
+      background-color: lighten($toolbarColor,5%);
+      outline: none;
+      resize: none;
+      border: none;
+      color: white;
+      padding:30px;
+      margin: 0 auto;
+      display: block;
+      width: 100%;
+      font-size: 1rem;
+      height: 100%;
+    }
+  }
+}
+
+@font-face {
+  font-family: 'icomoon';
+  src:  url('fonts/icomoon.eot?54zl90');
+  src:  url('fonts/icomoon.eot?54zl90#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?54zl90') format('truetype'),
+    url('fonts/icomoon.woff?54zl90') format('woff'),
+    url('fonts/icomoon.svg?54zl90#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.icon-stopwatch:before {
+  content: "\e904";
+}
+.icon-notebook-text:before {
+  content: "\e900";
+}
+.icon-add:before {
+  content: "\e905";
+}

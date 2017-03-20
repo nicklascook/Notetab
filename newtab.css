@@ -1,0 +1,219 @@
+body {
+  background-color: #0e2439;
+  max-height: 100vh;
+  overflow: hidden;
+  font-family: 'Roboto', sans-serif; }
+
+.textarea {
+  width: 100%;
+  margin: 0 auto; }
+  .textarea textarea {
+    padding-top: 60px;
+    padding-left: 20%;
+    padding-right: 20%;
+    color: white;
+    background-color: #0e2439;
+    border: none;
+    width: 100%;
+    height: 100%;
+    outline: 0;
+    font-size: 1.9rem;
+    resize: none; }
+  .textarea textarea:focus {
+    border: none; }
+
+.toolbar {
+  width: 60px;
+  height: auto;
+  padding-bottom: 20px;
+  background-color: #1f364d;
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  text-align: center; }
+  .toolbar .toolbar__icons {
+    margin-top: 20px; }
+    .toolbar .toolbar__icons span {
+      color: #fff;
+      font-size: 2rem;
+      cursor: pointer;
+      display: block;
+      margin-top: 10px; }
+    .toolbar .toolbar__icons span:hover {
+      color: #009688; }
+    .toolbar .toolbar__icons .toolbar__icons--notebook {
+      margin-top: 15px; }
+
+.timerbox {
+  display: none;
+  position: absolute;
+  width: 200px;
+  height: 300px;
+  background-color: #1f364d;
+  border: 1px solid #009688;
+  right: 100px;
+  top: 20px;
+  z-index: 10; }
+  .timerbox .timerbox__numbers {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 35%;
+    background-color: #009688;
+    text-align: center; }
+    .timerbox .timerbox__numbers h3 {
+      font-size: 3rem;
+      display: inline-block;
+      color: white;
+      margin-top: 0.5rem;
+      vertical-align: middle; }
+  .timerbox .timerbox__start, .timerbox .timerbox__stop, .timerbox .timerbox__plusminus, .timerbox .timerbox__presets--25min, .timerbox .timerbox__presets--5min, .timerbox .timerbox__presets--1min {
+    position: absolute;
+    cursor: pointer;
+    top: 35%;
+    width: 100%;
+    background-color: #007d71;
+    height: 18%;
+    color: white;
+    text-align: center; }
+    .timerbox .timerbox__start h3, .timerbox .timerbox__stop h3, .timerbox .timerbox__plusminus h3, .timerbox .timerbox__presets--25min h3, .timerbox .timerbox__presets--5min h3, .timerbox .timerbox__presets--1min h3 {
+      margin-top: 14px;
+      text-transform: uppercase;
+      font-weight: 100; }
+  .timerbox .timerbox__start:hover, .timerbox .timerbox__stop:hover, .timerbox .timerbox__plusminus:hover, .timerbox .timerbox__presets--25min:hover, .timerbox .timerbox__presets--5min:hover, .timerbox .timerbox__presets--1min:hover {
+    background-color: #00b09f; }
+  .timerbox .timerbox__stop {
+    top: 53%;
+    background-color: #00635a; }
+  .timerbox .timerbox__plusminus {
+    top: 71%;
+    width: 50%;
+    right: 0;
+    background-color: #00544c;
+    -webkit-box-shadow: inset 1px 0px 0px 0px #00635a;
+    -moz-box-shadow: inset 1px 0px 0px 0px #00635a;
+    box-shadow: inset 1px 0px 0px 0px #00635a; }
+    .timerbox .timerbox__plusminus h2 {
+      display: inline-block;
+      margin-top: 12px;
+      text-align: center; }
+  .timerbox .timerbox__plusminus--left {
+    left: 0;
+    -webkit-box-shadow: inset -1px 0px 0px 0px #00635a;
+    -moz-box-shadow: inset -1px 0px 0px 0px #00635a;
+    box-shadow: inset -1px 0px 0px 0px #00635a; }
+  .timerbox .timerbox__presets--25min, .timerbox .timerbox__presets--5min, .timerbox .timerbox__presets--1min {
+    height: 11%;
+    bottom: 0;
+    top: auto;
+    width: 33.333%;
+    background-color: #00635a;
+    -webkit-box-shadow: inset -1px 0px 0px 0px #004a43;
+    -moz-box-shadow: inset -1px 0px 0px 0px #004a43;
+    box-shadow: inset -1px 0px 0px 0px #004a43; }
+    .timerbox .timerbox__presets--25min h3, .timerbox .timerbox__presets--5min h3, .timerbox .timerbox__presets--1min h3 {
+      font-size: 0.7rem;
+      font-weight: lighter;
+      margin-top: 11px; }
+  .timerbox .timerbox__presets--5min {
+    left: 33.333%; }
+  .timerbox .timerbox__presets--1min {
+    left: 66.666%;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none; }
+
+.tooltip {
+  position: absolute;
+  min-width: 70px;
+  height: 20px;
+  background-color: #009688;
+  text-align: center;
+  color: white;
+  border-radius: 5px;
+  line-height: 20px;
+  padding: 5px;
+  z-index: 1;
+  font-size: 0.9rem; }
+
+.tooltip::after {
+  left: 99%;
+  top: 50%;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+  border-left-color: #009688;
+  border-width: 13px;
+  margin-top: -13px; }
+
+.notepad {
+  display: block;
+  width: 600px;
+  height: 80%;
+  background-color: #1f364d;
+  border: 1px solid #1f364d;
+  position: absolute;
+  top: 20px;
+  right: 100px; }
+  .notepad .notepad__name, .notepad .notepad__textarea {
+    height: 10%;
+    width: 100%;
+    margin-top: 5%; }
+    .notepad .notepad__name input[type=text], .notepad .notepad__textarea input[type=text] {
+      padding-top: 5px;
+      padding-bottom: 5px;
+      margin: 0 auto;
+      display: block;
+      max-width: 60%;
+      text-align: center;
+      font-size: 1.8rem;
+      background-color: #26435f;
+      outline: none;
+      resize: none;
+      border: none;
+      color: white; }
+  .notepad .notepad__textarea {
+    height: 65%; }
+    .notepad .notepad__textarea textarea {
+      background-color: #26435f;
+      outline: none;
+      resize: none;
+      border: none;
+      color: white;
+      padding: 30px;
+      margin: 0 auto;
+      display: block;
+      width: 100%;
+      font-size: 1rem;
+      height: 100%; }
+
+@font-face {
+  font-family: 'icomoon';
+  src: url("fonts/icomoon.eot?54zl90");
+  src: url("fonts/icomoon.eot?54zl90#iefix") format("embedded-opentype"), url("fonts/icomoon.ttf?54zl90") format("truetype"), url("fonts/icomoon.woff?54zl90") format("woff"), url("fonts/icomoon.svg?54zl90#icomoon") format("svg");
+  font-weight: normal;
+  font-style: normal; }
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; }
+
+.icon-stopwatch:before {
+  content: "\e904"; }
+
+.icon-notebook-text:before {
+  content: "\e900"; }
+
+.icon-add:before {
+  content: "\e905"; }
