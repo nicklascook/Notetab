@@ -166,7 +166,157 @@
         }
       }
 
-      
+      function findNotesInUse(){ // searches through notes1-5 and if they appear in storage, pushes them to the notesInUse array
+        notesInUse = [];
+        chrome.storage.sync.get('note1', function(data){
+          if(data["note1"] != undefined){
+            notesInUse.push("note1");
+          }
+        })
+        chrome.storage.sync.get('note2', function(data){
+          if(data["note2"] != undefined){
+            notesInUse.push("note2");
+          }
+        })
+        chrome.storage.sync.get('note3', function(data){
+          if(data["note3"] != undefined){
+            notesInUse.push("note3");
+          }
+        })
+        chrome.storage.sync.get('note4', function(data){
+          if(data["note4"] != undefined){
+            notesInUse.push("note4");
+          }
+        })
+        chrome.storage.sync.get('note5', function(data){
+          if(data["note5"] != undefined){
+            notesInUse.push("note5");
+          }
+        })
+
+        }
+      findNotesInUse(); // create array of used notes
+      function parseUsedNotes(){ // parses through the string names of the notes that appear in the notesInUse array to the create function
+        for(var i=1; i <notesInUse.length+1;i++){
+          if(notesInUse.includes("note"+i)){
+            createNotepadOnPage("note"+i)
+          }
+        }
+      }
+
+      setTimeout(function () {
+        parseUsedNotes();
+      }, 100);
+
+      function createNotepadOnPage(name){ // creates a notepad given the name (note1 etc.)
+        chrome.storage.sync.get(name, function(data){ // .gets from sync storage
+          console.log(data[name].noteColor, data[name].noteText,data[name].noteName );
+          // create toolbar icon
+            var newNote = document.createElement('span');
+            newNote.className = ("toolbar__icons--notebook icon-notebook-text");
+            // newNote.style.color = data[name].noteColor;
+            // newNote.onmouseover = function(){this.style.color = "#009688"};
+            // newNote.onmouseout = function(){this.style.color = data[name].noteColor};
+            document.getElementsByClassName("toolbar__icons")[0].appendChild(newNote);
+
+
+          // create actual div:
+            var note = document.createElement('div'); // create main 'notepad' div
+            note.className = ("notepad");
+            var noteName = document.createElement('div'); // create notepad__name
+            noteName.className = ("notepad__name");
+            var noteNameInput = document.createElement('input');
+            noteNameInput.type = "text";
+            noteNameInput.className = "notepad-name " +name +"name";
+            noteNameInput.value = data[name].noteName ? data[name].noteName : ''; // insert notepad__name value
+            noteName.appendChild(noteNameInput);
+            note.appendChild(noteName); // append notepad__name
+
+            var notepadText = document.createElement('div'); // create notepad__textarea div
+            notepadText.className = ("notepad__textarea");
+            var notepadTextarea = document.createElement('textarea');
+            notepadTextarea.className = ("notepad-text " +name +"text");
+            notepadTextarea.value = data[name].noteText ? data[name].noteText : ''; // insert notepad__textarea value
+            notepadText.appendChild(notepadTextarea);
+            note.appendChild(notepadText);
+
+            document.body.appendChild(note); // append the notepad div.
+
+
+            newNote.onclick = function(){ // add show/hide onclick function
+              if(note.style.display != "block"){
+                note.style.display = "block";
+                newNote.style.color = data[name].noteColor;
+              } else{
+                note.style.display = "none";
+                newNote.style.color = notepadColors.white;
+              }
+            }
+
+            // ensure that the information is then stored in chrome.storage.sync
+            notepadStorage(name);
+
+        })
+      }
+
+      function notepadStorage(name) {
+        // note pad name
+        var noteName = document.getElementsByClassName(name + "name")[0], saveHandler = _makeDelayed();
+        var noteText = document.getElementsByClassName(name + "text")[0], saveHandler = _makeDelayed();
+
+        function save() {
+          chrome.storage.sync.get(name, function(data) {
+            console.log(noteName.value);
+            console.log(data[name].noteText);
+          })
+          chrome.storage.sync.set({name: {"noteName":noteName.value, 'noteText':noteText.value}});
+        }
+        // Throttle save so that it only occurs after 1 second without a keypress.
+        noteName.addEventListener('keypress', function() {
+          saveHandler(save, 1000);
+        });
+        noteText.addEventListener('keypress', function() {
+          saveHandler(save, 1000);
+        });
+        noteName.addEventListener('blur', save);
+        noteText.addEventListener('blur', save);
+        chrome.storage.sync.get(name, function(data) {
+          noteName.value = data[name].noteName ? data[name].noteName : '';
+          noteText.value = data[name].noteText ? data[name].noteText : '';
+        });
+      }
+
+setTimeout(function () {
+  notepadStorage("note1");
+}, 5000);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       // function createNotepad(name,color){
       //   // test if note1 exists:
       //   // chrome.storage.sync.get('note2', function(data) {
@@ -186,10 +336,10 @@
       // notepadPreparePage();
       // function notepadPreparePage(){
       //   var i=1;
-      //   while(i<10){
-      //     var noteNumber = "note"+i;
-      //
-      //   }
+      //   // while(i<10){
+      //   //   var noteNumber = "note"+i;
+      //   //
+      //   // }
       // }
       // function getStorage(notebook){
       //     // chrome.storage.sync.get(notebook, function(data) {
@@ -250,7 +400,7 @@
       // // }
       //
       //
-      // function notepadStorage() {
+      // function notepadStorage(name) {
       //   // note pad name
       //   var noteName = document.getElementsByClassName("notepad-name")[0], saveHandler = _makeDelayed();
       //   var noteText = document.getElementsByClassName("notepad-text")[0], saveHandler = _makeDelayed();
