@@ -190,7 +190,7 @@ body{
 
 }
 .notepad{
-  display: block;
+  display: none;
   width: 600px;
   height: 80%;
   background-color: $toolbarColor;
@@ -232,6 +232,69 @@ body{
       width: 100%;
       font-size: 1rem;
       height: 100%;
+    }
+  }
+
+}
+.createnotepad{
+  display: none;
+  width: 300px;
+  height: 200px;
+  position: absolute;
+  right: 100px;
+  top: 20px;
+  background-color: $toolbarColor;
+  .createnotepad__name{
+    margin-top: 10%;;
+    input{
+      padding-top: 5px;
+      padding-bottom: 5px;
+      width: 100%;
+      text-align: center;
+      font-size: 1.8rem;
+      background-color: lighten($toolbarColor,5%);
+      outline: none;
+      resize: none;
+      border: none;
+      color: white;
+    }
+  }
+  .createnotepad__settings{
+    margin-top: 6%;
+    height: 20%;
+    color: white;
+    h2{
+      display: inline-block;
+      margin-left: 20%;;
+    }
+    select{
+      margin-left: 10%;
+      width: 100px;
+      height: 30px;
+      // -webkit-appearance: none;
+      // -moz-appearance: none;
+      // appearance: none;
+      padding: 10px;
+      text-align: center;
+      background-color: $toolbarColor;
+      border: 1px solid white;
+      color: white;
+
+    }
+    button{
+      margin: 0 auto;
+      display: block;
+      margin-top: 15px;
+      background-color: $toolbarColor;
+      border: 1px solid white;
+      padding: 5px;
+      color:white;
+      text-transform: uppercase;
+      min-width: 80px;
+    }
+    button:hover{
+      background-color: $accentColor;
+      transition: 0.5s;
     }
   }
 }
