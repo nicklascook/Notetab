@@ -201,10 +201,41 @@
       //
       var notepadColors = {"white":"#fff","blue":"#2196F3","red":"#f44336","purple":"#9C27B0","green":"#4CAF50","yellow":"#FFEB3B","teal":"#009688"};
       //
+
+      /* Adding a new notepad -> Check which notes are currently not in use, if all 5 are used up -> give error
+                              ----> chrome.storage.sync.set the values given --> run createNotepadOnPage
+      */
       document.getElementsByClassName("createnotepad__settings--button")[0].onclick = function(){
         if(document.getElementsByClassName("createnotepad-name")[0].value != ""){ // if field not blank:
-          var colorname = document.getElementsByClassName("notepad__color")[0].value;
-          createNotepad(document.getElementsByClassName("createnotepad-name")[0].value, notepadColors[colorname]) // create a new notepad with name and color input
+          var noteNameFromInput = document.getElementsByClassName("createnotepad-name")[0].value;
+          if(notesInUse.length >= 5){ // if there arent more than 5 notes already
+            alert("Too many notes in use, please remove one to create another");
+          } else{
+            var numbersTo5 = [1,2,3,4,5]; //
+            for(var i=0;i<notesInUse.length;i++){ // iterate through the notesInUse
+              var numberToSplice = numbersTo5.indexOf(parseInt(notesInUse[i].charAt(4))); // remove those numbers from the numbersTo5 array
+              numbersTo5.splice(numberToSplice, 1); // this gives the unused note numbers (incase they arent in order 1,2,3 due to deletion)
+            }
+
+            // now set up the sync depending on the name given
+            var noteToCreate = "note"+numbersTo5[0];
+
+            if(noteToCreate == "note1"){
+              chrome.storage.sync.set({"note1": {"noteName":noteNameFromInput, 'noteText':""}});
+            } else if (noteToCreate == "note2") {
+              chrome.storage.sync.set({"note2": {"noteName":noteNameFromInput, 'noteText':""}});
+            } else if (noteToCreate == "note3") {
+              chrome.storage.sync.set({"note3": {"noteName":noteNameFromInput, 'noteText':""}});
+            }else if (noteToCreate == "note4") {
+              chrome.storage.sync.set({"note4": {"noteName":noteNameFromInput, 'noteText':""}});
+            }else if (noteToCreate == "note5") {
+              chrome.storage.sync.set({"note5": {"noteName":noteNameFromInput, 'noteText':""}});
+            }
+            createNotepadOnPage(noteToCreate);
+
+
+          }
+
         }else{
           alert("Enter a notepad name")
         }
@@ -213,27 +244,27 @@
       function findNotesInUse(){ // searches through notes1-5 and if they appear in storage, pushes them to the notesInUse array
         notesInUse = [];
         chrome.storage.sync.get('note1', function(data){
-          if(data["note1"] != undefined){
+          if(data["note1"] != undefined && data["note1"] != "deleted"){
             notesInUse.push("note1");
           }
         })
         chrome.storage.sync.get('note2', function(data){
-          if(data["note2"] != undefined){
+          if(data["note2"] != undefined && data["note2"] != "deleted"){
             notesInUse.push("note2");
           }
         })
         chrome.storage.sync.get('note3', function(data){
-          if(data["note3"] != undefined){
+          if(data["note3"] != undefined && data["note3"] != "deleted"){
             notesInUse.push("note3");
           }
         })
         chrome.storage.sync.get('note4', function(data){
-          if(data["note4"] != undefined){
+          if(data["note4"] != undefined && data["note4"] != "deleted"){
             notesInUse.push("note4");
           }
         })
         chrome.storage.sync.get('note5', function(data){
-          if(data["note5"] != undefined){
+          if(data["note5"] != undefined && data["note5"] != "deleted"){
             notesInUse.push("note5");
           }
         })
@@ -257,7 +288,7 @@
         chrome.storage.sync.get(name, function(data){ // .gets from sync storage
           // create toolbar icon
             var newNote = document.createElement('span');
-            newNote.className = ("toolbar__icons--notebook icon-notebook-text " +name);
+            newNote.className = ("toolbar__icons--notebook icon-event_note " +name);
             for(var k=1;k<=5;k++){
               if("note"+k == name){
                 var matchColors = ["blue","red","purple","green","yellow"];
@@ -294,6 +325,9 @@
             notepadText.appendChild(notepadTextarea);
             note.appendChild(notepadText);
 
+            var deleteBtn = document.createElement('span');
+            deleteBtn.className = "notepad__deletebtn icon-delete";
+            note.appendChild(deleteBtn);
             document.body.appendChild(note); // append the notepad div.
 
 
@@ -328,28 +362,15 @@
               }
             }
 
+            deleteBtn.onclick= function(){
+              deleteNote(name);
+            }
+
             // ensure that the information is then stored in chrome.storage.sync
             notepadStorage(name);
 
         })
       }
-
-      // function notepadStorage(name) {
-      //   var noteName = document.getElementsByClassName(name + "name")[0];
-      //   var noteText = document.getElementsByClassName(name + "text")[0];
-      //   if(name == "note1"){
-      //     chrome.storage.sync.set({"note1": {"noteName":noteName.value, 'noteText':noteText.value}});
-      //   } else if (name == "note2") {
-      //     chrome.storage.sync.set({"note2": {"noteName":noteName.value, 'noteText':noteText.value}});
-      //   } else if (name == "note3") {
-      //     chrome.storage.sync.set({"note3": {"noteName":noteName.value, 'noteText':noteText.value}});
-      //   }else if (name == "note4") {
-      //     chrome.storage.sync.set({"note4": {"noteName":noteName.value, 'noteText':noteText.value}});
-      //   }else if (name == "note5") {
-      //     chrome.storage.sync.set({"note5": {"noteName":noteName.value, 'noteText':noteText.value}});
-      //   }
-      // }
-
 
       function notepadStorage(name) {
         // note pad name
@@ -378,132 +399,27 @@
         });
         noteName.addEventListener('blur', save);
         noteText.addEventListener('blur', save);
-        // chrome.storage.sync.get('note1', function(data) {
-        //   noteName.value = data.note1.noteName ? data.note1.noteName : '';
-        //   noteText.value = data.note1.noteText ? data.note1.noteText : '';
-        // });
       }
 
-
-
-
-
-
-
-
-
-      // function createNotepad(name,color){
-      //   // test if note1 exists:
-      //   // chrome.storage.sync.get('note2', function(data) {
-      //   //   if(data.note2 == undefined){
-      //   //     chrome.storage.sync.set({'note2': {"noteName":name, 'noteText':"",'noteColor':color}});
-      //   //   }
-      //   // // });
-      //   // var newNote = document.createElement('span');
-      //   // newNote.classList.add("toolbar__icons--notebook");
-      //   // newNote.classList.add("icon-notebook-text");
-      //   // newNote.style.color = color;
-      //   // newNote.onmouseover = function(){this.style.color = "#009688"};
-      //   // newNote.onmouseout = function(){this.style.color = color};
-      //   // document.getElementsByClassName("toolbar__icons")[0].appendChild(newNote);
-      //
-      // }
-      // notepadPreparePage();
-      // function notepadPreparePage(){
-      //   var i=1;
-      //   // while(i<10){
-      //   //   var noteNumber = "note"+i;
-      //   //
-      //   // }
-      // }
-      // function getStorage(notebook){
-      //     // chrome.storage.sync.get(notebook, function(data) {
-      //     //   console.log(data);
-      //     // })
-      // }
-      //     // console.log(ok)
-      //
-      // //
-      // //     console.log(ok);
-      // //   //   // console.log(data[0][ok].noteName ? data[0][ok].noteName : '');
-      // //     // console.log(ok)
-      // //     return;
-      // //     // console.log(data[ok]);
-      // //     // console.log(data.note2.noteText ? data.note2.noteText : '');
-      // //     // noteText.value = data.note1.noteText ? data.note1.noteText : '';
-      // //   });
-      // // }
-      //   // for(i=1;i<=10;i++){
-      //   //   var currentNoteNumber = "note"+i;
-      //   //
-      //   //
-      //   //   chrome.storage.sync.get("note1", function(data) {
-      //   //
-      //   //     if(data[currentNoteNumber] != undefined){
-      //   //       var note = document.createElement('div');
-      //   //       note.classList.add("notepad");
-      //   //       var noteName = document.createElement('div');
-      //   //       noteName.classList.add("notepad__name");
-      //   //       var noteNameInput = document.createElement('input');
-      //   //       noteNameInput.type = "text";
-      //   //       noteNameInput.className = "notepad-name";
-      //   //       noteNameInput.value = data[currentNoteNumber].noteName ? data[currentNoteNumber].noteName : '';
-      //   //       noteName.appendChild(noteNameInput);
-      //   //       note.appendChild(noteName);
-      //   //       document.body.appendChild(note);
-      //   //
-      //   //       var newNote = document.createElement('span');
-      //   //       newNote.classList.add("toolbar__icons--notebook");
-      //   //       newNote.classList.add("icon-notebook-text");
-      //   //       newNote.style.color = data.note1.noteColor;
-      //   //       newNote.onmouseover = function(){this.style.color = "#009688"};
-      //   //       newNote.onmouseout = function(){this.style.color = data.note1.noteColor};
-      //   //       document.getElementsByClassName("toolbar__icons")[0].appendChild(newNote);
-      //   //
-      //   //       newNote.onclick = function(){
-      //   //         if(note1.style.display != "block"){
-      //   //           note1.style.display = "block";
-      //   //         } else{
-      //   //           note1.style.display = "none";
-      //   //         }
-      //   //       }
-      //   //     }
-      //   //
-      //   //   });
-      //   // }
-      //
-      // // }
-      //
-      //
-
-      // // notepadStorage();
-      // // function notepadStorage() {
-      // //   // note pad name
-      // //   var noteName = document.getElementsByClassName("notepad-name")[0], saveHandler = _makeDelayed();
-      // //   var noteText = document.getElementsByClassName("notepad-text")[0], saveHandler = _makeDelayed();
-      // //
-      // //   function save() {
-      // //     chrome.storage.sync.set({'noteName': noteName.value, 'noteText':noteText.value});
-      // //   }
-      // //   // Throttle save so that it only occurs after 1 second without a keypress.
-      // //   noteName.addEventListener('keypress', function() {
-      // //     saveHandler(save, 1000);
-      // //   });
-      // //   noteText.addEventListener('keypress', function() {
-      // //     saveHandler(save, 1000);
-      // //   });
-      // //   noteName.addEventListener('blur', save);
-      // //   noteText.addEventListener('blur', save);
-      // //   chrome.storage.sync.get('noteName', function(data) {
-      // //     noteName.value = data.noteName ? data.noteName : '';
-      // //   });
-      // //   chrome.storage.sync.get('noteText', function(data) {
-      // //     noteText.value = data.noteText ? data.noteText : '';
-      // //   });
-      // // }
-      // // notepadStorage();
-      //
-      //
+      function deleteNote(notename){
+        if(notename == "note1"){
+          chrome.storage.sync.set({"note1":"deleted"});
+        } else if (notename == "note2") {
+          chrome.storage.sync.set({"note2":"deleted"});
+        } else if (notename == "note3") {
+          chrome.storage.sync.set({"note3":"deleted"});
+        }else if (notename == "note4") {
+          chrome.storage.sync.set({"note4":"deleted"});
+        }else if (notename == "note5") {
+          chrome.storage.sync.set({"note5":"deleted"});
+        }
+        document.getElementsByClassName(notename)[0].parentNode.removeChild(document.getElementsByClassName(notename)[0]);
+        document.getElementsByClassName(notename+"div")[0].parentNode.removeChild(document.getElementsByClassName(notename+"div")[0]);
+        if(currentlyShown[1] == notename+"div" ){
+          currentlyShown = [false,""];
+        }
+      }
 
       //==============================================================================================================================================================================
+
 })();

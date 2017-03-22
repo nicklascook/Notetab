@@ -1,5 +1,7 @@
 body {
   background-color: #0e2439;
+  background-repeat: no-repeat;
+  background: cover;
   max-height: 100vh;
   overflow: hidden;
   font-family: 'Roboto', sans-serif; }
@@ -12,7 +14,7 @@ body {
     padding-left: 20%;
     padding-right: 20%;
     color: white;
-    background-color: #0e2439;
+    background-color: transparent;
     border: none;
     width: 100%;
     height: 100%;
@@ -140,19 +142,6 @@ body {
   padding-left: 10px;
   padding-right: 10px; }
 
-.tooltip::after {
-  left: 99%;
-  top: 50%;
-  border: solid transparent;
-  content: " ";
-  height: 0;
-  width: 0;
-  position: absolute;
-  pointer-events: none;
-  border-left-color: rgba(41, 41, 41, 0.7);
-  border-width: 13px;
-  margin-top: -13px; }
-
 .notepad {
   display: none;
   width: 600px;
@@ -209,11 +198,21 @@ body {
   .notepad button:hover {
     background-color: #14b4fc;
     transition: 0.5s; }
+  .notepad .notepad__deletebtn {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    color: #03a9f4;
+    font-size: 2rem;
+    cursor: pointer; }
+  .notepad .notepad__deletebtn:hover {
+    color: #f44336;
+    transition: 0.2s; }
 
 .createnotepad {
   display: none;
   width: 300px;
-  height: 200px;
+  height: 150px;
   position: absolute;
   right: 100px;
   top: 20px;
@@ -231,35 +230,20 @@ body {
       resize: none;
       border: none;
       color: white; }
-  .createnotepad .createnotepad__settings {
-    margin-top: 6%;
-    height: 20%;
-    color: white; }
-    .createnotepad .createnotepad__settings h2 {
-      display: inline-block;
-      margin-left: 20%; }
-    .createnotepad .createnotepad__settings select {
-      margin-left: 10%;
-      width: 100px;
-      height: 30px;
-      padding: 10px;
-      text-align: center;
-      background-color: #1f364d;
-      border: 1px solid white;
-      color: white; }
-    .createnotepad .createnotepad__settings button {
-      margin: 0 auto;
-      display: block;
-      margin-top: 15px;
-      background-color: #1f364d;
-      border: 1px solid white;
-      padding: 5px;
-      color: white;
-      text-transform: uppercase;
-      min-width: 80px; }
-    .createnotepad .createnotepad__settings button:hover {
-      background-color: #03a9f4;
-      transition: 0.5s; }
+  .createnotepad button {
+    margin: 0 auto;
+    display: block;
+    margin-top: 30px;
+    background-color: #1f364d;
+    border: 1px solid white;
+    padding: 5px;
+    color: white;
+    text-transform: uppercase;
+    min-width: 90px;
+    font-size: 0.8rem; }
+  .createnotepad button:hover {
+    background-color: #03a9f4;
+    transition: 0.2s; }
 
 @font-face {
   font-family: 'icomoon';
@@ -283,8 +267,11 @@ body {
 .icon-stopwatch:before {
   content: "\e904"; }
 
-.icon-notebook-text:before {
-  content: "\e900"; }
-
 .icon-add:before {
   content: "\e905"; }
+
+.icon-event_note:before {
+  content: "\e902"; }
+
+.icon-delete:before {
+  content: "\e901"; }
