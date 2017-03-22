@@ -8,9 +8,9 @@ Easily
 
 
 ## Future updates
- -[] Implement background image from /r/earthporn or similar
- -[] Add sound to timer finish
- -[] Allow colour or theme change (dark/light)
- -[] Add additional widgets - weather, to do list etc.
- -[] Increase number of notepads
- -[] Allow for headings, bold, checklist etc. in main text area 
+-[] Implement background image from /r/earthporn or similar
+-[] Add sound to timer finish
+-[] Allow colour or theme change (dark/light)
+-[] Add additional widgets - weather, to do list etc.
+-[] Increase number of notepads
+-[] Allow for headings, bold, checklist etc. in main text area 
