@@ -1,5 +1,6 @@
 # Notetab
-Easily
+Easily capture notes in the new tab page. :thought_balloon: :thought_balloon:
+
 ## Features
 
   * A To Do List / Notepad that persists using Chrome Sync API.
@@ -13,4 +14,4 @@ Easily
   * Allow colour or theme change (dark/light)
   * Add additional widgets - weather, to do list etc.
   * Increase number of notepads
-  * Allow for headings, bold, checklist etc. in main text area 
+  * Allow for headings, bold, checklist etc. in main text area
