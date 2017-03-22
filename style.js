@@ -117,15 +117,35 @@
   //
   //     //==============================================================================================================================================================================
   //     // TOOLBAR =====================================================================================================================================================================
+
+      /*
+      HOW IT WORKS: GLOBAL VARIABLE DETERMINES WHETHER OR NOT AN 'ADDITIONAL' WINDOW IS CURRENTLY DISPLAYED, IF IT IS, THE BUTTON THEN
+      HIDES THAT WINDOW AND SHOWS THE CORRECT ONE.
+      */
+      var currentlyShown = [false,""];
+      function addToCurrentlyShown(classidentifier){
+        document.getElementsByClassName(classidentifier)[0].style.display = "block";
+        currentlyShown = [true, classidentifier];
+      }
+      function removeCurrentlyShown(){
+        document.getElementsByClassName(currentlyShown[1])[0].style.display = "none";
+        currentlyShown = [false,""];
+      }
+
       var timerIcon = document.getElementsByClassName("toolbar__icons--timer")[0];
 
       timerIcon.onclick = function(){ // Timer icon click event
-        if (document.getElementsByClassName("timerbox")[0].style.display != "block"){
-          document.getElementsByClassName("timerbox")[0].style.display = "block";
-        }else{
-          document.getElementsByClassName("timerbox")[0].style.display = "none";
+        if(currentlyShown[0]==false){
+          addToCurrentlyShown("timerbox");
+        } else if (currentlyShown[0] == true && currentlyShown[1] != "timerbox") {
+          removeCurrentlyShown();
+          addToCurrentlyShown("timerbox");
+        }else if(currentlyShown[0] == true && currentlyShown[1] == "timerbox"){
+          removeCurrentlyShown();
         }
       }
+
+      // tooltip for timer
       timerIcon.onmouseover = function(){ // Timer icon tooltip on mouseover
         if(document.getElementsByClassName("timerbox")[0].style.display == "block"){
         } else{
@@ -144,18 +164,42 @@
         }
       }
 
+      // tooltip for add button
+
+      var addIcon = document.getElementsByClassName("toolbar__icons--add")[0];
+      addIcon.onmouseover = function(){ // Timer icon tooltip on mouseover
+          var tooltipWrap = document.createElement("div"); //creates div
+          tooltipWrap.className = 'tooltip'; //adds class
+          tooltipWrap.appendChild(document.createTextNode("Add notepad")); //add the text node to the newly created div.
+          document.body.appendChild(tooltipWrap);
+          tooltipWrap.style.top = "85px";
+          tooltipWrap.style.right = "100px";
+      }
+      addIcon.onmouseout = function(){ // add icon tooltip on mouseout
+        if (document.getElementsByClassName("tooltip")[0]){
+          document.getElementsByClassName("tooltip")[0].parentNode.removeChild(document.getElementsByClassName("tooltip")[0]);
+        }
+      }
+
+
+
+
+
       document.getElementsByClassName("toolbar__icons--add")[0].onclick = function(){ // Add notepad icon functionality
-        if (document.getElementsByClassName("createnotepad")[0].style.display != "block"){
-          document.getElementsByClassName("createnotepad")[0].style.display = "block";
-        }else{
-          document.getElementsByClassName("createnotepad")[0].style.display = "none";
+        if(currentlyShown[0]==false){
+          addToCurrentlyShown("createnotepad");
+        } else if (currentlyShown[0] == true && currentlyShown[1] != "createnotepad") {
+          removeCurrentlyShown();
+          addToCurrentlyShown("createnotepad");
+        }else if(currentlyShown[0] == true && currentlyShown[1] == "createnotepad"){
+          removeCurrentlyShown();
         }
       }
 
       //==============================================================================================================================================================================
       // NOTEPADS==============================================================================================================================================================================
       //
-      var notepadColors = {"white":"#fff","blue":"#2196F3","red":"#f44336","purple":"#9C27B0","green":"#4CAF50","yellow":"#FFEB3B"};
+      var notepadColors = {"white":"#fff","blue":"#2196F3","red":"#f44336","purple":"#9C27B0","green":"#4CAF50","yellow":"#FFEB3B","teal":"#009688"};
       //
       document.getElementsByClassName("createnotepad__settings--button")[0].onclick = function(){
         if(document.getElementsByClassName("createnotepad-name")[0].value != ""){ // if field not blank:
@@ -209,11 +253,19 @@
       }, 100);
 
       function createNotepadOnPage(name){ // creates a notepad given the name (note1 etc.)
+
         chrome.storage.sync.get(name, function(data){ // .gets from sync storage
-          console.log(data[name].noteColor, data[name].noteText,data[name].noteName );
           // create toolbar icon
             var newNote = document.createElement('span');
-            newNote.className = ("toolbar__icons--notebook icon-notebook-text");
+            newNote.className = ("toolbar__icons--notebook icon-notebook-text " +name);
+            for(var k=1;k<=5;k++){
+              if("note"+k == name){
+                var matchColors = ["blue","red","purple","green","yellow"];
+                var matchColor = matchColors[k];
+                var noteCol = notepadColors[matchColor];
+              }
+            }
+            newNote.style.boxShadow = "inset 0px 0px 0px 100px"+noteCol;
             // newNote.style.color = data[name].noteColor;
             // newNote.onmouseover = function(){this.style.color = "#009688"};
             // newNote.onmouseout = function(){this.style.color = data[name].noteColor};
@@ -222,13 +274,15 @@
 
           // create actual div:
             var note = document.createElement('div'); // create main 'notepad' div
-            note.className = ("notepad");
+            var divIdentifier = name + "div";
+            note.className = ("notepad " + divIdentifier);
             var noteName = document.createElement('div'); // create notepad__name
             noteName.className = ("notepad__name");
             var noteNameInput = document.createElement('input');
             noteNameInput.type = "text";
             noteNameInput.className = "notepad-name " +name +"name";
             noteNameInput.value = data[name].noteName ? data[name].noteName : ''; // insert notepad__name value
+            noteNameInput.style.borderColor = noteCol;
             noteName.appendChild(noteNameInput);
             note.appendChild(noteName); // append notepad__name
 
@@ -244,12 +298,33 @@
 
 
             newNote.onclick = function(){ // add show/hide onclick function
-              if(note.style.display != "block"){
-                note.style.display = "block";
-                newNote.style.color = data[name].noteColor;
-              } else{
-                note.style.display = "none";
-                newNote.style.color = notepadColors.white;
+              if(currentlyShown[0]==false){
+                addToCurrentlyShown(divIdentifier);
+              } else if (currentlyShown[0] == true && currentlyShown[1] != divIdentifier) {
+                removeCurrentlyShown();
+                addToCurrentlyShown(divIdentifier);
+              }else if(currentlyShown[0] == true && currentlyShown[1] == divIdentifier){
+                removeCurrentlyShown();
+              }
+            }
+
+            newNote.onmouseover = function(){ // create the  icon tooltip on mouseover
+                var tooltipWrap = document.createElement("div"); //creates div
+                tooltipWrap.className = 'tooltip'; //adds class
+                tooltipWrap.style.backgroundColor = noteCol;
+                tooltipWrap.appendChild(document.createTextNode(data[name].noteName)); //add the text node to the newly created div.
+                document.body.appendChild(tooltipWrap);
+                for(var k=1;k<=5;k++){
+                  if("note"+k == name){
+                    var top = 0 + k*50;
+                  }
+                }
+                tooltipWrap.style.top = (90 + top)+"px";
+                tooltipWrap.style.right = "100px";
+            }
+            newNote.onmouseout = function(){ //  icon tooltip on mouseout
+              if (document.getElementsByClassName("tooltip")[0]){
+                document.getElementsByClassName("tooltip")[0].parentNode.removeChild(document.getElementsByClassName("tooltip")[0]);
               }
             }
 
@@ -259,17 +334,40 @@
         })
       }
 
+      // function notepadStorage(name) {
+      //   var noteName = document.getElementsByClassName(name + "name")[0];
+      //   var noteText = document.getElementsByClassName(name + "text")[0];
+      //   if(name == "note1"){
+      //     chrome.storage.sync.set({"note1": {"noteName":noteName.value, 'noteText':noteText.value}});
+      //   } else if (name == "note2") {
+      //     chrome.storage.sync.set({"note2": {"noteName":noteName.value, 'noteText':noteText.value}});
+      //   } else if (name == "note3") {
+      //     chrome.storage.sync.set({"note3": {"noteName":noteName.value, 'noteText':noteText.value}});
+      //   }else if (name == "note4") {
+      //     chrome.storage.sync.set({"note4": {"noteName":noteName.value, 'noteText':noteText.value}});
+      //   }else if (name == "note5") {
+      //     chrome.storage.sync.set({"note5": {"noteName":noteName.value, 'noteText':noteText.value}});
+      //   }
+      // }
+
+
       function notepadStorage(name) {
         // note pad name
         var noteName = document.getElementsByClassName(name + "name")[0], saveHandler = _makeDelayed();
         var noteText = document.getElementsByClassName(name + "text")[0], saveHandler = _makeDelayed();
 
         function save() {
-          chrome.storage.sync.get(name, function(data) {
-            console.log(noteName.value);
-            console.log(data[name].noteText);
-          })
-          chrome.storage.sync.set({name: {"noteName":noteName.value, 'noteText':noteText.value}});
+          if(name == "note1"){
+            chrome.storage.sync.set({"note1": {"noteName":noteName.value, 'noteText':noteText.value}});
+          } else if (name == "note2") {
+            chrome.storage.sync.set({"note2": {"noteName":noteName.value, 'noteText':noteText.value}});
+          } else if (name == "note3") {
+            chrome.storage.sync.set({"note3": {"noteName":noteName.value, 'noteText':noteText.value}});
+          }else if (name == "note4") {
+            chrome.storage.sync.set({"note4": {"noteName":noteName.value, 'noteText':noteText.value}});
+          }else if (name == "note5") {
+            chrome.storage.sync.set({"note5": {"noteName":noteName.value, 'noteText':noteText.value}});
+          }
         }
         // Throttle save so that it only occurs after 1 second without a keypress.
         noteName.addEventListener('keypress', function() {
@@ -280,34 +378,11 @@
         });
         noteName.addEventListener('blur', save);
         noteText.addEventListener('blur', save);
-        chrome.storage.sync.get(name, function(data) {
-          noteName.value = data[name].noteName ? data[name].noteName : '';
-          noteText.value = data[name].noteText ? data[name].noteText : '';
-        });
+        // chrome.storage.sync.get('note1', function(data) {
+        //   noteName.value = data.note1.noteName ? data.note1.noteName : '';
+        //   noteText.value = data.note1.noteText ? data.note1.noteText : '';
+        // });
       }
-
-setTimeout(function () {
-  notepadStorage("note1");
-}, 5000);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -400,28 +475,7 @@ setTimeout(function () {
       // // }
       //
       //
-      // function notepadStorage(name) {
-      //   // note pad name
-      //   var noteName = document.getElementsByClassName("notepad-name")[0], saveHandler = _makeDelayed();
-      //   var noteText = document.getElementsByClassName("notepad-text")[0], saveHandler = _makeDelayed();
-      //
-      //   function save() {
-      //     chrome.storage.sync.set({'note1': {"noteName":noteName.value, 'noteText':noteText.value}});
-      //   }
-      //   // Throttle save so that it only occurs after 1 second without a keypress.
-      //   noteName.addEventListener('keypress', function() {
-      //     saveHandler(save, 1000);
-      //   });
-      //   noteText.addEventListener('keypress', function() {
-      //     saveHandler(save, 1000);
-      //   });
-      //   noteName.addEventListener('blur', save);
-      //   noteText.addEventListener('blur', save);
-      //   chrome.storage.sync.get('note1', function(data) {
-      //     noteName.value = data.note1.noteName ? data.note1.noteName : '';
-      //     noteText.value = data.note1.noteText ? data.note1.noteText : '';
-      //   });
-      // }
+
       // // notepadStorage();
       // // function notepadStorage() {
       // //   // note pad name

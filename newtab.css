@@ -25,7 +25,6 @@ body {
 .toolbar {
   width: 60px;
   height: auto;
-  padding-bottom: 20px;
   background-color: #1f364d;
   position: absolute;
   right: 20px;
@@ -40,9 +39,12 @@ body {
       display: block;
       margin-top: 10px; }
     .toolbar .toolbar__icons span:hover {
-      color: #009688; }
+      color: #03a9f4; }
+    .toolbar .toolbar__icons .toolbar__icons--add {
+      margin-bottom: 15px; }
     .toolbar .toolbar__icons .toolbar__icons--notebook {
-      margin-top: 15px; }
+      margin-top: 0px;
+      padding: 10px; }
 
 .timerbox {
   display: none;
@@ -50,7 +52,7 @@ body {
   width: 200px;
   height: 300px;
   background-color: #1f364d;
-  border: 1px solid #009688;
+  border: 1px solid #03a9f4;
   right: 100px;
   top: 20px;
   z-index: 10; }
@@ -59,7 +61,7 @@ body {
     top: 0;
     width: 100%;
     height: 35%;
-    background-color: #009688;
+    background-color: #03a9f4;
     text-align: center; }
     .timerbox .timerbox__numbers h3 {
       font-size: 3rem;
@@ -72,7 +74,7 @@ body {
     cursor: pointer;
     top: 35%;
     width: 100%;
-    background-color: #007d71;
+    background-color: #0398db;
     height: 18%;
     color: white;
     text-align: center; }
@@ -81,36 +83,36 @@ body {
       text-transform: uppercase;
       font-weight: 100; }
   .timerbox .timerbox__start:hover, .timerbox .timerbox__stop:hover, .timerbox .timerbox__plusminus:hover, .timerbox .timerbox__presets--25min:hover, .timerbox .timerbox__presets--5min:hover, .timerbox .timerbox__presets--1min:hover {
-    background-color: #00b09f; }
+    background-color: #14b4fc; }
   .timerbox .timerbox__stop {
     top: 53%;
-    background-color: #00635a; }
+    background-color: #0286c2; }
   .timerbox .timerbox__plusminus {
     top: 71%;
     width: 50%;
     right: 0;
-    background-color: #00544c;
-    -webkit-box-shadow: inset 1px 0px 0px 0px #00635a;
-    -moz-box-shadow: inset 1px 0px 0px 0px #00635a;
-    box-shadow: inset 1px 0px 0px 0px #00635a; }
+    background-color: #027cb3;
+    -webkit-box-shadow: inset 1px 0px 0px 0px #0286c2;
+    -moz-box-shadow: inset 1px 0px 0px 0px #0286c2;
+    box-shadow: inset 1px 0px 0px 0px #0286c2; }
     .timerbox .timerbox__plusminus h2 {
       display: inline-block;
       margin-top: 12px;
       text-align: center; }
   .timerbox .timerbox__plusminus--left {
     left: 0;
-    -webkit-box-shadow: inset -1px 0px 0px 0px #00635a;
-    -moz-box-shadow: inset -1px 0px 0px 0px #00635a;
-    box-shadow: inset -1px 0px 0px 0px #00635a; }
+    -webkit-box-shadow: inset -1px 0px 0px 0px #0286c2;
+    -moz-box-shadow: inset -1px 0px 0px 0px #0286c2;
+    box-shadow: inset -1px 0px 0px 0px #0286c2; }
   .timerbox .timerbox__presets--25min, .timerbox .timerbox__presets--5min, .timerbox .timerbox__presets--1min {
     height: 11%;
     bottom: 0;
     top: auto;
     width: 33.333%;
-    background-color: #00635a;
-    -webkit-box-shadow: inset -1px 0px 0px 0px #004a43;
-    -moz-box-shadow: inset -1px 0px 0px 0px #004a43;
-    box-shadow: inset -1px 0px 0px 0px #004a43; }
+    background-color: #0286c2;
+    -webkit-box-shadow: inset -1px 0px 0px 0px #0275a8;
+    -moz-box-shadow: inset -1px 0px 0px 0px #0275a8;
+    box-shadow: inset -1px 0px 0px 0px #0275a8; }
     .timerbox .timerbox__presets--25min h3, .timerbox .timerbox__presets--5min h3, .timerbox .timerbox__presets--1min h3 {
       font-size: 0.7rem;
       font-weight: lighter;
@@ -127,14 +129,16 @@ body {
   position: absolute;
   min-width: 70px;
   height: 20px;
-  background-color: #009688;
+  background-color: rgba(41, 41, 41, 0.7);
   text-align: center;
   color: white;
   border-radius: 5px;
   line-height: 20px;
   padding: 5px;
   z-index: 1;
-  font-size: 0.9rem; }
+  font-size: 0.9rem;
+  padding-left: 10px;
+  padding-right: 10px; }
 
 .tooltip::after {
   left: 99%;
@@ -145,7 +149,7 @@ body {
   width: 0;
   position: absolute;
   pointer-events: none;
-  border-left-color: #009688;
+  border-left-color: rgba(41, 41, 41, 0.7);
   border-width: 13px;
   margin-top: -13px; }
 
@@ -173,7 +177,7 @@ body {
       background-color: #26435f;
       outline: none;
       resize: none;
-      border: none;
+      border: 2px solid #03a9f4;
       color: white; }
   .notepad .notepad__textarea {
     height: 65%; }
@@ -189,6 +193,22 @@ body {
       width: 100%;
       font-size: 1rem;
       height: 100%; }
+  .notepad button {
+    display: block;
+    margin: 0 auto;
+    padding: 10px;
+    min-width: 80px;
+    font-size: 0.85rem;
+    background-color: #03a9f4;
+    color: white;
+    border: none;
+    text-transform: uppercase;
+    margin-top: 25px;
+    cursor: pointer;
+    border-radius: 2px; }
+  .notepad button:hover {
+    background-color: #14b4fc;
+    transition: 0.5s; }
 
 .createnotepad {
   display: none;
@@ -238,7 +258,7 @@ body {
       text-transform: uppercase;
       min-width: 80px; }
     .createnotepad .createnotepad__settings button:hover {
-      background-color: #009688;
+      background-color: #03a9f4;
       transition: 0.5s; }
 
 @font-face {

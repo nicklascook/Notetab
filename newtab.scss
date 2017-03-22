@@ -2,7 +2,8 @@ $backgroundColor: #0e2439;
 $toolbarColor: #1f364d;
 $headerText: #fff;
 $bodyText: #fff;
-$accentColor: #009688;
+$accentColor: #03A9F4;
+$tooltipColor: rgba(41, 41, 41, 0.7);
 
 body{
   background-color: $backgroundColor;
@@ -36,7 +37,6 @@ body{
 .toolbar{
   width: 60px;
   height: auto;
-  padding-bottom: 20px;
   background-color: $toolbarColor;
   position: absolute;
   right: 20px;
@@ -54,8 +54,16 @@ body{
     span:hover{
       color: $accentColor;
     }
+    .toolbar__icons--add{
+      margin-bottom: 15px;
+    }
     .toolbar__icons--notebook{
-      margin-top: 15px;
+      margin-top: 0px;
+      // -webkit-box-shadow: inset 0px 0px 0px 0px darken($accentColor,10%);
+      // -moz-box-shadow: inset 0px 0px 0px 0px darken($accentColor,10%);
+      // box-shadow: inset 0px 0px 0px 25px darken($accentColor,10%);
+      padding: 10px;
+
     }
   }
 
@@ -166,7 +174,7 @@ body{
   position: absolute;
   min-width: 70px;
   height: 20px;
-  background-color: $accentColor;
+  background-color: $tooltipColor;
   text-align: center;
   color: white;
   border-radius: 5px;
@@ -174,6 +182,8 @@ body{
   padding: 5px;
   z-index: 1;
   font-size: 0.9rem;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 .tooltip::after{
   left: 99%;
@@ -184,7 +194,7 @@ body{
 	width: 0;
 	position: absolute;
 	pointer-events: none;
-	border-left-color: $accentColor;
+	border-left-color: $tooltipColor;
 	border-width: 13px;
 	margin-top: -13px;
 
@@ -213,7 +223,7 @@ body{
       background-color: lighten($toolbarColor,5%);
       outline: none;
       resize: none;
-      border: none;
+      border: 2px solid $accentColor;
       color: white;
     }
   }
@@ -234,7 +244,24 @@ body{
       height: 100%;
     }
   }
-
+  button{
+    display: block;
+    margin: 0 auto;
+    padding: 10px;
+    min-width: 80px;
+    font-size: 0.85rem;
+    background-color: $accentColor;
+    color: white;
+    border: none;
+    text-transform: uppercase;
+    margin-top: 25px;;
+    cursor: pointer;
+    border-radius: 2px;
+  }
+  button:hover{
+    background-color: lighten($accentColor,5%);
+    transition: 0.5s;
+  }
 }
 .createnotepad{
   display: none;
