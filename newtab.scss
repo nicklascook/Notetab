@@ -6,6 +6,9 @@ $accentColor: #03A9F4;
 $accent2: #EC407A;
 $tooltipColor: rgba(41, 41, 41, 0.7);
 
+@import "mixins";
+@import "fonts";
+
 body{
   overflow: hidden;
   font-family: 'Roboto', sans-serif;
@@ -190,18 +193,19 @@ body{
 
 .notepad{
   display: none;
-  width: 600px;
-  height: 80%;
+  width: 500px;
+  height: 600px;
   background-color: $toolbarColor;
+  // @include linearGradient(darken($accentColor,10%),darken($accentColor,20%));
   border: 1px solid $toolbarColor;
   position: absolute;
   top: 20px;
   right: 100px;
   box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
   .notepad__name{
-    height: 10%;
+    height: 50px;
     width: 100%;
-    margin-top: 5%;
+    margin-top: 10px;
     input[type=text]{
       padding-top: 5px;
       padding-bottom: 5px;
@@ -210,18 +214,22 @@ body{
       max-width: 60%;
       text-align: center;
       font-size: 1.8rem;
-      background-color: lighten($toolbarColor,5%);
+      // background-color: lighten($toolbarColor,5%);
+      background-color: transparent;
       outline: none;
       resize: none;
-      border: 2px solid $accentColor;
+      border: 0;
       color: white;
     }
   }
   .notepad__textarea{
     @extend .notepad__name;
-    height: 65%;
+    height: 480px;
+    border-top: 2px solid $accentColor;
+    border-bottom: 2px solid $accentColor;
+    box-shadow: 0 -7px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
     textarea{
-      background-color: lighten($toolbarColor,5%);
+      background-color: lighten($toolbarColor,10%);
       outline: none;
       resize: none;
       border: none;
@@ -255,8 +263,8 @@ body{
   .notepad__deletebtn{
     position: absolute;
     right: 10px;
-    bottom: 10px;
-    color: $accentColor;
+    bottom: 7px;
+    color: #98abd1;
     font-size: 2rem;
     cursor: pointer;
   }
@@ -321,60 +329,4 @@ body{
 
     }
 
-}
-
-@font-face {
-  font-family: 'icomoon';
-  src:  url('fonts/icomoon.eot?54zl90');
-  src:  url('fonts/icomoon.eot?54zl90#iefix') format('embedded-opentype'),
-    url('fonts/icomoon.ttf?54zl90') format('truetype'),
-    url('fonts/icomoon.woff?54zl90') format('woff'),
-    url('fonts/icomoon.svg?54zl90#icomoon') format('svg');
-  font-weight: normal;
-  font-style: normal;
-}
-
-[class^="icon-"], [class*=" icon-"] {
-  /* use !important to prevent issues with browser extensions that change fonts */
-  font-family: 'icomoon' !important;
-  speak: none;
-  font-style: normal;
-  font-weight: normal;
-  font-variant: normal;
-  text-transform: none;
-  line-height: 1;
-
-  /* Better Font Rendering =========== */
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-.icon-settings:before {
-  content: "\e8b8";
-}
-.icon-stopwatch:before {
-  content: "\e904";
-}
-.icon-add:before {
-  content: "\e145";
-}
-.icon-control_point:before {
-  content: "\e3ba";
-}
-.icon-event_note:before {
-  content: "\e616";
-}
-.icon-pause:before {
-  content: "\e034";
-}
-.icon-remove_circle_outline:before {
-  content: "\e15d";
-}
-.icon-replay:before {
-  content: "\e042";
-}
-.icon-play_arrow:before {
-  content: "\e037";
-}
-.icon-delete:before {
-  content: "\e872";
 }

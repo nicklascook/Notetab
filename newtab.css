@@ -1,3 +1,52 @@
+@font-face {
+  font-family: 'icomoon';
+  src: url("fonts/icomoon.eot?54zl90");
+  src: url("fonts/icomoon.eot?54zl90#iefix") format("embedded-opentype"), url("fonts/icomoon.ttf?54zl90") format("truetype"), url("fonts/icomoon.woff?54zl90") format("woff"), url("fonts/icomoon.svg?54zl90#icomoon") format("svg");
+  font-weight: normal;
+  font-style: normal; }
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; }
+
+.icon-settings:before {
+  content: "\e8b8"; }
+
+.icon-stopwatch:before {
+  content: "\e904"; }
+
+.icon-add:before {
+  content: "\e145"; }
+
+.icon-control_point:before {
+  content: "\e3ba"; }
+
+.icon-event_note:before {
+  content: "\e616"; }
+
+.icon-pause:before {
+  content: "\e034"; }
+
+.icon-remove_circle_outline:before {
+  content: "\e15d"; }
+
+.icon-replay:before {
+  content: "\e042"; }
+
+.icon-play_arrow:before {
+  content: "\e037"; }
+
+.icon-delete:before {
+  content: "\e872"; }
+
 body {
   overflow: hidden;
   font-family: 'Roboto', sans-serif;
@@ -142,8 +191,8 @@ body {
 
 .notepad {
   display: none;
-  width: 600px;
-  height: 80%;
+  width: 500px;
+  height: 600px;
   background-color: #1f364d;
   border: 1px solid #1f364d;
   position: absolute;
@@ -151,9 +200,9 @@ body {
   right: 100px;
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22); }
   .notepad .notepad__name, .notepad .notepad__textarea {
-    height: 10%;
+    height: 50px;
     width: 100%;
-    margin-top: 5%; }
+    margin-top: 10px; }
     .notepad .notepad__name input[type=text], .notepad .notepad__textarea input[type=text] {
       padding-top: 5px;
       padding-bottom: 5px;
@@ -162,15 +211,18 @@ body {
       max-width: 60%;
       text-align: center;
       font-size: 1.8rem;
-      background-color: #26435f;
+      background-color: transparent;
       outline: none;
       resize: none;
-      border: 2px solid #03a9f4;
+      border: 0;
       color: white; }
   .notepad .notepad__textarea {
-    height: 65%; }
+    height: 480px;
+    border-top: 2px solid #03a9f4;
+    border-bottom: 2px solid #03a9f4;
+    box-shadow: 0 -7px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22); }
     .notepad .notepad__textarea textarea {
-      background-color: #26435f;
+      background-color: #2e4f71;
       outline: none;
       resize: none;
       border: none;
@@ -200,8 +252,8 @@ body {
   .notepad .notepad__deletebtn {
     position: absolute;
     right: 10px;
-    bottom: 10px;
-    color: #03a9f4;
+    bottom: 7px;
+    color: #98abd1;
     font-size: 2rem;
     cursor: pointer; }
   .notepad .notepad__deletebtn:hover {
@@ -259,52 +311,3 @@ body {
     box-shadow: 0 10px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
     transform: translate(0px, -2px);
     background-color: #0ab1fc; }
-
-@font-face {
-  font-family: 'icomoon';
-  src: url("fonts/icomoon.eot?54zl90");
-  src: url("fonts/icomoon.eot?54zl90#iefix") format("embedded-opentype"), url("fonts/icomoon.ttf?54zl90") format("truetype"), url("fonts/icomoon.woff?54zl90") format("woff"), url("fonts/icomoon.svg?54zl90#icomoon") format("svg");
-  font-weight: normal;
-  font-style: normal; }
-[class^="icon-"], [class*=" icon-"] {
-  /* use !important to prevent issues with browser extensions that change fonts */
-  font-family: 'icomoon' !important;
-  speak: none;
-  font-style: normal;
-  font-weight: normal;
-  font-variant: normal;
-  text-transform: none;
-  line-height: 1;
-  /* Better Font Rendering =========== */
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale; }
-
-.icon-settings:before {
-  content: "\e8b8"; }
-
-.icon-stopwatch:before {
-  content: "\e904"; }
-
-.icon-add:before {
-  content: "\e145"; }
-
-.icon-control_point:before {
-  content: "\e3ba"; }
-
-.icon-event_note:before {
-  content: "\e616"; }
-
-.icon-pause:before {
-  content: "\e034"; }
-
-.icon-remove_circle_outline:before {
-  content: "\e15d"; }
-
-.icon-replay:before {
-  content: "\e042"; }
-
-.icon-play_arrow:before {
-  content: "\e037"; }
-
-.icon-delete:before {
-  content: "\e872"; }

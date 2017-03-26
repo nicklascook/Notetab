@@ -335,10 +335,10 @@
         }
       findNotesInUse(); // create array of used notes
       function parseUsedNotes(){ // parses through the string names of the notes that appear in the notesInUse array to the create function
-        for(var i=1; i <notesInUse.length+2;i++){
+
+        for(var i=1; i<6;i++){
           if(notesInUse.includes("note"+i)){
             createNotepadOnPage("note"+i)
-            console.log("note"+i);
           }
         }
       }
@@ -374,12 +374,13 @@
             noteNameInput.type = "text";
             noteNameInput.className = "notepad-name " +name +"name";
             noteNameInput.value = data[name].noteName ? data[name].noteName : ''; // insert notepad__name value
-            noteNameInput.style.borderColor = noteCol;
+
             noteName.appendChild(noteNameInput);
             note.appendChild(noteName); // append notepad__name
 
             var notepadText = document.createElement('div'); // create notepad__textarea div
             notepadText.className = ("notepad__textarea");
+            notepadText.style.borderColor = noteCol;
             var notepadTextarea = document.createElement('textarea');
             notepadTextarea.className = ("notepad-text " +name +"text");
             notepadTextarea.value = data[name].noteText ? data[name].noteText : ''; // insert notepad__textarea value
@@ -409,9 +410,10 @@
                 tooltipWrap.style.backgroundColor = noteCol;
                 tooltipWrap.appendChild(document.createTextNode(data[name].noteName)); //add the text node to the newly created div.
                 document.body.appendChild(tooltipWrap);
-                for(var k=1;k<=5;k++){
-                  if("note"+k == name){
-                    var top = 0 + k*50;
+                var nrNotepads = document.getElementsByClassName('toolbar__icons--notebook');
+                for(var i=0; i<nrNotepads.length;i++){
+                  if(nrNotepads[i].classList.contains(name)){
+                    var top = 0 + (i+1)*50;
                   }
                 }
                 tooltipWrap.style.top = (140 + top)+"px";
