@@ -3,17 +3,38 @@ $toolbarColor: #1f364d;
 $headerText: #fff;
 $bodyText: #fff;
 $accentColor: #03A9F4;
+$accent2: #EC407A;
 $tooltipColor: rgba(41, 41, 41, 0.7);
 
 body{
-  background-color: $backgroundColor;
-  background-repeat: no-repeat;
-  background: cover;
-  max-height: 100vh;
   overflow: hidden;
   font-family: 'Roboto', sans-serif;
+  margin: 0;
+  padding: 0;
 
-
+}
+.container{
+  background-color: $backgroundColor;
+}
+.container--lighttheme{
+  background-color: #fff;
+  color: $toolbarColor;
+  .textarea{
+    textarea{
+      color: $toolbarColor;
+    }
+  }
+  .toolbar{
+    background-color: #81D4FA;
+  }
+  .createnotepad{
+    background-color: #81D4FA;
+    .createnotepad__name{
+      input{
+        background-color: darken(#81D4FA,5%);
+      }
+  }
+}
 }
 .textarea{
   width: 100%;
@@ -23,7 +44,6 @@ body{
     padding-left: 20%;
     padding-right: 20%;
     color: $bodyText;
-    // background-color: $backgroundColor;
     background-color: transparent;
     border: none;
     width: 100%;
@@ -38,6 +58,7 @@ body{
 }
 
 .toolbar{
+  box-shadow: 0 10px 28px rgba(0,0,0,0.15), 0 10px 10px rgba(0,0,0,0.22);
   width: 60px;
   height: auto;
   background-color: $toolbarColor;
@@ -46,7 +67,7 @@ body{
   top:20px;
   text-align: center;
   .toolbar__icons{
-    margin-top: 20px;
+    margin-top: 10px;
     span{
       color: #fff;
       font-size: 2rem;
@@ -62,114 +83,92 @@ body{
     }
     .toolbar__icons--notebook{
       margin-top: 0px;
-      // -webkit-box-shadow: inset 0px 0px 0px 0px darken($accentColor,10%);
-      // -moz-box-shadow: inset 0px 0px 0px 0px darken($accentColor,10%);
-      // box-shadow: inset 0px 0px 0px 25px darken($accentColor,10%);
       padding: 10px;
-
+    }
+    .toolbar__icons--settings{
+      margin-bottom: 10px;
+    }
+    hr{
+      margin-bottom: 15px;
+      border-color: $accentColor;
     }
   }
-
 }
+
 
 .timerbox{
   display: none;
   position: absolute;
   width: 200px;
-  height: 300px;
+  height: 280px;
   background-color: $toolbarColor;
   border: 1px solid $accentColor;
   right: 100px;
   top: 20px;
   z-index: 10;
+  .timerbox__backdisplay{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-color: $accentColor;
+  }
   .timerbox__numbers{
     position: absolute;
-    top: 0;
+    top: 15px;
     width: 100%;
     height: 35%;
-    background-color: $accentColor;
     text-align: center;
     h3{
       font-size: 3rem;
       display: inline-block;
       color: white;
       // top: 100%;
-      margin-top: 0.5rem;
-      vertical-align: middle;
+      line-height: 30%;
 
     }
   }
   .timerbox__start{
     position: absolute;
     cursor: pointer;
-    top: 35%;
-    width: 100%;
-    background-color: darken($accentColor,5%);
-    height: 18%;
+    top: 45%;
     color: white;
-    text-align: center;
+    left: 79px;
+    transition: 0.3s ease-in;
 
-    h3{
-      margin-top:14px;
+    span{
       text-transform: uppercase;
       font-weight: 100;
+      font-size: 3rem;
+    }
+    span.icon-pause{
+      display: none;
     }
   }
   .timerbox__start:hover{
-    background-color: lighten($accentColor,5%);
+    color: $accent2;
+    transform: translate(0px, -2px);
   }
-  .timerbox__stop{
+  .timerbox__reset{
     @extend .timerbox__start;
-    top: 35%+18%;
-    background-color: darken($accentColor,10%);
+    top: 70%;
+    left: 85px;
+    span{
+      font-size: 2.2rem;
+    }
   }
   .timerbox__plusminus{
-    @extend .timerbox__start;
-    top: 35%+18%+18%;
-    width: 50%;
-    right: 0;
-    background-color: darken($accentColor,13%);
-    -webkit-box-shadow: inset 1px 0px 0px 0px darken($accentColor,10%);
-    -moz-box-shadow: inset 1px 0px 0px 0px darken($accentColor,10%);
-    box-shadow: inset 1px 0px 0px 0px darken($accentColor,10%);
+    @extend .timerbox__reset;
+    right:10%;
+    left: auto;
     h2{
       display: inline-block;
-      margin-top: 12px;
+      margin-top: 18px;
       text-align: center;
     }
   }
   .timerbox__plusminus--left{
-    left: 0;
-    -webkit-box-shadow: inset -1px 0px 0px 0px darken($accentColor,10%);
-    -moz-box-shadow: inset -1px 0px 0px 0px darken($accentColor,10%);
-    box-shadow: inset -1px 0px 0px 0px darken($accentColor,10%);
-  }
-  .timerbox__presets--25min{
-    @extend .timerbox__start;
-    height: 11%;
-    bottom: 0;
-    h3{
-      font-size: 0.7rem;
-      font-weight: lighter;
-      margin-top: 11px;
-    }
-    top: auto;
-    width: 33.333%;
-    background-color: darken($accentColor,10%);
-    -webkit-box-shadow: inset -1px 0px 0px 0px darken($accentColor,15%);
-    -moz-box-shadow: inset -1px 0px 0px 0px darken($accentColor,15%);
-    box-shadow: inset -1px 0px 0px 0px darken($accentColor,15%);
-  }
-  .timerbox__presets--5min{
-    @extend .timerbox__presets--25min;
-    left: 33.333%;
-  }
-  .timerbox__presets--1min{
-    @extend .timerbox__presets--25min;
-    left: 66.666%;
-    -webkit-box-shadow: none;
-    -moz-box-shadow: none;
-    box-shadow: none;
+    right: auto;
+    left: 10%;
   }
 
 }
@@ -198,6 +197,7 @@ body{
   position: absolute;
   top: 20px;
   right: 100px;
+  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
   .notepad__name{
     height: 10%;
     width: 100%;
@@ -262,8 +262,14 @@ body{
   }
   .notepad__deletebtn:hover{
     color: #f44336;
-    transition: 0.2s;
+    transition: 0.3s;
+    animation: rotatedelete infinite 0.7s ease-in-out;
   }
+}
+@keyframes rotatedelete {
+  0%{transform: rotate(6deg)}
+  50%{transform: rotate(-6deg)}
+  100%{transform: rotate(6deg)}
 }
 .createnotepad{
   display: none;
@@ -273,8 +279,11 @@ body{
   right: 100px;
   top: 20px;
   background-color: $toolbarColor;
+  box-shadow: 0 10px 28px rgba(0,0,0,0.1), 0 10px 10px rgba(0,0,0,0.22);
+  // border: 1px solid rgba(0, 0, 0, 0.5);
   .createnotepad__name{
     margin-top: 10%;;
+
     input{
       padding-top: 5px;
       padding-bottom: 5px;
@@ -282,9 +291,11 @@ body{
       text-align: center;
       font-size: 1.8rem;
       background-color: lighten($toolbarColor,5%);
+      border: none;
+      border-bottom: 1px solid rgba(50, 182, 230, 0.5);
+      border-top: 1px solid rgba(50, 182, 230, 0.5);
       outline: none;
       resize: none;
-      border: none;
       color: white;
     }
   }
@@ -293,17 +304,21 @@ body{
       margin: 0 auto;
       display: block;
       margin-top: 30px;
-      background-color: $toolbarColor;
       border: 1px solid white;
+      background-color: $accentColor;
       padding: 5px;
       color:white;
       text-transform: uppercase;
       min-width: 90px;
       font-size: 0.8rem;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(.25,.8,.25,1);
     }
     button:hover{
-      background-color: $accentColor;
-      transition: 0.2s;
+      box-shadow: 0 10px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+      transform: translate(0px,-2px);
+      background-color: lighten($accentColor,3%);
+
     }
 
 }
@@ -333,15 +348,33 @@ body{
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+.icon-settings:before {
+  content: "\e8b8";
+}
 .icon-stopwatch:before {
   content: "\e904";
 }
 .icon-add:before {
-  content: "\e905";
+  content: "\e145";
+}
+.icon-control_point:before {
+  content: "\e3ba";
 }
 .icon-event_note:before {
-  content: "\e902";
+  content: "\e616";
+}
+.icon-pause:before {
+  content: "\e034";
+}
+.icon-remove_circle_outline:before {
+  content: "\e15d";
+}
+.icon-replay:before {
+  content: "\e042";
+}
+.icon-play_arrow:before {
+  content: "\e037";
 }
 .icon-delete:before {
-  content: "\e901";
+  content: "\e872";
 }

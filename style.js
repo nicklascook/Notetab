@@ -28,6 +28,7 @@
   // // TIMER ==============================================================================================================================================================================
   var timerTime = 60; // default time
   var active = false;
+  var maintainCount = false;
   displayTime(timeToString()[0], timeToString()[1]);
 
   function timeToString(){ // calculates minutes and seconds of timerTime
@@ -50,67 +51,109 @@
   function countDownTime(){
     displayTime(timeToString()[0], timeToString()[1]); // shows time initally
     if(timerTime == 0){ // when timer hits 0, blink colors
+      active =false;
+      document.getElementsByClassName('timerbox__backdisplay')[0].style.height = "100%";
       var blinker = 20;
       setInterval(function () {
         if (blinker !=0){
           if (blinker %2 ==0){
-            document.getElementsByClassName("timerbox__numbers")[0].style.backgroundColor = "#F44336"
+            document.getElementsByClassName('timerbox__backdisplay')[0].style.backgroundColor = "#F44336"
             blinker--;
           } else{
-            document.getElementsByClassName("timerbox__numbers")[0].style.backgroundColor = "#009688"
+            document.getElementsByClassName('timerbox__backdisplay')[0].style.backgroundColor = "#03A9F4"
             blinker--;
           }
         }
       }, 150);
     } else{
+
       setTimeout(function () {
         if (active){
           timerTime --;
           displayTime(timeToString()[0], timeToString()[1]);
           countDownTime();
+          reduceBackdisplayHeight();;
         }
       }, 1000);
       }
     }
-      document.getElementsByClassName("timerbox__start")[0].onclick = function(){
+    var heightTracker = 100;
+    var backdisplay = document.getElementsByClassName('timerbox__backdisplay')[0];
+    function reduceBackdisplayHeight(){
+      var reduceCount = 0;
+      var id = setInterval(function() {
+        if(!active){
+          clearInterval(id);
+        }
+        if(reduceCount == 50){
+            clearInterval(id);
+        }else{
+          backdisplay.style.height = heightTracker - (heightReductionIncrement/50) +"%";
+          heightTracker -= (heightReductionIncrement/50);
+          reduceCount++;
+        }
+          }, 20)
+
+
+    }
+      document.getElementsByClassName("icon-play_arrow")[0].onclick = function(){
         if(timerTime == 0){
           timerTime = 60;
         }
         if(!active){
-          active =true;
-          countDownTime();
+          if (maintainCount){
+            active =true;
+            countDownTime();
+          } else{
+            maintainCount = true;
+            active =true;
+            countDownTime();
+            document.getElementsByClassName('timerbox__backdisplay')[0].style.height = "100%";
+            heightTracker = 100;
+            heightReductionIncrement = 100/timerTime;
+          }
+
+          document.getElementsByClassName("icon-play_arrow")[0].style.display = "none";
+          document.getElementsByClassName("icon-pause")[0].style.display = "block";
         }
 
+
       }
-      document.getElementsByClassName("timerbox__stop")[0].onclick = function(){
+      document.getElementsByClassName("icon-pause")[0].onclick = function(){
         active = false;
+        document.getElementsByClassName("icon-play_arrow")[0].style.display = "block";
+        document.getElementsByClassName("icon-pause")[0].style.display = "none";
+      }
+      document.getElementsByClassName("timerbox__reset")[0].onclick = function(){
+        maintainCount = false;
+        active = false;
+        timerTime = 0;
+        displayTime(timeToString()[0], timeToString()[1]);
+        document.getElementsByClassName("icon-play_arrow")[0].style.display = "block";
+        document.getElementsByClassName("icon-pause")[0].style.display = "none";
+        document.getElementsByClassName('timerbox__backdisplay')[0].style.height = "100%";
+
       }
       document.getElementsByClassName("timerbox__plusminus")[0].onclick = function(){
-        timerTime += 30;
-        active = false;
-        displayTime(timeToString()[0], timeToString()[1]);
+          maintainCount = false;
+          timerTime += 30;
+          active = false;
+          displayTime(timeToString()[0], timeToString()[1]);
+          document.getElementsByClassName('timerbox__backdisplay')[0].style.height = "100%";
+          document.getElementsByClassName("icon-play_arrow")[0].style.display = "block";
+          document.getElementsByClassName("icon-pause")[0].style.display = "none";
+
       }
       document.getElementsByClassName("timerbox__plusminus")[1].onclick = function(){
+        maintainCount = false;
+        document.getElementsByClassName('timerbox__backdisplay')[0].style.height = "100%";
         if(timerTime>=30){
           timerTime -= 30;
         } else if (timerTime<30) {
           timerTime =0;
         }
-        active = false;
-        displayTime(timeToString()[0], timeToString()[1]);
-      }
-      document.getElementsByClassName("timerbox__presets--25min")[0].onclick=function(){
-        timerTime = 1500;
-        active = false;
-        displayTime(timeToString()[0], timeToString()[1]);
-      }
-      document.getElementsByClassName("timerbox__presets--5min")[0].onclick=function(){
-        timerTime = 300;
-        active = false;
-        displayTime(timeToString()[0], timeToString()[1]);
-      }
-      document.getElementsByClassName("timerbox__presets--1min")[0].onclick=function(){
-        timerTime = 60;
+        document.getElementsByClassName("icon-play_arrow")[0].style.display = "block";
+        document.getElementsByClassName("icon-pause")[0].style.display = "none";
         active = false;
         displayTime(timeToString()[0], timeToString()[1]);
       }
@@ -153,7 +196,7 @@
           tooltipWrap.className = 'tooltip'; //adds class
           tooltipWrap.appendChild(document.createTextNode("Timer")); //add the text node to the newly created div.
           document.body.appendChild(tooltipWrap);
-          tooltipWrap.style.top = "40px";
+          tooltipWrap.style.top = "90px";
           tooltipWrap.style.right = "100px";
         }
 
@@ -172,7 +215,7 @@
           tooltipWrap.className = 'tooltip'; //adds class
           tooltipWrap.appendChild(document.createTextNode("Add notepad")); //add the text node to the newly created div.
           document.body.appendChild(tooltipWrap);
-          tooltipWrap.style.top = "85px";
+          tooltipWrap.style.top = "135px";
           tooltipWrap.style.right = "100px";
       }
       addIcon.onmouseout = function(){ // add icon tooltip on mouseout
@@ -181,8 +224,21 @@
         }
       }
 
-
-
+      // tooltip for settings button
+      var settingsIcon = document.getElementsByClassName("toolbar__icons--settings")[0];
+      settingsIcon.onmouseover = function(){ // Timer icon tooltip on mouseover
+          var tooltipWrap = document.createElement("div"); //creates div
+          tooltipWrap.className = 'tooltip'; //adds class
+          tooltipWrap.appendChild(document.createTextNode("Settings")); //add the text node to the newly created div.
+          document.body.appendChild(tooltipWrap);
+          tooltipWrap.style.top = "30px";
+          tooltipWrap.style.right = "100px";
+      }
+      settingsIcon.onmouseout = function(){ // add icon tooltip on mouseout
+        if (document.getElementsByClassName("tooltip")[0]){
+          document.getElementsByClassName("tooltip")[0].parentNode.removeChild(document.getElementsByClassName("tooltip")[0]);
+        }
+      }
 
 
       document.getElementsByClassName("toolbar__icons--add")[0].onclick = function(){ // Add notepad icon functionality
@@ -199,7 +255,7 @@
       //==============================================================================================================================================================================
       // NOTEPADS==============================================================================================================================================================================
       //
-      var notepadColors = {"white":"#fff","blue":"#2196F3","red":"#f44336","purple":"#9C27B0","green":"#4CAF50","yellow":"#FFEB3B","teal":"#009688"};
+      var notepadColors = {"white":"#fff","blue":"#3F51B5","red":"#f44336","purple":"#9C27B0","green":"#4CAF50","yellow":"#FF9800","teal":"#009688"};
       //
 
       /* Adding a new notepad -> Check which notes are currently not in use, if all 5 are used up -> give error
@@ -208,39 +264,46 @@
       document.getElementsByClassName("createnotepad__settings--button")[0].onclick = function(){
         if(document.getElementsByClassName("createnotepad-name")[0].value != ""){ // if field not blank:
           var noteNameFromInput = document.getElementsByClassName("createnotepad-name")[0].value;
+
+          findNotesInUse();
+          var numbersTo5 = [1,2,3,4,5]; //
+          setTimeout(function () {
           if(notesInUse.length >= 5){ // if there arent more than 5 notes already
             alert("Too many notes in use, please remove one to create another");
           } else{
-            var numbersTo5 = [1,2,3,4,5]; //
-            for(var i=0;i<notesInUse.length;i++){ // iterate through the notesInUse
-              var numberToSplice = numbersTo5.indexOf(parseInt(notesInUse[i].charAt(4))); // remove those numbers from the numbersTo5 array
-              numbersTo5.splice(numberToSplice, 1); // this gives the unused note numbers (incase they arent in order 1,2,3 due to deletion)
+            removeCurrentlyShown();
+
+              for(var i=0;i<notesInUse.length;i++){ // iterate through the notesInUse
+                var numberToSplice = numbersTo5.indexOf(parseInt(notesInUse[i].charAt(4))); // remove those numbers from the numbersTo5 array
+                numbersTo5.splice(numberToSplice, 1); // this gives the unused note numbers (incase they arent in order 1,2,3 due to deletion)
+
+
+              }
+              // now set up the sync depending on the name given
+              var noteToCreate = "note"+numbersTo5[0];
+
+              if(noteToCreate == "note1"){
+                chrome.storage.sync.set({"note1": {"noteName":noteNameFromInput, 'noteText':""}});
+              } else if (noteToCreate == "note2") {
+                chrome.storage.sync.set({"note2": {"noteName":noteNameFromInput, 'noteText':""}});
+              } else if (noteToCreate == "note3") {
+                chrome.storage.sync.set({"note3": {"noteName":noteNameFromInput, 'noteText':""}});
+              }else if (noteToCreate == "note4") {
+                chrome.storage.sync.set({"note4": {"noteName":noteNameFromInput, 'noteText':""}});
+              }else if (noteToCreate == "note5") {
+                chrome.storage.sync.set({"note5": {"noteName":noteNameFromInput, 'noteText':""}});
+              }
+              createNotepadOnPage(noteToCreate);
+
+              //reset text bar in createnotepad div
+              document.getElementsByClassName("createnotepad-name")[0].value="";
             }
-
-            // now set up the sync depending on the name given
-            var noteToCreate = "note"+numbersTo5[0];
-
-            if(noteToCreate == "note1"){
-              chrome.storage.sync.set({"note1": {"noteName":noteNameFromInput, 'noteText':""}});
-            } else if (noteToCreate == "note2") {
-              chrome.storage.sync.set({"note2": {"noteName":noteNameFromInput, 'noteText':""}});
-            } else if (noteToCreate == "note3") {
-              chrome.storage.sync.set({"note3": {"noteName":noteNameFromInput, 'noteText':""}});
-            }else if (noteToCreate == "note4") {
-              chrome.storage.sync.set({"note4": {"noteName":noteNameFromInput, 'noteText':""}});
-            }else if (noteToCreate == "note5") {
-              chrome.storage.sync.set({"note5": {"noteName":noteNameFromInput, 'noteText':""}});
-            }
-            createNotepadOnPage(noteToCreate);
-
-
-          }
-
+          },0);
         }else{
           alert("Enter a notepad name")
         }
       }
-
+      var notesInUse = [];
       function findNotesInUse(){ // searches through notes1-5 and if they appear in storage, pushes them to the notesInUse array
         notesInUse = [];
         chrome.storage.sync.get('note1', function(data){
@@ -272,9 +335,10 @@
         }
       findNotesInUse(); // create array of used notes
       function parseUsedNotes(){ // parses through the string names of the notes that appear in the notesInUse array to the create function
-        for(var i=1; i <notesInUse.length+1;i++){
+        for(var i=1; i <notesInUse.length+2;i++){
           if(notesInUse.includes("note"+i)){
             createNotepadOnPage("note"+i)
+            console.log("note"+i);
           }
         }
       }
@@ -292,14 +356,11 @@
             for(var k=1;k<=5;k++){
               if("note"+k == name){
                 var matchColors = ["blue","red","purple","green","yellow"];
-                var matchColor = matchColors[k];
+                var matchColor = matchColors[k-1];
                 var noteCol = notepadColors[matchColor];
               }
             }
             newNote.style.boxShadow = "inset 0px 0px 0px 100px"+noteCol;
-            // newNote.style.color = data[name].noteColor;
-            // newNote.onmouseover = function(){this.style.color = "#009688"};
-            // newNote.onmouseout = function(){this.style.color = data[name].noteColor};
             document.getElementsByClassName("toolbar__icons")[0].appendChild(newNote);
 
 
@@ -353,7 +414,7 @@
                     var top = 0 + k*50;
                   }
                 }
-                tooltipWrap.style.top = (90 + top)+"px";
+                tooltipWrap.style.top = (140 + top)+"px";
                 tooltipWrap.style.right = "100px";
             }
             newNote.onmouseout = function(){ //  icon tooltip on mouseout

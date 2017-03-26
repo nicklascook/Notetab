@@ -8,6 +8,7 @@
 </head>
 
 <body>
+  <div class="container">
   <div class="textarea">
     <div class="textarea__wrapper">
       <textarea id="todolist" wrap="hard" autofocus="true" spellcheck="false"></textarea>
@@ -15,36 +16,31 @@
   </div>
   <div class="toolbar">
     <div class="toolbar__icons">
+      <span class="toolbar__icons--settings icon-settings"></span>
+      <hr>
       <span class="toolbar__icons--timer icon-stopwatch"></span>
       <span class="toolbar__icons--add icon-add"></span>
     </div>
   </div>
   <div class="timerbox">
+    <div class="timerbox__backdisplay"></div>
     <div class="timerbox__numbers">
       <h3>00</h3>
       <h3>:</h3>
       <h3>00</h3>
     </div>
     <div class="timerbox__start">
-      <h3>start</h3>
+      <span class="icon-play_arrow"></span>
+      <span class="icon-pause"></span>
     </div>
-    <div class="timerbox__stop">
-      <h3>stop</h3>
+    <div class="timerbox__reset">
+      <span class="icon-replay"></span>
     </div>
     <div class="timerbox__plusminus timerbox__plusminus--left">
-      <h2>+</h2>
+      <span class="icon-control_point"></span>
     </div>
     <div class="timerbox__plusminus">
-      <h2>--</h2>
-    </div>
-    <div class="timerbox__presets--25min">
-      <h3>25min</h3>
-    </div>
-    <div class="timerbox__presets--5min">
-      <h3>5min</h3>
-    </div>
-    <div class="timerbox__presets--1min">
-      <h3>1min</h3>
+      <span class="icon-remove_circle_outline"></span>
     </div>
   </div>
 
@@ -56,6 +52,11 @@
       <button class="createnotepad__settings--button" type="button" name="button">Create</button>
   </div>
 
+  <div class="settings">
+
+  </div>
+
+</div>
 </body>
 
 <script src="style.js"></script>

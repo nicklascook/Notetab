@@ -1,10 +1,23 @@
 body {
-  background-color: #0e2439;
-  background-repeat: no-repeat;
-  background: cover;
-  max-height: 100vh;
   overflow: hidden;
-  font-family: 'Roboto', sans-serif; }
+  font-family: 'Roboto', sans-serif;
+  margin: 0;
+  padding: 0; }
+
+.container {
+  background-color: #0e2439; }
+
+.container--lighttheme {
+  background-color: #fff;
+  color: #1f364d; }
+  .container--lighttheme .textarea textarea {
+    color: #1f364d; }
+  .container--lighttheme .toolbar {
+    background-color: #81D4FA; }
+  .container--lighttheme .createnotepad {
+    background-color: #81D4FA; }
+    .container--lighttheme .createnotepad .createnotepad__name input {
+      background-color: #68ccf9; }
 
 .textarea {
   width: 100%;
@@ -25,6 +38,7 @@ body {
     border: none; }
 
 .toolbar {
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.15), 0 10px 10px rgba(0, 0, 0, 0.22);
   width: 60px;
   height: auto;
   background-color: #1f364d;
@@ -33,7 +47,7 @@ body {
   top: 20px;
   text-align: center; }
   .toolbar .toolbar__icons {
-    margin-top: 20px; }
+    margin-top: 10px; }
     .toolbar .toolbar__icons span {
       color: #fff;
       font-size: 2rem;
@@ -47,85 +61,69 @@ body {
     .toolbar .toolbar__icons .toolbar__icons--notebook {
       margin-top: 0px;
       padding: 10px; }
+    .toolbar .toolbar__icons .toolbar__icons--settings {
+      margin-bottom: 10px; }
+    .toolbar .toolbar__icons hr {
+      margin-bottom: 15px;
+      border-color: #03a9f4; }
 
 .timerbox {
   display: none;
   position: absolute;
   width: 200px;
-  height: 300px;
+  height: 280px;
   background-color: #1f364d;
   border: 1px solid #03a9f4;
   right: 100px;
   top: 20px;
   z-index: 10; }
+  .timerbox .timerbox__backdisplay {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-color: #03a9f4; }
   .timerbox .timerbox__numbers {
     position: absolute;
-    top: 0;
+    top: 15px;
     width: 100%;
     height: 35%;
-    background-color: #03a9f4;
     text-align: center; }
     .timerbox .timerbox__numbers h3 {
       font-size: 3rem;
       display: inline-block;
       color: white;
-      margin-top: 0.5rem;
-      vertical-align: middle; }
-  .timerbox .timerbox__start, .timerbox .timerbox__stop, .timerbox .timerbox__plusminus, .timerbox .timerbox__presets--25min, .timerbox .timerbox__presets--5min, .timerbox .timerbox__presets--1min {
+      line-height: 30%; }
+  .timerbox .timerbox__start, .timerbox .timerbox__reset, .timerbox .timerbox__plusminus {
     position: absolute;
     cursor: pointer;
-    top: 35%;
-    width: 100%;
-    background-color: #0398db;
-    height: 18%;
+    top: 45%;
     color: white;
-    text-align: center; }
-    .timerbox .timerbox__start h3, .timerbox .timerbox__stop h3, .timerbox .timerbox__plusminus h3, .timerbox .timerbox__presets--25min h3, .timerbox .timerbox__presets--5min h3, .timerbox .timerbox__presets--1min h3 {
-      margin-top: 14px;
+    left: 79px;
+    transition: 0.3s ease-in; }
+    .timerbox .timerbox__start span, .timerbox .timerbox__reset span, .timerbox .timerbox__plusminus span {
       text-transform: uppercase;
-      font-weight: 100; }
-  .timerbox .timerbox__start:hover, .timerbox .timerbox__stop:hover, .timerbox .timerbox__plusminus:hover, .timerbox .timerbox__presets--25min:hover, .timerbox .timerbox__presets--5min:hover, .timerbox .timerbox__presets--1min:hover {
-    background-color: #14b4fc; }
-  .timerbox .timerbox__stop {
-    top: 53%;
-    background-color: #0286c2; }
+      font-weight: 100;
+      font-size: 3rem; }
+    .timerbox .timerbox__start span.icon-pause, .timerbox .timerbox__reset span.icon-pause, .timerbox .timerbox__plusminus span.icon-pause {
+      display: none; }
+  .timerbox .timerbox__start:hover, .timerbox .timerbox__reset:hover, .timerbox .timerbox__plusminus:hover {
+    color: #ec407a;
+    transform: translate(0px, -2px); }
+  .timerbox .timerbox__reset, .timerbox .timerbox__plusminus {
+    top: 70%;
+    left: 85px; }
+    .timerbox .timerbox__reset span, .timerbox .timerbox__plusminus span {
+      font-size: 2.2rem; }
   .timerbox .timerbox__plusminus {
-    top: 71%;
-    width: 50%;
-    right: 0;
-    background-color: #027cb3;
-    -webkit-box-shadow: inset 1px 0px 0px 0px #0286c2;
-    -moz-box-shadow: inset 1px 0px 0px 0px #0286c2;
-    box-shadow: inset 1px 0px 0px 0px #0286c2; }
+    right: 10%;
+    left: auto; }
     .timerbox .timerbox__plusminus h2 {
       display: inline-block;
-      margin-top: 12px;
+      margin-top: 18px;
       text-align: center; }
   .timerbox .timerbox__plusminus--left {
-    left: 0;
-    -webkit-box-shadow: inset -1px 0px 0px 0px #0286c2;
-    -moz-box-shadow: inset -1px 0px 0px 0px #0286c2;
-    box-shadow: inset -1px 0px 0px 0px #0286c2; }
-  .timerbox .timerbox__presets--25min, .timerbox .timerbox__presets--5min, .timerbox .timerbox__presets--1min {
-    height: 11%;
-    bottom: 0;
-    top: auto;
-    width: 33.333%;
-    background-color: #0286c2;
-    -webkit-box-shadow: inset -1px 0px 0px 0px #0275a8;
-    -moz-box-shadow: inset -1px 0px 0px 0px #0275a8;
-    box-shadow: inset -1px 0px 0px 0px #0275a8; }
-    .timerbox .timerbox__presets--25min h3, .timerbox .timerbox__presets--5min h3, .timerbox .timerbox__presets--1min h3 {
-      font-size: 0.7rem;
-      font-weight: lighter;
-      margin-top: 11px; }
-  .timerbox .timerbox__presets--5min {
-    left: 33.333%; }
-  .timerbox .timerbox__presets--1min {
-    left: 66.666%;
-    -webkit-box-shadow: none;
-    -moz-box-shadow: none;
-    box-shadow: none; }
+    right: auto;
+    left: 10%; }
 
 .tooltip {
   position: absolute;
@@ -150,7 +148,8 @@ body {
   border: 1px solid #1f364d;
   position: absolute;
   top: 20px;
-  right: 100px; }
+  right: 100px;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22); }
   .notepad .notepad__name, .notepad .notepad__textarea {
     height: 10%;
     width: 100%;
@@ -207,8 +206,18 @@ body {
     cursor: pointer; }
   .notepad .notepad__deletebtn:hover {
     color: #f44336;
-    transition: 0.2s; }
+    transition: 0.3s;
+    animation: rotatedelete infinite 0.7s ease-in-out; }
 
+@keyframes rotatedelete {
+  0% {
+    transform: rotate(6deg); }
+
+  50% {
+    transform: rotate(-6deg); }
+
+  100% {
+    transform: rotate(6deg); } }
 .createnotepad {
   display: none;
   width: 300px;
@@ -216,7 +225,8 @@ body {
   position: absolute;
   right: 100px;
   top: 20px;
-  background-color: #1f364d; }
+  background-color: #1f364d;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.1), 0 10px 10px rgba(0, 0, 0, 0.22); }
   .createnotepad .createnotepad__name {
     margin-top: 10%; }
     .createnotepad .createnotepad__name input {
@@ -226,24 +236,29 @@ body {
       text-align: center;
       font-size: 1.8rem;
       background-color: #26435f;
+      border: none;
+      border-bottom: 1px solid rgba(50, 182, 230, 0.5);
+      border-top: 1px solid rgba(50, 182, 230, 0.5);
       outline: none;
       resize: none;
-      border: none;
       color: white; }
   .createnotepad button {
     margin: 0 auto;
     display: block;
     margin-top: 30px;
-    background-color: #1f364d;
     border: 1px solid white;
+    background-color: #03a9f4;
     padding: 5px;
     color: white;
     text-transform: uppercase;
     min-width: 90px;
-    font-size: 0.8rem; }
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); }
   .createnotepad button:hover {
-    background-color: #03a9f4;
-    transition: 0.2s; }
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+    transform: translate(0px, -2px);
+    background-color: #0ab1fc; }
 
 @font-face {
   font-family: 'icomoon';
@@ -264,14 +279,32 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
 
+.icon-settings:before {
+  content: "\e8b8"; }
+
 .icon-stopwatch:before {
   content: "\e904"; }
 
 .icon-add:before {
-  content: "\e905"; }
+  content: "\e145"; }
+
+.icon-control_point:before {
+  content: "\e3ba"; }
 
 .icon-event_note:before {
-  content: "\e902"; }
+  content: "\e616"; }
+
+.icon-pause:before {
+  content: "\e034"; }
+
+.icon-remove_circle_outline:before {
+  content: "\e15d"; }
+
+.icon-replay:before {
+  content: "\e042"; }
+
+.icon-play_arrow:before {
+  content: "\e037"; }
 
 .icon-delete:before {
-  content: "\e901"; }
+  content: "\e872"; }
