@@ -3,15 +3,16 @@ Easily capture notes in the new tab page. :thought_balloon: :thought_balloon:
 
 ## Features
 
-  * A To Do List / Notepad that persists using Chrome Sync API.
-  * Built in timer with Pomodoro settings available
-  * 'Notebooks' - The ability to create separate notebooks to store other info. (Ex: Books to read, Recipes to make, Things to work on)
+  * A To Do List / Notepad that persists between tabs using Chrome Sync.
+  * Built in timer
+  * 'Notebooks' - The ability to create separate notebooks to store lists or separate stuff. (Ex: Books to read, Recipes to make, Things to work on)
+  * Night / Day Theme
 
 
 ## Future updates
   * Implement background image from /r/earthporn or similar
-  * Add sound to timer finish
-  * Allow colour or theme change (dark/light)
   * Add additional widgets - weather, to do list etc.
   * Increase number of notepads
   * Allow for headings, bold, checklist etc. in main text area
+  * Pomodoro timer
+  * Recurring reminders that appear in the main text area
