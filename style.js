@@ -52,19 +52,24 @@
     displayTime(timeToString()[0], timeToString()[1]); // shows time initally
     if(timerTime == 0){ // when timer hits 0, blink colors
       active =false;
-      document.getElementsByClassName('timerbox__backdisplay')[0].style.height = "100%";
-      var blinker = 20;
-      setInterval(function () {
-        if (blinker !=0){
-          if (blinker %2 ==0){
-            document.getElementsByClassName('timerbox__backdisplay')[0].style.backgroundColor = "#F44336"
-            blinker--;
-          } else{
-            document.getElementsByClassName('timerbox__backdisplay')[0].style.backgroundColor = "#03A9F4"
-            blinker--;
+      setTimeout(function () {
+        var audio = new Audio('alarm_sound.mp3');
+        audio.play();
+        document.getElementsByClassName('timerbox__backdisplay')[0].style.height = "100%";
+        var blinker = 20;
+        setInterval(function () {
+          if (blinker !=0){
+            if (blinker %2 ==0){
+              document.getElementsByClassName('timerbox__backdisplay')[0].style.backgroundColor = "#F44336"
+              blinker--;
+            } else{
+              document.getElementsByClassName('timerbox__backdisplay')[0].style.backgroundColor = "#03A9F4"
+              blinker--;
+            }
           }
-        }
-      }, 150);
+        }, 150);
+
+      }, 0);
     } else{
 
       setTimeout(function () {
@@ -84,15 +89,21 @@
       var id = setInterval(function() {
         if(!active){
           clearInterval(id);
+          if(!maintainCount){
+            setTimeout(function () {
+              document.getElementsByClassName('timerbox__backdisplay')[0].style.height = "100%";
+            }, 0);
+          }
         }
-        if(reduceCount == 50){
+        if(reduceCount == 100){
             clearInterval(id);
+
         }else{
-          backdisplay.style.height = heightTracker - (heightReductionIncrement/50) +"%";
-          heightTracker -= (heightReductionIncrement/50);
+          backdisplay.style.height = heightTracker - (heightReductionIncrement/100) +"%";
+          heightTracker -= (heightReductionIncrement/100);
           reduceCount++;
         }
-          }, 20)
+      }, 10)
 
 
     }
@@ -131,7 +142,6 @@
         displayTime(timeToString()[0], timeToString()[1]);
         document.getElementsByClassName("icon-play_arrow")[0].style.display = "block";
         document.getElementsByClassName("icon-pause")[0].style.display = "none";
-        document.getElementsByClassName('timerbox__backdisplay')[0].style.height = "100%";
 
       }
       document.getElementsByClassName("timerbox__plusminus")[0].onclick = function(){
@@ -139,14 +149,12 @@
           timerTime += 30;
           active = false;
           displayTime(timeToString()[0], timeToString()[1]);
-          document.getElementsByClassName('timerbox__backdisplay')[0].style.height = "100%";
           document.getElementsByClassName("icon-play_arrow")[0].style.display = "block";
           document.getElementsByClassName("icon-pause")[0].style.display = "none";
 
       }
       document.getElementsByClassName("timerbox__plusminus")[1].onclick = function(){
         maintainCount = false;
-        document.getElementsByClassName('timerbox__backdisplay')[0].style.height = "100%";
         if(timerTime>=30){
           timerTime -= 30;
         } else if (timerTime<30) {
@@ -196,7 +204,7 @@
           tooltipWrap.className = 'tooltip'; //adds class
           tooltipWrap.appendChild(document.createTextNode("Timer")); //add the text node to the newly created div.
           document.body.appendChild(tooltipWrap);
-          tooltipWrap.style.top = "90px";
+          tooltipWrap.style.top = "95px";
           tooltipWrap.style.right = "100px";
         }
 
@@ -215,7 +223,7 @@
           tooltipWrap.className = 'tooltip'; //adds class
           tooltipWrap.appendChild(document.createTextNode("Add notepad")); //add the text node to the newly created div.
           document.body.appendChild(tooltipWrap);
-          tooltipWrap.style.top = "135px";
+          tooltipWrap.style.top = "140px";
           tooltipWrap.style.right = "100px";
       }
       addIcon.onmouseout = function(){ // add icon tooltip on mouseout
@@ -241,6 +249,8 @@
       }
 
 
+
+
       document.getElementsByClassName("toolbar__icons--add")[0].onclick = function(){ // Add notepad icon functionality
         if(currentlyShown[0]==false){
           addToCurrentlyShown("createnotepad");
@@ -251,6 +261,72 @@
           removeCurrentlyShown();
         }
       }
+
+      // settings onclick functionality
+      document.getElementsByClassName("toolbar__icons--settings")[0].onclick = function(){
+        if(currentlyShown[0]==false){
+          addToCurrentlyShown("settings");
+        } else if (currentlyShown[0] == true && currentlyShown[1] != "settings") {
+          removeCurrentlyShown();
+          addToCurrentlyShown("settings");
+        }else if(currentlyShown[0] == true && currentlyShown[1] == "settings"){
+          removeCurrentlyShown();
+        }
+      }
+      setTimeout(function () {
+        chrome.storage.sync.get("theme", function(data){
+          console.log(data.theme)
+          console.log("ok")
+        })
+
+      }, 1000);
+      // settings theme functionality
+      var currentTheme = "";
+      function findTheme(){
+        chrome.storage.sync.get("theme", function(data){
+          if(data.theme == undefined){
+            chrome.storage.sync.set({"theme":"dark"});
+          }
+            currentTheme = data.theme;
+        })
+      }
+      function switchTheme(){
+        var theme = currentTheme;
+
+        if (theme == "light"){
+          chrome.storage.sync.set({"theme":"light"});
+          document.getElementsByClassName('container')[0].classList.add("container--lighttheme");
+          document.getElementsByClassName('settings__theme--light')[0].classList.add("settings__theme--active");
+          document.getElementsByClassName('settings__theme--dark')[0].classList.remove("settings__theme--active");
+        } else if (theme == "dark") {
+          chrome.storage.sync.set({"theme":"dark"});
+          if(document.getElementsByClassName('container')[0].classList.contains("container--lighttheme")){
+            document.getElementsByClassName('container')[0].classList.remove("container--lighttheme");
+          }
+          document.getElementsByClassName('settings__theme--light')[0].classList.remove("settings__theme--active");
+          document.getElementsByClassName('settings__theme--dark')[0].classList.add("settings__theme--active");
+        }
+      }
+      switchTheme(findTheme());
+      document.getElementsByClassName('settings__theme--light')[0].onclick = function(){
+        currentTheme = "light";
+        chrome.storage.sync.set({"theme":"light"});
+        switchTheme();
+      }
+      document.getElementsByClassName('settings__theme--dark')[0].onclick = function(){
+        currentTheme = "dark";
+        chrome.storage.sync.set({"theme":"dark"});
+        switchTheme()
+      }
+      setTimeout(function () {
+
+        findTheme();
+        switchTheme();
+      },70);
+
+
+
+
 
       //==============================================================================================================================================================================
       // NOTEPADS==============================================================================================================================================================================
@@ -390,7 +466,7 @@
             var deleteBtn = document.createElement('span');
             deleteBtn.className = "notepad__deletebtn icon-delete";
             note.appendChild(deleteBtn);
-            document.body.appendChild(note); // append the notepad div.
+            document.getElementsByClassName('container')[0].appendChild(note); // append the notepad div.
 
 
             newNote.onclick = function(){ // add show/hide onclick function
@@ -408,21 +484,37 @@
                 var tooltipWrap = document.createElement("div"); //creates div
                 tooltipWrap.className = 'tooltip'; //adds class
                 tooltipWrap.style.backgroundColor = noteCol;
-                tooltipWrap.appendChild(document.createTextNode(data[name].noteName)); //add the text node to the newly created div.
-                document.body.appendChild(tooltipWrap);
-                var nrNotepads = document.getElementsByClassName('toolbar__icons--notebook');
-                for(var i=0; i<nrNotepads.length;i++){
-                  if(nrNotepads[i].classList.contains(name)){
-                    var top = 0 + (i+1)*50;
-                  }
+                function checkForChange(){
+                  chrome.storage.sync.get(name, function(data){
+                    setTimeout(function () {
+
+                      tooltipWrap.appendChild(document.createTextNode(data[name].noteName)); //add the text node to the newly created div.
+                    }, 0);
+                  })
                 }
-                tooltipWrap.style.top = (140 + top)+"px";
-                tooltipWrap.style.right = "100px";
+                checkForChange();
+                setTimeout(function () {
+                  document.body.appendChild(tooltipWrap);
+                  var nrNotepads = document.getElementsByClassName('toolbar__icons--notebook');
+                  for(var i=0; i<nrNotepads.length;i++){
+                    if(nrNotepads[i].classList.contains(name)){
+                      var top = 0 + (i+1)*50;
+                    }
+                  }
+                  tooltipWrap.style.top = (146 + top)+"px";
+                  tooltipWrap.style.right = "100px";
+                }, 10);
+
+
+
             }
             newNote.onmouseout = function(){ //  icon tooltip on mouseout
-              if (document.getElementsByClassName("tooltip")[0]){
-                document.getElementsByClassName("tooltip")[0].parentNode.removeChild(document.getElementsByClassName("tooltip")[0]);
-              }
+              setTimeout(function () {
+                if (document.getElementsByClassName("tooltip")[0]){
+                  document.getElementsByClassName("tooltip")[0].parentNode.removeChild(document.getElementsByClassName("tooltip")[0]);
+                }
+
+              }, 50);
             }
 
             deleteBtn.onclick= function(){
@@ -484,5 +576,20 @@
       }
 
       //==============================================================================================================================================================================
+
+setTimeout(function () {
+
+  var stringynote =document.getElementById('todolist').value;
+  var thisthing = stringynote.match(/\n/g)||[];
+  // console.log(thisthing);
+
+  content = document.getElementById('todolist').value;
+  content.match(/.*\<\.*/)[0]
+  // " bar [<] baz
+   line = content.match(/[\s\S]*(?=<)/)[0].replace(/[^\n]/g, "").length
+   console.log(line)
+   document.getElementById("textarea-hr").style.top = (line*30 + 60) +"px";
+}, 10);
+
 
 })();
