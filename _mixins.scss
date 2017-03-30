@@ -1,7 +1,0 @@
-@mixin linearGradient($top, $bottom){
-  background: #ffa84c; /* Old browsers */
-  background: -moz-linear-gradient(180deg,  $top 0%, $bottom 100%); /* FF3.6-15 */
-  background: -webkit-linear-gradient(180deg,  $top 0%,$bottom 100%); /* Chrome10-25,Safari5.1-6 */
-  background: linear-gradient(180deg,  $top 0%,$bottom 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='$top', endColorstr='$bottom',GradientType=0 ); /* IE6-9 */
-}
