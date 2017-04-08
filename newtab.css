@@ -106,7 +106,7 @@ html, body {
     padding-right: 20%;
     padding-top: 60px;
     resize: none;
-    width: 60%; }
+    width: 900px; }
   .textarea textarea:focus {
     border: none; }
   .textarea hr {
