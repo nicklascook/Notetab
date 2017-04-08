@@ -22,10 +22,14 @@
       elem.value = data.toDoList ? data.toDoList : '';
     });
 
-    if(elem.value == undefined){
-      console.log(elem.value);
-      elem.value = "Welcome to Notetab.\n\n Anything you type in here will be synced with Chrome.\n\n The toolbar on the right has a timer and notepads.\n Notepads function just like this main screen, but are like small independent versions.\n\n Check the Github for future features and updates:\n https://github.com/nicklascook/Notetab\n\n Tips & Features:\n Typing a backslash '/' on an empty line creates a separator or title line \n'esc' loses any currently open window."
-    }
+    setTimeout(function () {
+      console.log(document.getElementById('todolist').value);
+      if(document.getElementById('todolist').value == ""){
+        document.getElementById('todolist').value = "Welcome to Notetab.\n\n Anything you type in here will be synced with Chrome.\n\n The toolbar on the right has a timer and notepads.\n Notepads function just like this main screen, but are like small independent versions.\n\n Check the Github for future features and updates:\n https://github.com/nicklascook/Notetab\n\n Tips & Features:\n Typing a backslash '/' on an empty line creates a separator or title line \n'esc' loses any currently open window."
+      }
+
+    }, 100);
+
   }
   toDoListStorage();
   // ------------------------------
