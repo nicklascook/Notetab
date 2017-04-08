@@ -21,6 +21,24 @@
     chrome.storage.sync.get('toDoList', function(data) {
       elem.value = data.toDoList ? data.toDoList : '';
     });
+
+    if(elem.value == ""){
+      elem.value = "Welcome to Notetab.
+
+      Anything you type in here will be synced with Chrome.
+
+      The toolbar on the right has a timer and notepads.
+      Notepads function just like this main screen, but are like small independent versions.
+
+      Check the Github for future features and updates:
+      https://github.com/nicklascook/Notetab
+
+      Tips & Features:
+      Typing a backslash '/' on an empty line creates a separator or title line
+      'Alt' + v = √
+      'esc' loses any currently open window.
+"
+    }
   }
   toDoListStorage();
   // ------------------------------
