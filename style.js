@@ -604,7 +604,7 @@
             var lineArray = document.getElementById('todolist').value.split('\n'); // split the todolist per line
             for(var i=0; i<lineArray.length;i++){ // loop through sentences
               if(lineArray[i] == "/"){ // detect if only a backslash is present on a line
-                lineArray[i] = "\n" + "——————————————————————————————"; // change the line to an underline
+                lineArray[i] = "\n" + "__________________________________________________________________________"; // change the line to an underline
               } else if (lineArray[i] == "") { // if empty, create a newline
                 lineArray[i] = "\n"
               } else {
