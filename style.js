@@ -15,7 +15,7 @@
     }
     // Throttle save so that it only occurs after 1 second without a keypress.
     elem.addEventListener('keypress', function() {
-      saveHandler(save, 1000);
+      saveHandler(save, 500);
     });
     elem.addEventListener('blur', save);
     chrome.storage.sync.get('toDoList', function(data) {
@@ -183,6 +183,22 @@
         currentlyShown = [false,""];
       }
 
+      // Pressing escape to close any open windows, or: pressing '/' creates underline:
+      document.onkeydown = function(e) {
+        e = e || window.event;
+        if (e.keyCode == 27) {
+          if(currentlyShown[0] == true){
+            removeCurrentlyShown();
+          }
+        } else if (e.keyCode == 191) {
+          findLineIndicator();
+        }
+      };
+
+
+
+
+
       var timerIcon = document.getElementsByClassName("toolbar__icons--timer")[0];
 
       timerIcon.onclick = function(){ // Timer icon click event
@@ -273,6 +289,9 @@
           removeCurrentlyShown();
         }
       }
+
+
+
       // settings theme functionality
       var currentTheme = "";
       function findTheme(){
@@ -540,10 +559,10 @@
         }
         // Throttle save so that it only occurs after 1 second without a keypress.
         noteName.addEventListener('keypress', function() {
-          saveHandler(save, 1000);
+          saveHandler(save, 500);
         });
         noteText.addEventListener('keypress', function() {
-          saveHandler(save, 1000);
+          saveHandler(save, 500);
         });
         noteName.addEventListener('blur', save);
         noteText.addEventListener('blur', save);
@@ -569,6 +588,27 @@
       }
 
       //==============================================================================================================================================================================
+
+      // create the underline in the todolist
+      function findLineIndicator(){
+          setTimeout(function () { // wait for other processes
+            var lineArray = document.getElementById('todolist').value.split('\n'); // split the todolist per line
+            for(var i=0; i<lineArray.length;i++){ // loop through sentences
+              if(lineArray[i] == "/"){ // detect if only a backslash is present on a line
+                lineArray[i] = "\n" + "——————————————————————————————"; // change the line to an underline
+              } else if (lineArray[i] == "") { // if empty, create a newline
+                lineArray[i] = "\n"
+              } else {
+                if (lineArray[i] != lineArray[0]) { // if its the first line, dont add a newline
+                  lineArray[i] = "\n" + lineArray[i]
+                }
+              }
+              document.getElementById('todolist').value = lineArray.join(""); // replace with the reformatted text
+            }
+          }, 100);
+      }
+
+
 
 
 
