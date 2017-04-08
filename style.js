@@ -273,13 +273,6 @@
           removeCurrentlyShown();
         }
       }
-      setTimeout(function () {
-        chrome.storage.sync.get("theme", function(data){
-          console.log(data.theme)
-          console.log("ok")
-        })
-
-      }, 1000);
       // settings theme functionality
       var currentTheme = "";
       function findTheme(){
@@ -577,19 +570,6 @@
 
       //==============================================================================================================================================================================
 
-setTimeout(function () {
-
-  var stringynote =document.getElementById('todolist').value;
-  var thisthing = stringynote.match(/\n/g)||[];
-  // console.log(thisthing);
-
-  content = document.getElementById('todolist').value;
-  content.match(/.*\<\.*/)[0]
-  // " bar [<] baz
-   line = content.match(/[\s\S]*(?=<)/)[0].replace(/[^\n]/g, "").length
-   console.log(line)
-   document.getElementById("textarea-hr").style.top = (line*30 + 60) +"px";
-}, 10);
 
 
 })();

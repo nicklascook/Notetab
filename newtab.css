@@ -53,16 +53,16 @@
 .icon-brightness_low:before {
   content: "\e1ad"; }
 
-html {
-  font-size: 16px; }
-
-body {
+html, body {
+  font-size: 16px;
   font-family: 'Roboto', sans-serif;
-  margin: 0;
-  padding: 0; }
+  margin: 0px;
+  padding: 0px;
+  height: 100%; }
 
 .container {
-  background-color: #0e2439; }
+  background-color: #0e2439;
+  height: 100%; }
 
 .container--lighttheme {
   background-color: #fff;
@@ -77,8 +77,8 @@ body {
     .container--lighttheme .notepad .notepad__name input[type="text"], .container--lighttheme .notepad .notepad__textarea input[type="text"] {
       color: #0e2439; }
     .container--lighttheme .notepad .notepad__textarea textarea {
-      color: #0e2439;
-      background-color: #def6f9; }
+      background-color: #def6f9;
+      color: #0e2439; }
   .container--lighttheme .createnotepad {
     background-color: #b2ebf2; }
     .container--lighttheme .createnotepad .createnotepad__name input {
@@ -89,46 +89,50 @@ body {
       background-color: #9ce5ee; }
 
 .textarea {
+  margin: 0 auto;
   width: 100%;
-  margin: 0 auto; }
+  height: 100%; }
+  .textarea .textarea__wrapper {
+    height: 100%;
+    overflow: scroll; }
   .textarea textarea {
-    padding-top: 60px;
-    padding-left: 20%;
-    padding-right: 20%;
-    color: white;
     background-color: transparent;
     border: none;
-    width: 100%;
-    height: 100%;
-    outline: 0;
+    color: white;
     font-size: 1.9rem;
-    resize: none; }
+    height: 100%;
+    outline: 0px;
+    padding-left: 20%;
+    padding-right: 20%;
+    padding-top: 60px;
+    resize: none;
+    width: 60%; }
   .textarea textarea:focus {
     border: none; }
   .textarea hr {
+    border: 1px solid white;
+    left: 0;
+    margin-left: 20%;
     position: absolute;
     top: 90px;
-    left: 0;
-    border: 1px solid white;
-    margin-left: 20%;
     width: 60%; }
 
 .toolbar {
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.15), 0 10px 10px rgba(0, 0, 0, 0.22);
-  width: 60px;
-  height: auto;
   background-color: #1f364d;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.15), 0 10px 10px rgba(0, 0, 0, 0.22);
+  height: auto;
   position: absolute;
   right: 20px;
+  text-align: center;
   top: 20px;
-  text-align: center; }
+  width: 60px; }
   .toolbar .toolbar__icons {
     margin-top: 10px; }
     .toolbar .toolbar__icons span {
       color: #fff;
-      font-size: 2rem;
       cursor: pointer;
       display: block;
+      font-size: 2rem;
       margin-top: 10px; }
     .toolbar .toolbar__icons span:hover {
       color: #03a9f4; }
@@ -144,12 +148,12 @@ body {
     .toolbar .toolbar__icons .toolbar__icons--settings {
       margin-bottom: 11px; }
     .toolbar .toolbar__icons .toolbar__icons--settings:hover {
-      transition: 0.4s ease-in-out;
-      transform: rotate(360deg); }
+      transform: rotate(360deg);
+      transition: 0.4s ease-in-out; }
     .toolbar .toolbar__icons hr {
-      margin-bottom: 15px;
+      border: solid 4px #0e2439;
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2), 0 -2px 10px rgba(0, 0, 0, 0.2);
-      border: solid 4px #0e2439; }
+      margin-bottom: 15px; }
     .toolbar .toolbar__icons .toolbar__icons--timer:hover {
       animation: rotatedelete 0.15s ease-in-out;
       animation-iteration-count: 3; }
@@ -164,148 +168,146 @@ body {
   100% {
     stroke-width: 2px; } }
 .timerbox {
-  display: none;
-  position: absolute;
-  width: 200px;
-  height: 280px;
   background-color: #1f364d;
   border: 1px solid #03a9f4;
+  display: none;
+  height: 280px;
+  position: absolute;
   right: 100px;
   top: 20px;
+  width: 200px;
   z-index: 10; }
   .timerbox .timerbox__backdisplay {
-    position: absolute;
+    background-color: #03a9f4;
     height: 100%;
-    width: 100%;
-    background-color: #03a9f4; }
-  .timerbox .timerbox__numbers {
     position: absolute;
-    top: 15px;
-    width: 100%;
+    width: 100%; }
+  .timerbox .timerbox__numbers {
     height: 35%;
-    text-align: center; }
+    position: absolute;
+    text-align: center;
+    top: 15px;
+    width: 100%; }
     .timerbox .timerbox__numbers h3 {
-      font-size: 3rem;
-      display: inline-block;
       color: white;
+      display: inline-block;
+      font-size: 3rem;
       line-height: 30%; }
   .timerbox .timerbox__start, .timerbox .timerbox__reset, .timerbox .timerbox__plusminus {
-    position: absolute;
-    cursor: pointer;
-    top: 45%;
     color: white;
+    cursor: pointer;
     left: 79px;
+    position: absolute;
+    top: 45%;
     transition: 0.2s ease-in; }
     .timerbox .timerbox__start span, .timerbox .timerbox__reset span, .timerbox .timerbox__plusminus span {
-      text-transform: uppercase;
+      font-size: 3rem;
       font-weight: 100;
-      font-size: 3rem; }
+      text-transform: uppercase; }
     .timerbox .timerbox__start span.icon-pause, .timerbox .timerbox__reset span.icon-pause, .timerbox .timerbox__plusminus span.icon-pause {
       display: none; }
   .timerbox .timerbox__start:hover, .timerbox .timerbox__reset:hover, .timerbox .timerbox__plusminus:hover {
     color: #ec407a; }
   .timerbox .timerbox__reset, .timerbox .timerbox__plusminus {
-    top: 70%;
-    left: 85px; }
+    left: 85px;
+    top: 70%; }
     .timerbox .timerbox__reset span, .timerbox .timerbox__plusminus span {
       font-size: 2.2rem; }
   .timerbox .timerbox__plusminus {
-    right: 10%;
-    left: auto; }
+    left: auto;
+    right: 10%; }
     .timerbox .timerbox__plusminus h2 {
       display: inline-block;
       margin-top: 18px;
       text-align: center; }
   .timerbox .timerbox__plusminus--left {
-    right: auto;
-    left: 10%; }
+    left: 10%;
+    right: auto; }
 
 .tooltip {
-  position: absolute;
-  min-width: 70px;
-  height: 20px;
   background-color: rgba(41, 41, 41, 0.7);
-  text-align: center;
-  color: white;
   border-radius: 5px;
-  line-height: 20px;
-  padding: 5px;
-  z-index: 1;
+  color: white;
   font-size: 0.9rem;
+  height: 20px;
+  line-height: 20px;
+  min-width: 70px;
+  padding: 5px;
   padding-left: 10px;
-  padding-right: 10px; }
+  padding-right: 10px;
+  position: absolute;
+  text-align: center;
+  z-index: 1; }
 
 .notepad {
-  display: none;
-  width: 500px;
-  height: 600px;
   background-color: #1f364d;
   border: 1px solid #1f364d;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  display: none;
+  height: 600px;
   position: absolute;
-  top: 20px;
   right: 100px;
-  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22); }
+  top: 20px; }
   .notepad .notepad__name, .notepad .notepad__textarea {
     height: 50px;
-    width: 100%;
     margin-top: 10px; }
     .notepad .notepad__name input[type=text], .notepad .notepad__textarea input[type=text] {
-      padding-top: 5px;
-      padding-bottom: 5px;
-      margin: 0 auto;
-      display: block;
-      max-width: 60%;
-      text-align: center;
-      font-size: 1.8rem;
       background-color: transparent;
-      outline: none;
-      resize: none;
       border: 0;
-      color: white; }
+      color: white;
+      display: block;
+      font-size: 1.8rem;
+      margin: 0 auto;
+      max-width: 100%;
+      outline: none;
+      padding-bottom: 5px;
+      padding-top: 5px;
+      resize: none;
+      text-align: center; }
   .notepad .notepad__textarea {
-    height: 480px;
-    border-top: 2px solid #03a9f4;
     border-bottom: 2px solid #03a9f4;
-    box-shadow: 0 -7px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22); }
+    border-top: 2px solid #03a9f4;
+    box-shadow: 0 -7px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+    height: 480px; }
     .notepad .notepad__textarea textarea {
       background-color: #2e4f71;
-      outline: none;
-      resize: none;
       border: none;
       color: white;
-      padding: 30px;
-      margin: 0 auto;
       display: block;
-      width: 100%;
       font-size: 1rem;
-      height: 100%; }
+      height: 100%;
+      margin: 0 auto;
+      outline: none;
+      padding: 30px;
+      resize: none;
+      width: 500px; }
   .notepad button {
-    display: block;
-    margin: 0 auto;
-    padding: 10px;
-    min-width: 80px;
-    font-size: 0.85rem;
     background-color: #03a9f4;
-    color: white;
     border: none;
-    text-transform: uppercase;
-    margin-top: 25px;
+    border-radius: 2px;
+    color: white;
     cursor: pointer;
-    border-radius: 2px; }
+    display: block;
+    font-size: 0.85rem;
+    margin: 0 auto;
+    margin-top: 25px;
+    min-width: 80px;
+    padding: 10px;
+    text-transform: uppercase; }
   .notepad button:hover {
     background-color: #14b4fc;
     transition: 0.5s; }
   .notepad .notepad__deletebtn {
-    position: absolute;
-    right: 10px;
     bottom: 7px;
     color: #98abd1;
+    cursor: pointer;
     font-size: 2rem;
-    cursor: pointer; }
+    position: absolute;
+    right: 10px; }
   .notepad .notepad__deletebtn:hover {
+    animation: rotatedelete infinite 0.7s ease-in-out;
     color: #f44336;
-    transition: 0.3s;
-    animation: rotatedelete infinite 0.7s ease-in-out; }
+    transition: 0.3s; }
 
 @keyframes rotatedelete {
   0% {
@@ -317,83 +319,85 @@ body {
   100% {
     transform: rotate(6deg); } }
 .createnotepad {
+  background-color: #1f364d;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.1), 0 10px 10px rgba(0, 0, 0, 0.22);
   display: none;
-  width: 300px;
   height: 150px;
   position: absolute;
   right: 100px;
   top: 20px;
-  background-color: #1f364d;
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.1), 0 10px 10px rgba(0, 0, 0, 0.22); }
+  width: 300px; }
   .createnotepad .createnotepad__name {
     margin-top: 10%; }
     .createnotepad .createnotepad__name input {
-      padding-top: 5px;
-      padding-bottom: 5px;
-      width: 100%;
-      text-align: center;
-      font-size: 1.8rem;
       background-color: #26435f;
       border: none;
       border-bottom: 1px solid rgba(50, 182, 230, 0.5);
       border-top: 1px solid rgba(50, 182, 230, 0.5);
+      color: white;
+      font-size: 1.8rem;
       outline: none;
+      padding-bottom: 5px;
+      padding-top: 5px;
       resize: none;
-      color: white; }
+      text-align: center;
+      width: 298px; }
   .createnotepad button {
-    margin: 0 auto;
-    display: block;
-    margin-top: 30px;
-    border: 1px solid white;
     background-color: #03a9f4;
-    padding: 5px;
+    border: 1px solid white;
     color: white;
-    text-transform: uppercase;
-    min-width: 90px;
-    font-size: 0.8rem;
     cursor: pointer;
+    display: block;
+    font-size: 0.8rem;
+    margin: 0 auto;
+    margin-top: 30px;
+    min-width: 90px;
+    padding: 5px;
+    text-transform: uppercase;
     transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); }
   .createnotepad button:hover {
+    background-color: #0ab1fc;
     box-shadow: 0 10px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
-    transform: translate(0px, -2px);
-    background-color: #0ab1fc; }
+    transform: translate(0px, -2px); }
 
 .settings {
-  display: none;
-  width: 250px;
-  height: 300px;
   background: #1f364d;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.15), 0 10px 10px rgba(0, 0, 0, 0.22);
+  display: none;
+  height: 300px;
   position: absolute;
-  top: 20px;
   right: 100px;
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.15), 0 10px 10px rgba(0, 0, 0, 0.22); }
+  top: 20px;
+  width: 250px; }
   .settings .settings__header {
-    width: 100%;
-    height: 50px;
     background: #2e4f71;
-    margin-top: 0;
     border-bottom: 2px solid #03a9f4;
-    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.1), 0 10px 10px rgba(0, 0, 0, 0.22); }
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.1), 0 10px 10px rgba(0, 0, 0, 0.22);
+    height: 50px;
+    margin-top: 0;
+    width: 100%; }
     .settings .settings__header h1 {
-      text-transform: uppercase;
       color: white;
-      text-align: center;
+      font-weight: lighter;
+      letter-spacing: 0.05rem;
       margin-top: 0;
       padding-top: 12px;
-      font-weight: lighter;
-      letter-spacing: 0.05rem; }
+      text-align: center;
+      text-transform: uppercase;
+      font-size: 1.5rem; }
   .settings .settings__theme {
-    padding-top: 10px;
     color: white;
+    padding-top: 10px;
     text-align: center; }
     .settings .settings__theme h2 {
-      padding-bottom: 0px; }
+      padding-bottom: 0px;
+      font-size: 1.2rem; }
     .settings .settings__theme span {
-      font-size: 2rem;
-      padding: 3px;
       cursor: pointer;
+      font-size: 2rem;
+      margin-left: 20px;
       margin-right: 20px;
-      margin-left: 20px; }
+      padding: 3px; }
     .settings .settings__theme .settings__theme--light:hover {
       color: #FFEB3B; }
     .settings .settings__theme .settings__theme--dark:hover {
