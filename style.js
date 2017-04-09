@@ -25,9 +25,8 @@
     setTimeout(function () {
       console.log(document.getElementById('todolist').value);
       if(document.getElementById('todolist').value == ""){
-        document.getElementById('todolist').value = "Welcome to Notetab.\n\n Anything you type in here will be synced with Chrome.\n\n The toolbar on the right has a timer and notepads.\n Notepads function just like this main screen, but are like small independent versions.\n\n Check the Github for future features and updates:\n https://github.com/nicklascook/Notetab\n\n Tips & Features:\n Typing a backslash '/' on an empty line creates a separator or title line \n'esc' loses any currently open window."
+        document.getElementById('todolist').value = "Welcome to Notetab.\n\nAnything you type in here will be synced with Chrome.\n\nThe toolbar on the right has a timer and notepads.\nNotepads function just like this main screen, but are like small independent versions.\n\nCheck the Github for future features and updates:\nhttps://github.com/nicklascook/Notetab\n\nTips & Features:\nTyping a backslash '/' on an empty line creates a separator or title line\n'esc' loses any currently open window."
       }
-
     }, 100);
 
   }
