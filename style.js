@@ -23,7 +23,6 @@
     });
 
     setTimeout(function () {
-      console.log(document.getElementById('todolist').value);
       if(document.getElementById('todolist').value == ""){
         document.getElementById('todolist').value = "Welcome to Notetab.\n\nAnything you type in here will be synced with Chrome.\n\nThe toolbar on the right has a timer and notepads.\nNotepads function just like this main screen, but are like small independent versions.\n\nCheck the Github for future features and updates:\nhttps://github.com/nicklascook/Notetab\n\nTips & Features:\nTyping a backslash '/' on an empty line creates a separator or title line\n'esc' loses any currently open window."
       }
@@ -601,9 +600,10 @@
       function findLineIndicator(){
           setTimeout(function () { // wait for other processes
             var lineArray = document.getElementById('todolist').value.split('\n'); // split the todolist per line
+            console.log(lineArray);
             for(var i=0; i<lineArray.length;i++){ // loop through sentences
               if(lineArray[i] == "/"){ // detect if only a backslash is present on a line
-                lineArray[i] = "\n" + "_________________________________________________________________________"; // change the line to an underline
+                lineArray[i] = "\n" + "_______________________________________________________________________"; // change the line to an underline
               } else if (lineArray[i] == "") { // if empty, create a newline
                 lineArray[i] = "\n"
               } else {
