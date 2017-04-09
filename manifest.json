@@ -1,7 +1,9 @@
 {
-  "name": "Notetab",
+  "name": "Notetab - seamlessly capture your thoughts in every new tab",
   "author": "Nicklas Cook",
-  "version": "0.2",
+  "version": "1.0",
+  "description": "Capture your thoughts seamlessly in the new tab page",
+  "short_name": "Notetab",
   "incognito": "split",
   "chrome_url_overrides": {"newtab": "newtab.html"},
   "permissions": ["storage"],
