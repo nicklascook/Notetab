@@ -62,6 +62,8 @@ html, body {
 
 .container {
   background-color: #0e2439;
+  background-repeat: no-repeat;
+  background-size: cover;
   height: 100%; }
 
 .container--lighttheme {
@@ -71,22 +73,30 @@ html, body {
     color: #1f364d; }
   .container--lighttheme .toolbar {
     background-color: #ec407a; }
+    .container--lighttheme .toolbar .toolbar__icons hr {
+      border: solid 4px #facbdb;
+      box-shadow: none;
+      opacity: 0.2; }
   .container--lighttheme .notepad {
-    background-color: white;
+    background-color: #def6f9;
     color: #0e2439; }
     .container--lighttheme .notepad .notepad__name input[type="text"], .container--lighttheme .notepad .notepad__textarea input[type="text"] {
       color: #0e2439; }
     .container--lighttheme .notepad .notepad__textarea textarea {
-      background-color: #def6f9;
+      background-color: #f3fcfd;
       color: #0e2439; }
   .container--lighttheme .createnotepad {
     background-color: #b2ebf2; }
     .container--lighttheme .createnotepad .createnotepad__name input {
-      background-color: #86e0eb; }
+      background-color: #86e0eb;
+      color: #777777; }
   .container--lighttheme .settings {
+    color: #777777;
     background-color: #71dae7; }
     .container--lighttheme .settings .settings__header {
       background-color: #9ce5ee; }
+    .container--lighttheme .settings .settings__theme h2 {
+      color: #777777; }
 
 .textarea {
   margin: 0 auto;
@@ -368,7 +378,8 @@ html, body {
   position: absolute;
   right: 100px;
   top: 20px;
-  width: 250px; }
+  width: 250px;
+  color: white; }
   .settings .settings__header {
     background: #2e4f71;
     border-bottom: 2px solid #03a9f4;
@@ -377,7 +388,6 @@ html, body {
     margin-top: 0;
     width: 100%; }
     .settings .settings__header h1 {
-      color: white;
       font-weight: lighter;
       letter-spacing: 0.05rem;
       margin-top: 0;
@@ -391,16 +401,65 @@ html, body {
     text-align: center; }
     .settings .settings__theme h2 {
       padding-bottom: 0px;
-      font-size: 1.2rem; }
+      font-size: 1.2rem;
+      margin-bottom: 10px; }
     .settings .settings__theme span {
       cursor: pointer;
       font-size: 2rem;
-      margin-left: 20px;
-      margin-right: 20px;
-      padding: 3px; }
+      margin-left: 15px;
+      margin-right: 15px; }
     .settings .settings__theme .settings__theme--light:hover {
       color: #FFEB3B; }
     .settings .settings__theme .settings__theme--dark:hover {
       color: #3F51B5; }
     .settings .settings__theme .settings__theme--active {
       color: #ec407a; }
+  .settings .settings__image {
+    margin-top: 20px;
+    text-align: center;
+    /* The slider */ }
+    .settings .settings__image h2 {
+      font-size: 1.2rem;
+      margin-bottom: 0; }
+    .settings .settings__image p {
+      margin-top: 2px;
+      font-size: 0.8rem;
+      color: #777777; }
+    .settings .settings__image .switch {
+      position: relative;
+      display: inline-block;
+      width: 40px;
+      height: 16px; }
+      .settings .settings__image .switch input {
+        display: none; }
+    .settings .settings__image .slider {
+      border-radius: 34px;
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #686868;
+      -webkit-transition: .25s ease-in-out;
+      transition: .25s ease-in-out; }
+      .settings .settings__image .slider:before {
+        position: absolute;
+        content: "";
+        height: 20px;
+        width: 20px;
+        left: 0px;
+        bottom: -2px;
+        background-color: #bdbdbd;
+        -webkit-transition: .25s ease-in-out;
+        transition: .25s ease-in-out;
+        border-radius: 50%; }
+    .settings .settings__image input:checked + .slider {
+      background-color: #b41249; }
+    .settings .settings__image input:focus + .slider {
+      box-shadow: 0 0 1px #b41249; }
+    .settings .settings__image input:checked + .slider:before {
+      background-color: #ec407a;
+      -webkit-transform: translateX(20px);
+      -ms-transform: translateX(20px);
+      transform: translateX(20px); }

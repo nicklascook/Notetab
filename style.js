@@ -1,4 +1,16 @@
 (function() {
+
+  //test 
+  function randomBackgroundImage(){
+    var imgurImages =["7yOB0Gw", "iMt9E","9uUjGxZ","54deiOy","6dfIT0V","Wj6acBM","F3MrDRB","P6XwfBF","uYPLPth","tuhylfj","IhVFz","5Gbmza1","Si7YKS9","YMRoa","RHADN","dLjcZUA","OK69cgs","IKWu7","dZIRDmC"];
+    var randomImageNumber = Math.floor(Math.random()*(imgurImages.length));
+    document.getElementsByClassName('container')[0].style.backgroundImage = "url(https://i.imgur.com/"+imgurImages[randomImageNumber] +".jpg)";
+  }
+  
+  
+  // -/test
+
+
   // TO DO LIST
   function _makeDelayed() {
     var timer = 0;
@@ -337,8 +349,56 @@
         chrome.storage.sync.set({"theme":"dark"});
         switchTheme()
       }
+    
+      // global variable to track the image checkbox state
+      var imageCheckbox = document.getElementById('imagecheckbox');
+      var imageCheckboxOn = false;
+      // find whether the checkbox is on or not, if not in storage, then set it to default: false
+      function findBackgroundProperty(){
+        chrome.storage.sync.get("bgImage", function(data){ // check the storage.sync
+          if(data.bgImage == undefined){ // if not currently set, make it false
+            chrome.storage.sync.set({"bgImage":false})
+          }
+            imageCheckboxOn = data.bgImage; // change the imageCheckbuttonOn property to the result from storage
+            if(data.bgImage){
+              imageCheckbox.checked = true;
+              document.getElementsByTagName('textarea')[0].style.color = "white";
+            }
+          
+        })
+      }
+      
+      function runBackgroundChange(){ // check if imagecheckboxon is false,
+        setTimeout(function(){
+          if(imageCheckboxOn == true){
+           randomBackgroundImage();
+        }
+        },50)
+      }
+      // background image check:
+      
+      imageCheckbox.onclick = function(){
+        if(imageCheckbox.checked !== true){ // if checkbox is 
+          chrome.storage.sync.set({"bgImage":false});
+          imageCheckboxOn = false;
+          document.getElementsByClassName('container')[0].style.backgroundImage = "none";
+          if(currentTheme == "light"){
+            document.getElementsByTagName('textarea')[0].style.color = "#1f364d";
+          }
+        } else{
+          chrome.storage.sync.set({"bgImage":true});
+          imageCheckboxOn = true;
+          randomBackgroundImage();
+          if(currentTheme == "light"){
+            document.getElementsByTagName('textarea')[0].style.color = "white";
+          }
+        }
+      };
+      
+      // Theme and Background image check:
       setTimeout(function () {
-
+        findBackgroundProperty();
+        runBackgroundChange();
         findTheme();
         switchTheme();
       },70);
@@ -616,8 +676,6 @@
       }
 
 
-
-
-
+   
 
 })();
