@@ -600,7 +600,6 @@
       function findLineIndicator(){
           setTimeout(function () { // wait for other processes
             var lineArray = document.getElementById('todolist').value.split('\n'); // split the todolist per line
-            console.log(lineArray);
             for(var i=0; i<lineArray.length;i++){ // loop through sentences
               if(lineArray[i] == "/"){ // detect if only a backslash is present on a line
                 lineArray[i] = "\n" + "_______________________________________________________________________"; // change the line to an underline
@@ -615,6 +614,7 @@
             }
           }, 100);
       }
+
 
 
 
