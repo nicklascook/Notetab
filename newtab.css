@@ -78,25 +78,54 @@ html, body {
       box-shadow: none;
       opacity: 0.2; }
   .container--lighttheme .notepad {
-    background-color: #def6f9;
+    background-color: #ec407a;
     color: #0e2439; }
-    .container--lighttheme .notepad .notepad__name input[type="text"], .container--lighttheme .notepad .notepad__textarea input[type="text"] {
-      color: #0e2439; }
     .container--lighttheme .notepad .notepad__textarea textarea {
       background-color: #f3fcfd;
       color: #0e2439; }
   .container--lighttheme .createnotepad {
-    background-color: #b2ebf2; }
+    background-color: white; }
     .container--lighttheme .createnotepad .createnotepad__name input {
-      background-color: #86e0eb;
-      color: #777777; }
+      background-color: #ec407a; }
+    .container--lighttheme .createnotepad .createnotepad__name input:hover, .container--lighttheme .createnotepad .createnotepad__name input:focus {
+      background-color: #ee5387; }
+    .container--lighttheme .createnotepad .createnotepad__name input:focus + .underline {
+      transform: scale(1);
+      background-color: #03a9f4; }
+    .container--lighttheme .createnotepad .createnotepad__name .underline {
+      background-color: #60ccfd; }
+    .container--lighttheme .createnotepad button {
+      border-color: #ec407a;
+      color: #ec407a;
+      padding: 7px; }
+    .container--lighttheme .createnotepad button:hover {
+      background-color: #03a9f4;
+      color: white;
+      border-color: white; }
   .container--lighttheme .settings {
     color: #777777;
-    background-color: #71dae7; }
+    background-color: white; }
     .container--lighttheme .settings .settings__header {
-      background-color: #9ce5ee; }
+      box-shadow: none;
+      color: white;
+      background-color: #ec407a;
+      border-color: #ec407a; }
     .container--lighttheme .settings .settings__theme h2 {
       color: #777777; }
+    .container--lighttheme .settings .settings__theme span {
+      color: #aaaaaa; }
+    .container--lighttheme .settings .settings__theme .settings__theme--active {
+      color: #ec407a; }
+    .container--lighttheme .settings .settings__theme span:hover {
+      color: #03a9f4; }
+  .container--lighttheme .timerbox {
+    background-color: white;
+    border: none;
+    color: #1f364d; }
+    .container--lighttheme .timerbox .timerbox__backdisplay {
+      background-color: #ec407a; }
+    .container--lighttheme .timerbox span:hover {
+      color: #03a9f4; }
 
 .textarea {
   margin: 0 auto;
@@ -143,50 +172,36 @@ html, body {
       cursor: pointer;
       display: block;
       font-size: 2rem;
-      margin-top: 10px; }
+      margin-top: 10px;
+      transition: 0.1s cubic-bezier(0.25, 0.8, 0.25, 1); }
     .toolbar .toolbar__icons span:hover {
       color: #03a9f4; }
     .toolbar .toolbar__icons .toolbar__icons--add {
       margin-bottom: 15px;
       transition: 0.2s ease-in; }
-    .toolbar .toolbar__icons .toolbar__icons--add:hover {
-      transform: scale(1.3); }
     .toolbar .toolbar__icons .toolbar__icons--notebook {
       margin-top: 0px;
       padding: 10px;
       transition: 0.15s ease-in; }
+      .toolbar .toolbar__icons .toolbar__icons--notebook:hover {
+        transform: scale(1); }
     .toolbar .toolbar__icons .toolbar__icons--settings {
       margin-bottom: 11px; }
-    .toolbar .toolbar__icons .toolbar__icons--settings:hover {
-      transform: rotate(360deg);
-      transition: 0.4s ease-in-out; }
     .toolbar .toolbar__icons hr {
       border: solid 4px #0e2439;
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2), 0 -2px 10px rgba(0, 0, 0, 0.2);
       margin-bottom: 15px; }
-    .toolbar .toolbar__icons .toolbar__icons--timer:hover {
-      animation: rotatedelete 0.15s ease-in-out;
-      animation-iteration-count: 3; }
 
-@keyframes tomato {
-  0% {
-    stroke-width: 2px; }
-
-  50% {
-    stroke-width: 15px; }
-
-  100% {
-    stroke-width: 2px; } }
 .timerbox {
   background-color: #1f364d;
-  border: 1px solid #03a9f4;
   display: none;
   height: 280px;
   position: absolute;
   right: 100px;
   top: 20px;
   width: 200px;
-  z-index: 10; }
+  z-index: 10;
+  color: white; }
   .timerbox .timerbox__backdisplay {
     background-color: #03a9f4;
     height: 100%;
@@ -199,12 +214,10 @@ html, body {
     top: 15px;
     width: 100%; }
     .timerbox .timerbox__numbers h3 {
-      color: white;
       display: inline-block;
       font-size: 3rem;
       line-height: 30%; }
   .timerbox .timerbox__start, .timerbox .timerbox__reset, .timerbox .timerbox__plusminus {
-    color: white;
     cursor: pointer;
     left: 79px;
     position: absolute;
@@ -250,8 +263,7 @@ html, body {
   z-index: 1; }
 
 .notepad {
-  background-color: #1f364d;
-  border: 1px solid #1f364d;
+  background-color: #03a9f4;
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
   display: none;
   height: 600px;
@@ -259,8 +271,8 @@ html, body {
   right: 100px;
   top: 20px; }
   .notepad .notepad__name, .notepad .notepad__textarea {
-    height: 50px;
-    margin-top: 10px; }
+    height: 75px;
+    top: 0; }
     .notepad .notepad__name input[type=text], .notepad .notepad__textarea input[type=text] {
       background-color: transparent;
       border: 0;
@@ -270,14 +282,11 @@ html, body {
       margin: 0 auto;
       max-width: 100%;
       outline: none;
-      padding-bottom: 5px;
-      padding-top: 5px;
+      padding-top: 20px;
+      padding-bottom: 50px;
       resize: none;
       text-align: center; }
   .notepad .notepad__textarea {
-    border-bottom: 2px solid #03a9f4;
-    border-top: 2px solid #03a9f4;
-    box-shadow: 0 -7px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
     height: 480px; }
     .notepad .notepad__textarea textarea {
       background-color: #2e4f71;
@@ -308,16 +317,27 @@ html, body {
     background-color: #14b4fc;
     transition: 0.5s; }
   .notepad .notepad__deletebtn {
-    bottom: 7px;
-    color: #98abd1;
+    top: 22px;
+    color: #e0e0e0;
     cursor: pointer;
     font-size: 2rem;
     position: absolute;
-    right: 10px; }
+    right: 23px;
+    width: 40px;
+    height: 40px;
+    border-radius: 100%;
+    transition: 0.15s cubic-bezier(0.25, 0.8, 0.25, 1); }
   .notepad .notepad__deletebtn:hover {
     animation: rotatedelete infinite 0.7s ease-in-out;
-    color: #f44336;
-    transition: 0.3s; }
+    top: 10px;
+    right: 20px;
+    color: white;
+    transition: 0.3s;
+    background: #03a9f4;
+    padding-left: 12px;
+    padding-top: 12px;
+    padding-bottom: 5px;
+    padding-right: 3px; }
 
 @keyframes rotatedelete {
   0% {
@@ -332,43 +352,71 @@ html, body {
   background-color: #1f364d;
   box-shadow: 0 10px 28px rgba(0, 0, 0, 0.1), 0 10px 10px rgba(0, 0, 0, 0.22);
   display: none;
-  height: 150px;
+  height: 130px;
   position: absolute;
   right: 100px;
   top: 20px;
   width: 300px; }
-  .createnotepad .createnotepad__name {
-    margin-top: 10%; }
-    .createnotepad .createnotepad__name input {
-      background-color: #26435f;
-      border: none;
-      border-bottom: 1px solid rgba(50, 182, 230, 0.5);
-      border-top: 1px solid rgba(50, 182, 230, 0.5);
-      color: white;
-      font-size: 1.8rem;
-      outline: none;
-      padding-bottom: 5px;
-      padding-top: 5px;
-      resize: none;
-      text-align: center;
-      width: 298px; }
-  .createnotepad button {
+  .createnotepad .createnotepad__name input {
     background-color: #03a9f4;
+    border: none;
+    color: white;
+    font-size: 1.8rem;
+    outline: none;
+    padding-bottom: 11px;
+    padding-top: 10px;
+    resize: none;
+    text-align: center;
+    width: 298px;
+    z-index: 10;
+    transition: 0.2s cubic-bezier(0.25, 0.8, 0.25, 1); }
+  .createnotepad .createnotepad__name ::-webkit-input-placeholder {
+    /* Chrome/Opera/Safari */
+    color: #d8d8d8; }
+  .createnotepad .createnotepad__name ::-moz-placeholder {
+    /* Firefox 19+ */
+    color: #d8d8d8; }
+  .createnotepad .createnotepad__name :-ms-input-placeholder {
+    /* IE 10+ */
+    color: #d8d8d8; }
+  .createnotepad .createnotepad__name :-moz-placeholder {
+    /* Firefox 18- */
+    color: #d8d8d8; }
+  .createnotepad .createnotepad__name input:focus + .underline {
+    transform: scale(1);
+    background-color: #ec407a; }
+  .createnotepad .createnotepad__name input:hover, .createnotepad .createnotepad__name input:focus {
+    background-color: #05affc; }
+  .createnotepad .createnotepad__name .underline {
+    background-color: #facbdb;
+    z-index: 1;
+    display: inline-block;
+    height: 3px;
+    margin-top: -4px;
+    position: absolute;
+    top: 58px;
+    -webkit-transform: scale(0, 1);
+    transform: scale(0, 1);
+    -webkit-transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    width: 300px; }
+  .createnotepad button {
+    background-color: transparent;
     border: 1px solid white;
     color: white;
     cursor: pointer;
     display: block;
     font-size: 0.8rem;
     margin: 0 auto;
-    margin-top: 30px;
+    margin-top: 25px;
     min-width: 90px;
     padding: 5px;
     text-transform: uppercase;
     transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); }
   .createnotepad button:hover {
-    background-color: #0ab1fc;
+    background-color: #ec407a;
     box-shadow: 0 10px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
-    transform: translate(0px, -2px); }
+    transform: translate(0px, -1px); }
 
 .settings {
   background: #1f364d;
@@ -381,9 +429,8 @@ html, body {
   width: 250px;
   color: white; }
   .settings .settings__header {
-    background: #2e4f71;
+    background-color: #03a9f4;
     border-bottom: 2px solid #03a9f4;
-    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.1), 0 10px 10px rgba(0, 0, 0, 0.22);
     height: 50px;
     margin-top: 0;
     width: 100%; }
@@ -408,10 +455,8 @@ html, body {
       font-size: 2rem;
       margin-left: 15px;
       margin-right: 15px; }
-    .settings .settings__theme .settings__theme--light:hover {
-      color: #FFEB3B; }
-    .settings .settings__theme .settings__theme--dark:hover {
-      color: #3F51B5; }
+    .settings .settings__theme span:hover {
+      color: #03a9f4; }
     .settings .settings__theme .settings__theme--active {
       color: #ec407a; }
   .settings .settings__image {
@@ -441,8 +486,8 @@ html, body {
       right: 0;
       bottom: 0;
       background-color: #686868;
-      -webkit-transition: .25s ease-in-out;
-      transition: .25s ease-in-out; }
+      -webkit-transition: 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      transition: 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); }
       .settings .settings__image .slider:before {
         position: absolute;
         content: "";
@@ -451,9 +496,13 @@ html, body {
         left: 0px;
         bottom: -2px;
         background-color: #bdbdbd;
-        -webkit-transition: .25s ease-in-out;
-        transition: .25s ease-in-out;
+        -webkit-transition: 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        transition: 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         border-radius: 50%; }
+    .settings .settings__image .slider:hover:before {
+      background-color: #d7d7d7; }
+    .settings .settings__image input:checked + .slider:hover:before {
+      background-color: #f59dbb; }
     .settings .settings__image input:checked + .slider {
       background-color: #b41249; }
     .settings .settings__image input:focus + .slider {

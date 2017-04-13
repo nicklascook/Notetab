@@ -1,16 +1,5 @@
 (function() {
 
-  //test 
-  function randomBackgroundImage(){
-    var imgurImages =["7yOB0Gw", "iMt9E","9uUjGxZ","54deiOy","6dfIT0V","Wj6acBM","F3MrDRB","P6XwfBF","uYPLPth","tuhylfj","IhVFz","5Gbmza1","Si7YKS9","YMRoa","RHADN","dLjcZUA","OK69cgs","IKWu7","dZIRDmC"];
-    var randomImageNumber = Math.floor(Math.random()*(imgurImages.length));
-    document.getElementsByClassName('container')[0].style.backgroundImage = "url(https://i.imgur.com/"+imgurImages[randomImageNumber] +".jpg)";
-  }
-  
-  
-  // -/test
-
-
   // TO DO LIST
   function _makeDelayed() {
     var timer = 0;
@@ -44,6 +33,34 @@
   toDoListStorage();
   // ------------------------------
 
+  function fadeIn(elem){
+    var opacityCount = 0;
+    elem.style.opacity = 0;
+    elem.style.display = "block";
+    var id = setInterval(function(){
+      if(opacityCount<1){
+        opacityCount += 0.1;
+        elem.style.opacity = opacityCount;
+      }else{
+        clearInterval(id);
+      }
+    },20)
+  }
+   function fadeOut(elem){
+    var opacityCount = 1;
+    elem.style.opacity = 1;
+    var id = setInterval(function(){
+      if(opacityCount>0){
+        opacityCount -= 0.1;
+        elem.style.opacity = opacityCount;
+      }else{
+        clearInterval(id);
+        elem.style.display = "none";
+      }
+    },20)
+  }
+
+
   // // TIMER ==============================================================================================================================================================================
   var timerTime = 60; // default time
   var active = false;
@@ -74,20 +91,10 @@
       setTimeout(function () {
         var audio = new Audio('alarm_sound.mp3');
         audio.play();
-        document.getElementsByClassName('timerbox__backdisplay')[0].style.height = "100%";
-        var blinker = 20;
-        setInterval(function () {
-          if (blinker !=0){
-            if (blinker %2 ==0){
-              document.getElementsByClassName('timerbox__backdisplay')[0].style.backgroundColor = "#F44336"
-              blinker--;
-            } else{
-              document.getElementsByClassName('timerbox__backdisplay')[0].style.backgroundColor = "#03A9F4"
-              blinker--;
-            }
-          }
-        }, 150);
-
+        setTimeout(function() {
+          document.getElementsByClassName('timerbox__backdisplay')[0].style.height = "100%";
+        }, 0);
+        
       }, 0);
     } else{
 
@@ -108,6 +115,9 @@
       var id = setInterval(function() {
         if(!active){
           clearInterval(id);
+          setTimeout(function () {
+              document.getElementsByClassName('timerbox__backdisplay')[0].style.height = "100%";
+            }, 0);
           if(!maintainCount){
             setTimeout(function () {
               document.getElementsByClassName('timerbox__backdisplay')[0].style.height = "100%";
@@ -116,11 +126,15 @@
         }
         if(reduceCount == 100){
             clearInterval(id);
+            setTimeout(function () {
+              document.getElementsByClassName('timerbox__backdisplay')[0].style.height = "100%";
+            }, 0);
 
         }else{
-          backdisplay.style.height = heightTracker - (heightReductionIncrement/100) +"%";
-          heightTracker -= (heightReductionIncrement/100);
+          backdisplay.style.height = heightTracker - (heightReductionIncrement/97) +"%";
+          heightTracker -= (heightReductionIncrement/97);
           reduceCount++;
+          console.log(backdisplay.style.height)
         }
       }, 10)
 
@@ -194,11 +208,13 @@
       */
       var currentlyShown = [false,""];
       function addToCurrentlyShown(classidentifier){
-        document.getElementsByClassName(classidentifier)[0].style.display = "block";
+        fadeIn(document.getElementsByClassName(classidentifier)[0]);
+        // document.getElementsByClassName(classidentifier)[0].style.display = "block";
         currentlyShown = [true, classidentifier];
       }
       function removeCurrentlyShown(){
-        document.getElementsByClassName(currentlyShown[1])[0].style.display = "none";
+        fadeOut(document.getElementsByClassName(currentlyShown[1])[0]);
+        // document.getElementsByClassName(currentlyShown[1])[0].style.display = "none";
         currentlyShown = [false,""];
       }
 
@@ -349,15 +365,23 @@
         chrome.storage.sync.set({"theme":"dark"});
         switchTheme()
       }
+
+      // changes the background to an image from the array imgurImages
+       function randomBackgroundImage(){
+        var imgurImages =["7yOB0Gw", "iMt9E","9uUjGxZ","54deiOy","6dfIT0V","Wj6acBM","F3MrDRB","P6XwfBF","uYPLPth","tuhylfj","IhVFz","5Gbmza1","Si7YKS9","YMRoa","RHADN","dLjcZUA","OK69cgs","IKWu7","dZIRDmC"];
+        var randomImageNumber = Math.floor(Math.random()*(imgurImages.length));
+        document.getElementsByClassName('container')[0].style.backgroundImage = "url(https://i.imgur.com/"+imgurImages[randomImageNumber] +".jpg)"; // adds .jpg to code + imgur link
+      }
+  
     
       // global variable to track the image checkbox state
       var imageCheckbox = document.getElementById('imagecheckbox');
-      var imageCheckboxOn = false;
-      // find whether the checkbox is on or not, if not in storage, then set it to default: false
+      var imageCheckboxOn = true;
+      // find whether the checkbox is on or not, if not in storage, then set it to default: true
       function findBackgroundProperty(){
         chrome.storage.sync.get("bgImage", function(data){ // check the storage.sync
-          if(data.bgImage == undefined){ // if not currently set, make it false
-            chrome.storage.sync.set({"bgImage":false})
+          if(data.bgImage == undefined){ // if not currently set, make it true
+            chrome.storage.sync.set({"bgImage":true})
           }
             imageCheckboxOn = data.bgImage; // change the imageCheckbuttonOn property to the result from storage
             if(data.bgImage){
@@ -535,7 +559,8 @@
 
             var notepadText = document.createElement('div'); // create notepad__textarea div
             notepadText.className = ("notepad__textarea");
-            notepadText.style.borderColor = noteCol;
+            noteName.style.backgroundColor = noteCol;
+            noteNameInput.style.backgroundColor = noteCol;
             var notepadTextarea = document.createElement('textarea');
             notepadTextarea.className = ("notepad-text " +name +"text");
             notepadTextarea.value = data[name].noteText ? data[name].noteText : ''; // insert notepad__textarea value
