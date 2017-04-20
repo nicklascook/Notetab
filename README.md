@@ -16,3 +16,8 @@
   * Allow for headings, bold, checklist etc. in main text area
   * Pomodoro timer
   * Recurring reminders that appear in the main text area
+
+
+## Changelog: 
+  * 1.3: Changed main textarea into a editable iframe, allowing for h1, h2, bold, italics etc.
+  * 1.3.5: Greatly simplified and refined notepad code, increasing speed.

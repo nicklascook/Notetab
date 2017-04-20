@@ -78,7 +78,6 @@ function textEditorStorage(){
       // can be deleted after adequate time has passed ( 1-2 weeks)
     setTimeout(function(){
       chrome.storage.sync.get('toDoList', function(data){
-        console.log(data.toDoList)
         if(data.toDoList != undefined){
           textEditorDocument.getElementsByClassName('textEditorBody')[0].innerHTML += data.toDoList;
           saveHandler(save, 300);
@@ -501,84 +500,59 @@ textEditorStorage();
       */
       document.getElementsByClassName("createnotepad__settings--button")[0].onclick = function(){
         if(document.getElementsByClassName("createnotepad-name")[0].value != ""){ // if field not blank:
-          var noteNameFromInput = document.getElementsByClassName("createnotepad-name")[0].value;
-
-          findNotesInUse();
-          var numbersTo5 = [1,2,3,4,5]; //
+          findNotesInUse(); // refresh array
           setTimeout(function () {
           if(notesInUse.length >= 5){ // if there arent more than 5 notes already
             alert("Too many notes in use, please remove one to create another");
           } else{
-            removeCurrentlyShown();
+            setTimeout(function(){
+              removeCurrentlyShown(); // remove any open menus as note has been created successfully
+              
+              // find which note to create:
+              for(var i=1; i<=5;i++){ // loop through 1-5
+                if(notesInUse.includes("note"+i) === false){ // the first note that is not already made
+                  var noteToCreate = "note"+i; // add variable to store the note to be created
+                  var noteNameFromInput = document.getElementsByClassName("createnotepad-name")[0].value; // get input name
+                  var save = {}; // create save variable to transfer to sync.set
+                  save[noteToCreate] = {"noteName":noteNameFromInput, 'noteText':""}; // create object from note + i
 
-              for(var i=0;i<notesInUse.length;i++){ // iterate through the notesInUse
-                var numberToSplice = numbersTo5.indexOf(parseInt(notesInUse[i].charAt(4))); // remove those numbers from the numbersTo5 array
-                numbersTo5.splice(numberToSplice, 1); // this gives the unused note numbers (incase they arent in order 1,2,3 due to deletion)
+                  chrome.storage.sync.set(save, function() { // save to storage.sync
+                  });
+                  createNotepadOnPage(noteToCreate); // create the notepad
 
-
-              }
-              // now set up the sync depending on the name given
-              var noteToCreate = "note"+numbersTo5[0];
-
-              if(noteToCreate == "note1"){
-                chrome.storage.sync.set({"note1": {"noteName":noteNameFromInput, 'noteText':""}});
-              } else if (noteToCreate == "note2") {
-                chrome.storage.sync.set({"note2": {"noteName":noteNameFromInput, 'noteText':""}});
-              } else if (noteToCreate == "note3") {
-                chrome.storage.sync.set({"note3": {"noteName":noteNameFromInput, 'noteText':""}});
-              }else if (noteToCreate == "note4") {
-                chrome.storage.sync.set({"note4": {"noteName":noteNameFromInput, 'noteText':""}});
-              }else if (noteToCreate == "note5") {
-                chrome.storage.sync.set({"note5": {"noteName":noteNameFromInput, 'noteText':""}});
-              }
-              createNotepadOnPage(noteToCreate);
-
-              //reset text bar in createnotepad div
+                  break; // break the for loop cycle
+                }
+              };
               document.getElementsByClassName("createnotepad-name")[0].value="";
-            }
-          },0);
-        }else{
-          alert("Enter a notepad name")
+
+            },0)}},0);
+        } else{
+          alert("Please enter a notepad name")
         }
       }
+
       var notesInUse = [];
       function findNotesInUse(){ // searches through notes1-5 and if they appear in storage, pushes them to the notesInUse array
-        notesInUse = [];
-        chrome.storage.sync.get('note1', function(data){
-          if(data["note1"] != undefined && data["note1"] != "deleted"){
-            notesInUse.push("note1");
-          }
+        notesInUse = []; // reset notesInUse array
+        chrome.storage.sync.get(function(data){
+          setTimeout(function() {
+            for(var i=1; i<=5; i++){
+              if( data["note"+i] !== undefined){
+                  notesInUse.push("note"+i);
+              }
+            }
+          }, 0);
         })
-        chrome.storage.sync.get('note2', function(data){
-          if(data["note2"] != undefined && data["note2"] != "deleted"){
-            notesInUse.push("note2");
-          }
-        })
-        chrome.storage.sync.get('note3', function(data){
-          if(data["note3"] != undefined && data["note3"] != "deleted"){
-            notesInUse.push("note3");
-          }
-        })
-        chrome.storage.sync.get('note4', function(data){
-          if(data["note4"] != undefined && data["note4"] != "deleted"){
-            notesInUse.push("note4");
-          }
-        })
-        chrome.storage.sync.get('note5', function(data){
-          if(data["note5"] != undefined && data["note5"] != "deleted"){
-            notesInUse.push("note5");
-          }
-        })
-
-        }
+      }
+      
       findNotesInUse(); // create array of used notes
       function parseUsedNotes(){ // parses through the string names of the notes that appear in the notesInUse array to the create function
-
-        for(var i=1; i<6;i++){
+        for(var i=1; i<=5;i++){
           if(notesInUse.includes("note"+i)){
             createNotepadOnPage("note"+i)
           }
         }
+        
       }
 
       setTimeout(function () {
@@ -587,7 +561,7 @@ textEditorStorage();
 
       function createNotepadOnPage(name){ // creates a notepad given the name (note1 etc.)
 
-        chrome.storage.sync.get(name, function(data){ // .gets from sync storage
+        chrome.storage.sync.get(function(data){ // .gets from sync storage
           // create toolbar icon
             var newNote = document.createElement('span');
             newNote.className = ("toolbar__icons--notebook icon-event_note " +name);
@@ -676,8 +650,7 @@ textEditorStorage();
                 if (document.getElementsByClassName("tooltip")[0]){
                   document.getElementsByClassName("tooltip")[0].parentNode.removeChild(document.getElementsByClassName("tooltip")[0]);
                 }
-
-              }, 50);
+              }, 0);
             }
 
             deleteBtn.onclick= function(){
@@ -695,49 +668,29 @@ textEditorStorage();
         var noteName = document.getElementsByClassName(name + "name")[0], saveHandler = _makeDelayed();
         var noteText = document.getElementsByClassName(name + "text")[0], saveHandler = _makeDelayed();
 
-        function save() {
-          if(name == "note1"){
-            chrome.storage.sync.set({"note1": {"noteName":noteName.value, 'noteText':noteText.value}});
-          } else if (name == "note2") {
-            chrome.storage.sync.set({"note2": {"noteName":noteName.value, 'noteText':noteText.value}});
-          } else if (name == "note3") {
-            chrome.storage.sync.set({"note3": {"noteName":noteName.value, 'noteText':noteText.value}});
-          }else if (name == "note4") {
-            chrome.storage.sync.set({"note4": {"noteName":noteName.value, 'noteText':noteText.value}});
-          }else if (name == "note5") {
-            chrome.storage.sync.set({"note5": {"noteName":noteName.value, 'noteText':noteText.value}});
-          }
+        function save() { // function to save data
+          var saveData = {}; // create save variable to transfer to sync.set
+          saveData[name] = {"noteName":noteName.value, 'noteText': noteText.value}; // create object from note name
+          chrome.storage.sync.set(saveData); // save to storage
         }
-        // Throttle save so that it only occurs after 1 second without a keypress.
+        // Throttle save so that it only occurs after 300ms without a keypress.
         noteName.addEventListener('keypress', function() {
-          saveHandler(save, 500);
+          saveHandler(save, 300);
         });
         noteText.addEventListener('keypress', function() {
-          saveHandler(save, 500);
+          saveHandler(save, 300);
         });
         noteName.addEventListener('blur', save);
         noteText.addEventListener('blur', save);
       }
 
       function deleteNote(notename){
-        if(notename == "note1"){
-          chrome.storage.sync.set({"note1":"deleted"});
-        } else if (notename == "note2") {
-          chrome.storage.sync.set({"note2":"deleted"});
-        } else if (notename == "note3") {
-          chrome.storage.sync.set({"note3":"deleted"});
-        }else if (notename == "note4") {
-          chrome.storage.sync.set({"note4":"deleted"});
-        }else if (notename == "note5") {
-          chrome.storage.sync.set({"note5":"deleted"});
-        }
-        document.getElementsByClassName(notename)[0].parentNode.removeChild(document.getElementsByClassName(notename)[0]);
-        document.getElementsByClassName(notename+"div")[0].parentNode.removeChild(document.getElementsByClassName(notename+"div")[0]);
-        if(currentlyShown[1] == notename+"div" ){
+        chrome.storage.sync.remove(notename); // clear out any storage
+        document.getElementsByClassName(notename)[0].parentNode.removeChild(document.getElementsByClassName(notename)[0]); // remove icon from toolbar
+        document.getElementsByClassName(notename+"div")[0].parentNode.removeChild(document.getElementsByClassName(notename+"div")[0]); // remove div itself
+        if(currentlyShown[1] == notename+"div" ){ // reset value of currently shown menu
           currentlyShown = [false,""];
         }
       }
 
-      //============================================================================================================================================================================== 
-
-})();
+})(); // end of doc
