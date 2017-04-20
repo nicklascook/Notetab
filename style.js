@@ -1,6 +1,98 @@
 (function() {
+  //test
+var textEditor = document.getElementById('texteditor');
+var textEditorDocument = textEditor.contentWindow.document;
+textEditorDocument.designMode="on";
+textEditorDocument.close();
+var textEditorHead = textEditor.contentDocument.getElementsByTagName("head")[0];
+var link = document.createElement('link');
+link.setAttribute("rel", "stylesheet");
+link.setAttribute("type", "text/css");
+link.setAttribute("href", "newtab.css");
+textEditorHead.appendChild(link);
+textEditor.contentDocument.getElementsByTagName("body")[0].className = "textEditorBody";
 
-  // TO DO LIST
+
+// user keypress listener function
+textEditor.contentWindow.onkeydown = function(e) { // When user types
+        e = e || window.event;
+        if(e.metaKey == true && e.keyCode == 188){ // if cmd+, is pressed (h1)
+          textEditorDocument.execCommand("formatBlock", false, "h1");
+          e.preventDefault();
+        } else if (e.metaKey && e.keyCode == 190){ // if cmd+. is pressed (h2)
+          textEditorDocument.execCommand("formatBlock", false, "h2");
+          e.preventDefault();
+        } else if (e.metaKey && e.keyCode == 191){ // if cmd+/ is pressed change to <p></p>
+          textEditorDocument.execCommand("formatBlock", false, "p");
+          e.preventDefault();
+        } else if (e.metaKey && e.keyCode == 85){ // if cmd + u is pressed, toggle underline
+          textEditorDocument.execCommand("underline", false, null);
+        } else if (e.keyCode == 27){ // if ESC is pressed, when texteditor is being used, then also removeCurrentlyShown toolbar window
+          if(currentlyShown[0] == true){
+            removeCurrentlyShown();
+          }
+        }
+};
+// catch ESC being pressed if window is not selected:
+document.onkeydown = function(e) {
+  e = e || window.event;
+  if (e.keyCode == 27) {
+    if(currentlyShown[0] == true){
+      removeCurrentlyShown();
+    }
+  }
+};
+textEditor.contentWindow.addEventListener("paste", function(e) { // intercept paste so that only text is entered
+    // cancel paste
+    e.preventDefault();
+    // get text representation of clipboard
+    var text = e.clipboardData.getData("text");
+    // insert text manually
+    textEditorDocument.execCommand("insertHTML", false, text);
+});
+
+// Set automatic focus to the text area on page load
+textEditor.focus();
+
+// store, save and prepare text in the main texteditor section
+function textEditorStorage(){
+  var saveHandler = _makeDelayed();
+  var textEditorContents = textEditorDocument.getElementsByClassName('textEditorBody')[0].innerHTML;
+  
+  function save() {
+      chrome.storage.sync.set({'textEditor': textEditorDocument.getElementsByClassName('textEditorBody')[0].innerHTML});
+    }
+  // Throttle save so that it only occurs after 1 second without a keypress.
+    textEditor.contentWindow.addEventListener('keypress', function() {
+      saveHandler(save, 300);
+    });
+
+     textEditor.addEventListener('blur', save);
+
+    chrome.storage.sync.get('textEditor', function(data) {
+      textEditorDocument.getElementsByClassName('textEditorBody')[0].innerHTML = data.textEditor ? data.textEditor : '';
+      if(textEditorDocument.getElementsByClassName('textEditorBody')[0].innerHTML == ""){
+        textEditorDocument.getElementsByClassName('textEditorBody')[0].innerHTML = "<h1><u>Welcome to <i style='color:#03A9F4'>Notetab</i>!</u></h1><div>Anything you type here will be synced with Chrome.</div><div>The toolbar on the right has a timer and notepads.</div><div>Change theme in the settings or toggle background images.</div><div><br></div><div>Check the Github for future updates and features:&nbsp;</div><div><u style='color:#03A9F4'>https://github.com/nicklascook/Notetab</u></div><div><br></div><h1><u>Features:</u></h1><h1>Create a header by typing '<' anywhere on a line</h1><h2>Or create a sub heading by typing '&gt;' (can be removed after)</h2><div><b>Bold:</b><b>\u2318B</b></div><div><u>Underline:</u><span style='font-size: 26px;'> </span><span style='font-size: 26px;'>\u2318U</span></div><div><i>Italics:</i><span style='font-size: 26px;'>\u2318I</span></div>"
+      }
+      // If on previous version (>1.3) then add old data to new text editor, save, then change storage to undefined.
+      // can be deleted after adequate time has passed ( 1-2 weeks)
+    setTimeout(function(){
+      chrome.storage.sync.get('toDoList', function(data){
+        console.log(data.toDoList)
+        if(data.toDoList != undefined){
+          textEditorDocument.getElementsByClassName('textEditorBody')[0].innerHTML += data.toDoList;
+          saveHandler(save, 300);
+           chrome.storage.sync.set({'toDoList': undefined});
+        }
+      })
+    },0)
+    });
+}
+
+textEditorStorage();
+  // test
+
+
   function _makeDelayed() {
     var timer = 0;
     return function(callback, ms) {
@@ -8,30 +100,6 @@
       timer = setTimeout(callback, ms);
     };
   }
-  function toDoListStorage() {
-    var elem = document.getElementById('todolist'),
-        saveHandler = _makeDelayed();
-    function save() {
-      chrome.storage.sync.set({'toDoList': elem.value});
-    }
-    // Throttle save so that it only occurs after 1 second without a keypress.
-    elem.addEventListener('keypress', function() {
-      saveHandler(save, 500);
-    });
-    elem.addEventListener('blur', save);
-    chrome.storage.sync.get('toDoList', function(data) {
-      elem.value = data.toDoList ? data.toDoList : '';
-    });
-
-    setTimeout(function () {
-      if(document.getElementById('todolist').value == ""){
-        document.getElementById('todolist').value = "Welcome to Notetab.\n\nAnything you type in here will be synced with Chrome.\n\nThe toolbar on the right has a timer and notepads.\nNotepads function just like this main screen, but are like small independent versions.\n\nCheck the Github for future features and updates:\nhttps://github.com/nicklascook/Notetab\n\nTips & Features:\nTyping a backslash '/' on an empty line creates a separator or title line\n'esc' loses any currently open window."
-      }
-    }, 100);
-
-  }
-  toDoListStorage();
-  // ------------------------------
 
   function fadeIn(elem){
     var opacityCount = 0;
@@ -44,7 +112,7 @@
       }else{
         clearInterval(id);
       }
-    },20)
+    },15)
   }
    function fadeOut(elem){
     var opacityCount = 1;
@@ -57,7 +125,7 @@
         clearInterval(id);
         elem.style.display = "none";
       }
-    },20)
+    },15)
   }
 
 
@@ -134,7 +202,6 @@
           backdisplay.style.height = heightTracker - (heightReductionIncrement/97) +"%";
           heightTracker -= (heightReductionIncrement/97);
           reduceCount++;
-          console.log(backdisplay.style.height)
         }
       }, 10)
 
@@ -218,17 +285,7 @@
         currentlyShown = [false,""];
       }
 
-      // Pressing escape to close any open windows, or: pressing '/' creates underline:
-      document.onkeydown = function(e) {
-        e = e || window.event;
-        if (e.keyCode == 27) {
-          if(currentlyShown[0] == true){
-            removeCurrentlyShown();
-          }
-        } else if (e.keyCode == 191) {
-          findLineIndicator();
-        }
-      };
+      
 
 
 
@@ -345,10 +402,12 @@
           document.getElementsByClassName('container')[0].classList.add("container--lighttheme");
           document.getElementsByClassName('settings__theme--light')[0].classList.add("settings__theme--active");
           document.getElementsByClassName('settings__theme--dark')[0].classList.remove("settings__theme--active");
+          textEditor.contentDocument.getElementsByTagName("body")[0].classList.add("lighttheme");
         } else if (theme == "dark") {
           chrome.storage.sync.set({"theme":"dark"});
           if(document.getElementsByClassName('container')[0].classList.contains("container--lighttheme")){
             document.getElementsByClassName('container')[0].classList.remove("container--lighttheme");
+            textEditor.contentDocument.getElementsByTagName("body")[0].classList.remove("lighttheme");
           }
           document.getElementsByClassName('settings__theme--light')[0].classList.remove("settings__theme--active");
           document.getElementsByClassName('settings__theme--dark')[0].classList.add("settings__theme--active");
@@ -386,7 +445,7 @@
             imageCheckboxOn = data.bgImage; // change the imageCheckbuttonOn property to the result from storage
             if(data.bgImage){
               imageCheckbox.checked = true;
-              document.getElementsByTagName('textarea')[0].style.color = "white";
+              textEditorDocument.getElementsByClassName('textEditorBody')[0].style.color = "white";
             }
           
         })
@@ -407,14 +466,14 @@
           imageCheckboxOn = false;
           document.getElementsByClassName('container')[0].style.backgroundImage = "none";
           if(currentTheme == "light"){
-            document.getElementsByTagName('textarea')[0].style.color = "#1f364d";
+            textEditorDocument.getElementsByClassName('textEditorBody')[0].style.color = "#1f364d";
           }
         } else{
           chrome.storage.sync.set({"bgImage":true});
           imageCheckboxOn = true;
           randomBackgroundImage();
           if(currentTheme == "light"){
-            document.getElementsByTagName('textarea')[0].style.color = "white";
+            textEditorDocument.getElementsByClassName('textEditorBody')[0].style.color = "white";
           }
         }
       };
@@ -679,28 +738,6 @@
         }
       }
 
-      //==============================================================================================================================================================================
-
-      // create the underline in the todolist
-      function findLineIndicator(){
-          setTimeout(function () { // wait for other processes
-            var lineArray = document.getElementById('todolist').value.split('\n'); // split the todolist per line
-            for(var i=0; i<lineArray.length;i++){ // loop through sentences
-              if(lineArray[i] == "/"){ // detect if only a backslash is present on a line
-                lineArray[i] = "\n" + "_______________________________________________________________________"; // change the line to an underline
-              } else if (lineArray[i] == "") { // if empty, create a newline
-                lineArray[i] = "\n"
-              } else {
-                if (lineArray[i] != lineArray[0]) { // if its the first line, dont add a newline
-                  lineArray[i] = "\n" + lineArray[i]
-                }
-              }
-              document.getElementById('todolist').value = lineArray.join(""); // replace with the reformatted text
-            }
-          }, 100);
-      }
-
-
-   
+      //============================================================================================================================================================================== 
 
 })();
