@@ -3,7 +3,7 @@
 
 ## Features
 
-  * A To Do List / Notepad that persists between tabs using Chrome Sync.
+  * Rich text editor that syncs across all your devices using Chrome Sync.
   * Built in timer
   * 'Notebooks' - The ability to create separate notebooks to store lists or separate stuff. (Ex: Books to read, Recipes to make, Things to work on)
   * Night / Day Theme
@@ -19,5 +19,6 @@
 
 
 ## Changelog: 
-  * 1.3: Changed main textarea into a editable iframe, allowing for h1, h2, bold, italics etc.
+  * 1.4: Added rich text editing to notepads.
   * 1.3.5: Greatly simplified and refined notepad code, increasing speed.
+  * 1.3: Changed main textarea into a editable iframe, allowing for h1, h2, bold, italics etc.
