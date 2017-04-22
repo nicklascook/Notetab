@@ -1,5 +1,3 @@
-(function() {
-  //test
 var textEditor = document.getElementById('texteditor');
 var textEditorDocument = textEditor.contentWindow.document;
 textEditorDocument.designMode="on";
@@ -72,7 +70,7 @@ function textEditorStorage(){
     chrome.storage.sync.get('textEditor', function(data) {
       textEditorDocument.getElementsByClassName('textEditorBody')[0].innerHTML = data.textEditor ? data.textEditor : '';
       if(textEditorDocument.getElementsByClassName('textEditorBody')[0].innerHTML == ""){
-        textEditorDocument.getElementsByClassName('textEditorBody')[0].innerHTML = "<h1><u>Welcome to <i style='color:#03A9F4'>Notetab</i>!</u></h1><div>Anything you type here will be synced with Chrome.</div><div>The toolbar on the right has a timer and notepads.</div><div>Change theme in the settings or toggle background images.</div><div><br></div><div>Check the Github for future updates and features:&nbsp;</div><div><u style='color:#03A9F4'>https://github.com/nicklascook/Notetab</u></div><div><br></div><h1><u>Features:</u></h1><h1>Create a header by typing '<' anywhere on a line</h1><h2>Or create a sub heading by typing '&gt;' (can be removed after)</h2><div><b>Bold:</b><b>\u2318B</b></div><div><u>Underline:</u><span style='font-size: 26px;'> </span><span style='font-size: 26px;'>\u2318U</span></div><div><i>Italics:</i><span style='font-size: 26px;'>\u2318I</span></div>"
+        textEditorDocument.getElementsByClassName('textEditorBody')[0].innerHTML = "<h1 style='text-align: center;'><u>Welcome to <i style='color:#03A9F4'>Notetab</i>!</u></h1><div>Anything you type here will be synced with Chrome.</div><div>The toolbar on the right has a timer and notepads.</div><div>Change theme in the settings or toggle background images.</div><div><br></div><div>Check the Github for future updates and features:&nbsp;</div><div><u style='color:#03A9F4'>https://github.com/nicklascook/Notetab</u></div><div><br></div><h1><u>Features:</u></h1><div>Header: <b>\u2318 ' , '</b></div><div>Subheader: <b>\u2318 ' . '</b></div><div>Normal Text: <b>\u2318 ' / '</b></div><div><br></div><div><b>Bold:</b><b>\u2318B</b></div><div><u>Underline:</u><span style='font-size: 26px;'> </span><span style='font-size: 26px;'>\u2318U</span></div><div><i>Italics:</i><span style='font-size: 26px;'>\u2318I</span></div>"
       }
       // If on previous version (>1.3) then add old data to new text editor, save, then change storage to undefined.
       // can be deleted after adequate time has passed ( 1-2 weeks)
@@ -402,17 +400,31 @@ textEditorStorage();
           document.getElementsByClassName('settings__theme--light')[0].classList.add("settings__theme--active");
           document.getElementsByClassName('settings__theme--dark')[0].classList.remove("settings__theme--active");
           textEditor.contentDocument.getElementsByTagName("body")[0].classList.add("lighttheme");
+          setTimeout(function() {
+            console.log(document.getElementsByClassName("notepad-text"))
+            for(var i=0; i<document.getElementsByClassName("notepad-text").length;i++){
+            document.getElementsByClassName("notepad-text")[i].contentDocument.getElementsByTagName("body")[0].classList.add("noteEditorBody--lighttheme");
+            }
+          }, 200);
+          
+          
         } else if (theme == "dark") {
           chrome.storage.sync.set({"theme":"dark"});
           if(document.getElementsByClassName('container')[0].classList.contains("container--lighttheme")){
             document.getElementsByClassName('container')[0].classList.remove("container--lighttheme");
             textEditor.contentDocument.getElementsByTagName("body")[0].classList.remove("lighttheme");
+            for(var i=0; i<document.getElementsByClassName("notepad-text").length;i++){
+            document.getElementsByClassName("notepad-text")[i].contentDocument.getElementsByTagName("body")[0].classList.remove("noteEditorBody--lighttheme");
+            }
           }
           document.getElementsByClassName('settings__theme--light')[0].classList.remove("settings__theme--active");
           document.getElementsByClassName('settings__theme--dark')[0].classList.add("settings__theme--active");
         }
       }
-      switchTheme(findTheme());
+      setTimeout(function() {
+        switchTheme(findTheme());
+      },100);
+      
       document.getElementsByClassName('settings__theme--light')[0].onclick = function(){
         currentTheme = "light";
         chrome.storage.sync.set({"theme":"light"});
@@ -455,7 +467,7 @@ textEditorStorage();
           if(imageCheckboxOn == true){
            randomBackgroundImage();
         }
-        },50)
+        },0)
       }
       // background image check:
       
@@ -594,9 +606,48 @@ textEditorStorage();
             notepadText.className = ("notepad__textarea");
             noteName.style.backgroundColor = noteCol;
             noteNameInput.style.backgroundColor = noteCol;
-            var notepadTextarea = document.createElement('textarea');
+
+            var notepadTextarea = document.createElement('iframe');
+            notepadTextarea.id = name+"editor";
             notepadTextarea.className = ("notepad-text " +name +"text");
-            notepadTextarea.value = data[name].noteText ? data[name].noteText : ''; // insert notepad__textarea value
+            setTimeout(function() {
+              var noteEditor = document.getElementById(name+"editor");
+              var noteEditorDocument = noteEditor.contentWindow.document;
+              noteEditorDocument.designMode="on";
+              noteEditorDocument.close();
+              var noteEditorHead = noteEditor.contentDocument.getElementsByTagName("head")[0];
+              var link = document.createElement('link');
+              link.setAttribute("rel", "stylesheet");
+              link.setAttribute("type", "text/css");
+              link.setAttribute("href", "newtab.css");
+              noteEditorHead.appendChild(link);
+              noteEditor.contentDocument.getElementsByTagName("body")[0].className = "noteEditorBody";
+              // user keypress listener function
+              noteEditor.contentWindow.onkeydown = function(e) { // When user types
+                e = e || window.event;
+                if(e.metaKey == true && e.keyCode == 188){ // if cmd+, is pressed (h1)
+                  noteEditorDocument.execCommand("formatBlock", false, "h1");
+                  e.preventDefault();
+                } else if (e.metaKey && e.keyCode == 190){ // if cmd+. is pressed (h2)
+                  noteEditorDocument.execCommand("formatBlock", false, "h2");
+                  e.preventDefault();
+                } else if (e.metaKey && e.keyCode == 191){ // if cmd+/ is pressed change to <p></p>
+                  noteEditorDocument.execCommand("formatBlock", false, "p");
+                  e.preventDefault();
+                } else if (e.metaKey && e.keyCode == 85){ // if cmd + u is pressed, toggle underline
+                  noteEditorDocument.execCommand("underline", false, null);
+                } else if (e.keyCode == 27){ // if ESC is pressed, when texteditor is being used, then also removeCurrentlyShown toolbar window
+                  if(currentlyShown[0] == true){
+                    removeCurrentlyShown();
+                  }
+                }
+              };
+              noteEditorDocument.getElementsByTagName('body')[0].innerHTML = data[name].noteText ? data[name].noteText : ''; // insert notepad__textarea value
+             
+
+            }, 0); // end timeout
+            
+            
             notepadText.appendChild(notepadTextarea);
             note.appendChild(notepadText);
 
@@ -666,22 +717,25 @@ textEditorStorage();
       function notepadStorage(name) {
         // note pad name
         var noteName = document.getElementsByClassName(name + "name")[0], saveHandler = _makeDelayed();
-        var noteText = document.getElementsByClassName(name + "text")[0], saveHandler = _makeDelayed();
+        var noteText = document.getElementById(name + "editor"), saveHandler = _makeDelayed();
 
         function save() { // function to save data
           var saveData = {}; // create save variable to transfer to sync.set
-          saveData[name] = {"noteName":noteName.value, 'noteText': noteText.value}; // create object from note name
+          saveData[name] = {"noteName":noteName.value, 'noteText': noteText.contentWindow.document.getElementsByTagName("body")[0].innerHTML}; // create object from note name
           chrome.storage.sync.set(saveData); // save to storage
         }
         // Throttle save so that it only occurs after 300ms without a keypress.
         noteName.addEventListener('keypress', function() {
           saveHandler(save, 300);
         });
-        noteText.addEventListener('keypress', function() {
+        noteText.contentWindow.document.addEventListener('keypress', function() {
           saveHandler(save, 300);
         });
         noteName.addEventListener('blur', save);
-        noteText.addEventListener('blur', save);
+        noteText.contentWindow.document.addEventListener('blur', save);
+
+        
+    
       }
 
       function deleteNote(notename){
@@ -693,4 +747,4 @@ textEditorStorage();
         }
       }
 
-})(); // end of doc
+// end of doc

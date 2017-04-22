@@ -58,8 +58,7 @@ html, body {
   font-family: 'Roboto', sans-serif;
   margin: 0px;
   padding: 0px;
-  height: 100%;
-  overflow: auto; }
+  height: 100%; }
 
 .container {
   background-color: #0e2439;
@@ -123,8 +122,6 @@ html, body {
     background-color: white;
     border: none;
     color: #1f364d; }
-    .container--lighttheme .timerbox .timerbox__backdisplay {
-      background-color: #ec407a; }
     .container--lighttheme .timerbox span:hover {
       color: #03a9f4; }
 
@@ -134,7 +131,8 @@ html, body {
   height: 100%; }
   .textarea .textarea__wrapper {
     height: 100%;
-    overflow: auto; }
+    width: 900px;
+    margin: 0 auto; }
   .textarea hr {
     border: 1px solid white;
     left: 0;
@@ -274,19 +272,8 @@ html, body {
       resize: none;
       text-align: center; }
   .notepad .notepad__textarea {
-    height: 480px; }
-    .notepad .notepad__textarea textarea {
-      background-color: #2e4f71;
-      border: none;
-      color: white;
-      display: block;
-      font-size: 1rem;
-      height: 100%;
-      margin: 0 auto;
-      outline: none;
-      padding: 30px;
-      resize: none;
-      width: 500px; }
+    height: 525px;
+    width: 500px; }
   .notepad button {
     background-color: #03a9f4;
     border: none;
@@ -325,6 +312,30 @@ html, body {
     padding-top: 12px;
     padding-bottom: 5px;
     padding-right: 3px; }
+
+iframe {
+  border: none;
+  width: 100%;
+  height: 100%; }
+
+.noteEditorBody {
+  color: white;
+  margin: 0;
+  background-color: #2e4f71;
+  border: none;
+  color: white;
+  display: block;
+  font-size: 1rem;
+  height: 100%;
+  margin: 0 auto;
+  outline: none;
+  padding: 30px;
+  resize: none;
+  max-width: 90%; }
+
+.noteEditorBody--lighttheme {
+  background-color: #f3fcfd;
+  color: #0e2439; }
 
 @keyframes rotatedelete {
   0% {
@@ -395,7 +406,7 @@ html, body {
     display: block;
     font-size: 0.8rem;
     margin: 0 auto;
-    margin-top: 25px;
+    margin-top: 22px;
     min-width: 90px;
     padding: 5px;
     text-transform: uppercase;
@@ -502,11 +513,11 @@ html, body {
 
 .textEditorBody {
   color: white;
-  min-height: 90%;
+  min-height: 100%;
   font-size: 22px;
   background: transparent;
   font-family: 'Roboto', sans-serif;
-  width: 900px;
+  max-width: 100%;
   padding-top: 10vh; }
   .textEditorBody h1 {
     font-size: 1.8em; }
@@ -517,9 +528,7 @@ html, body {
   color: #1f364d; }
 
 #texteditor {
-  width: 900px;
-  padding-left: 22%;
-  padding-right: 20%;
+  width: 100%;
   height: 100%; }
 
 #text {

@@ -12,8 +12,8 @@
 
 ## Future updates
   * Add additional widgets - weather, to do list etc.
+  * Add bookmarks or recently viewed tabs
   * Increase number of notepads
-  * Allow for headings, bold, checklist etc. in main text area
   * Pomodoro timer
   * Recurring reminders that appear in the main text area
 
