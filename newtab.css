@@ -57,14 +57,14 @@ html, body {
   font-size: 16px;
   font-family: 'Roboto', sans-serif;
   margin: 0px;
-  padding: 0px;
-  height: 100%; }
+  padding: 0px; }
 
 .container {
   background-color: #0e2439;
   background-repeat: no-repeat;
   background-size: cover;
-  height: 100%; }
+  height: 99vh;
+  padding-bottom: 1vh; }
 
 .container--lighttheme {
   background-color: #fff;
@@ -122,6 +122,8 @@ html, body {
     background-color: white;
     border: none;
     color: #1f364d; }
+    .container--lighttheme .timerbox .timerbox__backdisplay {
+      background-color: #ec407a; }
     .container--lighttheme .timerbox span:hover {
       color: #03a9f4; }
 
