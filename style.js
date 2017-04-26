@@ -283,13 +283,22 @@ textEditorStorage();
       }
 
       
-
-
+      var bookmarkToggle = document.getElementsByClassName("bookmarktoggle")[0].parentNode;
+      bookmarkToggle.onclick = function(){ // bookmark toggle icon click event
+        if(currentlyShown[0]==false){
+          addToCurrentlyShown("createbookmark");
+          document.getElementsByClassName('createbookmark__button'[0].style.color = "white");
+        } else if (currentlyShown[0] == true && currentlyShown[1] != "createbookmark") {
+          removeCurrentlyShown();
+          addToCurrentlyShown("createbookmark");
+        }else if(currentlyShown[0] == true && currentlyShown[1] == "createbookmark"){
+          removeCurrentlyShown();
+        }
+      }
 
 
 
       var timerIcon = document.getElementsByClassName("toolbar__icons--timer")[0];
-
       timerIcon.onclick = function(){ // Timer icon click event
         if(currentlyShown[0]==false){
           addToCurrentlyShown("timerbox");
@@ -401,7 +410,6 @@ textEditorStorage();
           document.getElementsByClassName('settings__theme--dark')[0].classList.remove("settings__theme--active");
           textEditor.contentDocument.getElementsByTagName("body")[0].classList.add("lighttheme");
           setTimeout(function() {
-            console.log(document.getElementsByClassName("notepad-text"))
             for(var i=0; i<document.getElementsByClassName("notepad-text").length;i++){
             document.getElementsByClassName("notepad-text")[i].contentDocument.getElementsByTagName("body")[0].classList.add("noteEditorBody--lighttheme");
             }
@@ -438,7 +446,7 @@ textEditorStorage();
 
       // changes the background to an image from the array imgurImages
        function randomBackgroundImage(){
-        var imgurImages =["7yOB0Gw", "iMt9E","9uUjGxZ","54deiOy","6dfIT0V","Wj6acBM","F3MrDRB","P6XwfBF","uYPLPth","tuhylfj","IhVFz","5Gbmza1","Si7YKS9","YMRoa","RHADN","dLjcZUA","OK69cgs","IKWu7","dZIRDmC"];
+        var imgurImages =["7yOB0Gw", "iMt9E","9uUjGxZ","54deiOy","6dfIT0V","Wj6acBM","F3MrDRB","P6XwfBF","uYPLPth","tuhylfj","IhVFz","5Gbmza1","Si7YKS9","YMRoa","RHADN","dLjcZUA","OK69cgs","IKWu7","dZIRDmC","EVMuBcO","dV3PFYf","vWqGbB4","2O1EXxo","fLJX6z7","GEzJfcm"];
         var randomImageNumber = Math.floor(Math.random()*(imgurImages.length));
         document.getElementsByClassName('container')[0].style.backgroundImage = "url(https://i.imgur.com/"+imgurImages[randomImageNumber] +".jpg)"; // adds .jpg to code + imgur link
       }
@@ -516,6 +524,7 @@ textEditorStorage();
           setTimeout(function () {
           if(notesInUse.length >= 5){ // if there arent more than 5 notes already
             alert("Too many notes in use, please remove one to create another");
+            
           } else{
             setTimeout(function(){
               removeCurrentlyShown(); // remove any open menus as note has been created successfully
@@ -537,7 +546,7 @@ textEditorStorage();
               };
               document.getElementsByClassName("createnotepad-name")[0].value="";
 
-            },0)}},0);
+            },0)}},50);
         } else{
           alert("Please enter a notepad name")
         }
@@ -747,4 +756,171 @@ textEditorStorage();
         }
       }
 
+
+
+
+var bookmarksArray = [];
+function findCurrentBookmarks(){
+  bookmarksArray = [];
+  chrome.storage.sync.get(function(data){
+    setTimeout(function() {
+       console.log(data.bookmarks);
+      if(data.bookmarks != undefined){
+        bookmarksArray = data.bookmarks;
+        removeOldBookmarkElements();
+        createBmarkItems();
+        createBmarkLinks();
+      }
+    }, 0);
+  })
+}
+function removeOldBookmarkElements(){
+  // remove old links:
+        if(document.getElementsByClassName('bookmarks')[0].childNodes.length > 2){
+          while(document.getElementsByClassName('bookmarks')[0].childNodes.length >= 3){
+            document.getElementsByClassName('bookmarks')[0].removeChild(document.getElementsByClassName('bookmarks')[0].lastChild);
+          }
+        }
+        if(document.getElementsByClassName('createbookmark__list')[0].children.length > 0){
+          while(document.getElementsByClassName('createbookmark__list')[0].childNodes.length > 0){
+            document.getElementsByClassName('createbookmark__list')[0].removeChild(document.getElementsByClassName('createbookmark__list')[0].lastChild);
+          }
+        }
+}
+function createBmarkItems(){
+  for(var i = 0; i<bookmarksArray.length; i++){
+    var itemDiv = document.createElement("div");
+    itemDiv.className = "row item";
+    var linkH3 = document.createElement('h3');
+    linkH3.appendChild(document.createTextNode(bookmarksArray[i]));
+    var deleteSpan = document.createElement("span");
+    deleteSpan.className = "icon-cancel";
+
+    deleteBookmarkOnclick(deleteSpan,bookmarksArray[i]);
+    itemDiv.appendChild(linkH3);
+    itemDiv.appendChild(deleteSpan);
+    document.getElementsByClassName("createbookmark__list")[0].appendChild(itemDiv);
+  }
+}
+function deleteBookmarkOnclick(elem,url){
+  elem.onclick = function(){
+    removeBookmark(url);
+    setTimeout(function() {
+      findCurrentBookmarks();
+    }, 0);
+  }
+}
+function removeBookmark(url){
+    chrome.storage.sync.get(["bookmarks"], function(data) {
+        var array = data["bookmarks"]?data["bookmarks"]:[];
+        
+        for (var i=array.length-1; i>=0; i--) {
+            if (array[i] === url) {
+                array.splice(i, 1);
+            }
+        }
+        
+        var jsonObj = {};
+        jsonObj["bookmarks"] = array;
+        chrome.storage.sync.set(jsonObj);
+    });
+}
+function createBmarkLinks(){
+  for(var i = 0; i<bookmarksArray.length; i++){
+      var link = document.createElement("a");
+      link.href = "http://"+ bookmarksArray[i];
+      var img = document.createElement("img");
+      img.src = "https://logo.clearbit.com/http:/" + bookmarksArray[i]+"?size=40";
+
+      link.appendChild(img);
+      imageOnError(img, bookmarksArray[i]);
+      document.getElementsByClassName("bookmarks")[0].appendChild(link);
+    
+  }
+}
+function imageOnError(image, url){
+  image.onerror = function(){
+    
+    var circleImg = document.createElement('div');
+    circleImg.className = "bookmark-placeholder";
+    if(url.substring(0,4) == "www."){
+      circleImg.innerHTML = url.charAt(4);
+    } else{
+      circleImg.innerHTML = url.charAt(0);
+    }
+    image.parentNode.appendChild(circleImg);
+    image.parentNode.removeChild(image);
+    var matchColors = ["blue","red","purple","green","yellow"];
+    circleImg.style.backgroundColor = notepadColors[matchColors[Math.floor(Math.random()*6)]];
+    
+    
+
+    
+  }
+  
+}
+
+setTimeout(function() {
+  findCurrentBookmarks();
+  // createBmarkItems();
+}, 0);
+
+
+  var createBmarkBtn = document.getElementsByClassName('createbookmark__button')[0];
+  createBmarkBtn.onclick = function(){
+    var btnSpan = this.children[0];
+    var btnInput = document.getElementsByClassName("createbookmark__create--input")[0];
+    // createBmarkBtn
+    if(btnSpan.className == "icon-add"){
+      btnSpan.className = "icon-check"
+      createBmarkBtn.style.backgroundColor = "#EC407A";
+      fadeIn(btnInput);
+    } else{
+      btnSpan.className = "icon-add"
+      createBmarkBtn.style.backgroundColor = "#03A9F4";
+      fadeOut(btnInput);
+      saveBookmark();
+      setTimeout(function() {
+        findCurrentBookmarks();
+      }, 0);
+      btnInput.value = "";
+      
+    }
+  }
+
+  bookmarkToggle.onmouseover = function(){ // Timer icon tooltip on mouseover
+    if(document.getElementsByClassName("timerbox")[0].style.display == "block"){
+    } else{
+      var tooltipWrap = document.createElement("div"); //creates div
+      tooltipWrap.className = 'tooltip'; //adds class
+      tooltipWrap.appendChild(document.createTextNode("Bookmarks")); //add the text node to the newly created div.
+      document.body.appendChild(tooltipWrap);
+      tooltipWrap.style.top = "55px";
+      tooltipWrap.style.left = "70px";
+    }
+  }
+  bookmarkToggle.onmouseout = function(){ // Timer icon tooltip on mouseout
+    if (document.getElementsByClassName("tooltip")[0]){
+      document.getElementsByClassName("tooltip")[0].parentNode.removeChild(document.getElementsByClassName("tooltip")[0]);
+    }
+  }
+
+function saveBookmark(){
+  var bookmarkName = document.getElementsByClassName("createbookmark__create--input")[0].value;
+  if(bookmarkName != ""){
+    if(bookmarkName.substring(0,7) == "http://" ){
+      bookmarkName = bookmarkName.substring(7);
+    } else if(bookmarkName.substring(0,8) == "https://"){
+      bookmarkName = bookmarkName.substring(8);
+    }
+    chrome.storage.sync.get(["bookmarks"], function(data) {
+        var array = data["bookmarks"]?data["bookmarks"]:[];
+        array.unshift(bookmarkName);
+        var jsonObj = {};
+        jsonObj["bookmarks"] = array;
+        chrome.storage.sync.set(jsonObj);
+    });
+    
+  }
+}
 // end of doc
