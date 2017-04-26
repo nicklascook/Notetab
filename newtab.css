@@ -1,7 +1,7 @@
 @font-face {
   font-family: 'icomoon';
-  src: url("fonts/icomoon.eot?54zl90");
-  src: url("fonts/icomoon.eot?54zl90#iefix") format("embedded-opentype"), url("fonts/icomoon.ttf?54zl90") format("truetype"), url("fonts/icomoon.woff?54zl90") format("woff"), url("fonts/icomoon.svg?54zl90#icomoon") format("svg");
+  src: url("fonts/icomoon.eot?tc2w3f");
+  src: url("fonts/icomoon.eot?tc2w3f#iefix") format("embedded-opentype"), url("fonts/icomoon.ttf?tc2w3f") format("truetype"), url("fonts/icomoon.woff?tc2w3f") format("woff"), url("fonts/icomoon.svg?tc2w3f#icomoon") format("svg");
   font-weight: normal;
   font-style: normal; }
 [class^="icon-"], [class*=" icon-"] {
@@ -17,35 +17,14 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
 
-.icon-settings:before {
-  content: "\e8b8"; }
-
-.icon-stopwatch:before {
-  content: "\e904"; }
+.icon-mail:before {
+  content: "\1f300"; }
 
 .icon-add:before {
   content: "\e145"; }
 
 .icon-control_point:before {
   content: "\e3ba"; }
-
-.icon-event_note:before {
-  content: "\e616"; }
-
-.icon-pause:before {
-  content: "\e034"; }
-
-.icon-remove_circle_outline:before {
-  content: "\e15d"; }
-
-.icon-replay:before {
-  content: "\e042"; }
-
-.icon-play_arrow:before {
-  content: "\e037"; }
-
-.icon-delete:before {
-  content: "\e872"; }
 
 .icon-brightness_2:before {
   content: "\e3a7"; }
@@ -61,6 +40,60 @@
 
 .icon-collections_bookmark:before {
   content: "\e431"; }
+
+.icon-delete:before {
+  content: "\e872"; }
+
+.icon-event_note:before {
+  content: "\e616"; }
+
+.icon-keyboard_arrow_down:before {
+  content: "\e313"; }
+
+.icon-pause:before {
+  content: "\e034"; }
+
+.icon-play_arrow:before {
+  content: "\e037"; }
+
+.icon-remove_circle_outline:before {
+  content: "\e15d"; }
+
+.icon-replay:before {
+  content: "\e042"; }
+
+.icon-settings:before {
+  content: "\e8b8"; }
+
+.icon-windows8:before {
+  content: "\e902"; }
+
+.icon-mobile:before {
+  content: "\e901"; }
+
+.icon-cell-phone:before {
+  content: "\e901"; }
+
+.icon-handheld:before {
+  content: "\e901"; }
+
+.icon-chrome:before {
+  content: "\e900"; }
+
+.icon-stopwatch:before {
+  content: "\e904"; }
+
+.icon-time:before {
+  content: "\e904"; }
+
+.icon-speed:before {
+  content: "\e904"; }
+
+.icon-meter:before {
+  content: "\e904"; }
+
+.icon-chronometer:before {
+  content: "\e904"; }
 
 html, body {
   font-size: 16px;
@@ -191,7 +224,6 @@ html, body {
 
 .timerbox {
   background-color: #1f364d;
-  display: none;
   height: 280px;
   position: absolute;
   right: 100px;
@@ -619,8 +651,7 @@ iframe {
   color: white;
   text-align: center;
   padding-bottom: 5px;
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.2), 0 10px 10px rgba(0, 0, 0, 0.22);
-  display: none; }
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.2), 0 10px 10px rgba(0, 0, 0, 0.22); }
   .createbookmark h2 {
     text-align: center;
     background-color: #03a9f4;
@@ -652,7 +683,7 @@ iframe {
       font-weight: lighter; }
     .createbookmark .createbookmark__list .item span {
       position: absolute;
-      right: 7px;
+      right: 15px;
       top: 10px;
       font-size: 1.2rem;
       cursor: pointer;
@@ -693,6 +724,8 @@ iframe {
         outline: 0; }
       .createbookmark .createbookmark__create .createbookmark__button:hover {
         box-shadow: 1px 1px 30px rgba(0, 0, 0, 0.45), 5px 5px 10px rgba(0, 0, 0, 0.22); }
+      .createbookmark .createbookmark__create .createbookmark__button span {
+        padding-left: 2px; }
     .createbookmark .createbookmark__create input {
       width: 65%;
       margin-top: 10px;

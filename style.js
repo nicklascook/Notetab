@@ -70,7 +70,7 @@ function textEditorStorage(){
     chrome.storage.sync.get('textEditor', function(data) {
       textEditorDocument.getElementsByClassName('textEditorBody')[0].innerHTML = data.textEditor ? data.textEditor : '';
       if(textEditorDocument.getElementsByClassName('textEditorBody')[0].innerHTML == ""){
-        textEditorDocument.getElementsByClassName('textEditorBody')[0].innerHTML = "<h1 style='text-align: center;'><u>Welcome to <i style='color:#03A9F4'>Notetab</i>!</u></h1><div>Anything you type here will be synced with Chrome.</div><div>The toolbar on the right has a timer and notepads.</div><div>Change theme in the settings or toggle background images.</div><div><br></div><div>Check the Github for future updates and features:&nbsp;</div><div><u style='color:#03A9F4'>https://github.com/nicklascook/Notetab</u></div><div><br></div><h1><u>Features:</u></h1><div>Header: <b>\u2318 ' , '</b></div><div>Subheader: <b>\u2318 ' . '</b></div><div>Normal Text: <b>\u2318 ' / '</b></div><div><br></div><div><b>Bold:</b><b>\u2318B</b></div><div><u>Underline:</u><span style='font-size: 26px;'> </span><span style='font-size: 26px;'>\u2318U</span></div><div><i>Italics:</i><span style='font-size: 26px;'>\u2318I</span></div>"
+        textEditorDocument.getElementsByClassName('textEditorBody')[0].innerHTML = "<h1 style='text-align: center;'><u>Welcome to <i style='color:#03A9F4'>Notetab</i>!</u></h1><div>Anything you type here will be synced with Chrome.</div><div>The toolbar on the right has a timer and notepads.</div><div>Change theme in the settings or toggle background images.</div><div><br></div><div>Check the Github for future updates and features:&nbsp;</div><div><u style='color:#03A9F4'>https://github.com/nicklascook/Notetab</u></div><div><br></div><h1><u>Features:</u></h1><div>Header: <b>\u2318 ' , ' <u>or</u> &nbsp;<span class='icon-windows8'></span>&nbsp; ' , '</b></div><div>Subheader: <b>\u2318 ' . ' <u>or</u> &nbsp;<span class='icon-windows8'></span>&nbsp; ' . '</b></div><div>Normal Text: <b>\u2318 ' / ' <u>or</u> &nbsp;<span class='icon-windows8'></span>&nbsp; ' / '</b></div><div><p>Cycle between header, subheader and normal text with , . / keys + \u2318 or <span class='icon-windows8'></span></p><br></div><div><b>Bold:</b><b>\u2318B</b></div><div><u>Underline:</u><span style='font-size: 26px;'> </span><span style='font-size: 26px;'>\u2318U</span></div><div><i>Italics:</i><span style='font-size: 26px;'>\u2318I</span></div>"
       }
       // If on previous version (>1.3) then add old data to new text editor, save, then change storage to undefined.
       // can be deleted after adequate time has passed ( 1-2 weeks)
@@ -287,7 +287,7 @@ textEditorStorage();
       bookmarkToggle.onclick = function(){ // bookmark toggle icon click event
         if(currentlyShown[0]==false){
           addToCurrentlyShown("createbookmark");
-          document.getElementsByClassName('createbookmark__button'[0].style.color = "white");
+          
         } else if (currentlyShown[0] == true && currentlyShown[1] != "createbookmark") {
           removeCurrentlyShown();
           addToCurrentlyShown("createbookmark");
@@ -794,7 +794,7 @@ function createBmarkItems(){
     var linkH3 = document.createElement('h3');
     linkH3.appendChild(document.createTextNode(bookmarksArray[i]));
     var deleteSpan = document.createElement("span");
-    deleteSpan.className = "icon-cancel";
+    deleteSpan.innerHTML = "\u2715"
 
     deleteBookmarkOnclick(deleteSpan,bookmarksArray[i]);
     itemDiv.appendChild(linkH3);
@@ -884,8 +884,8 @@ setTimeout(function() {
         findCurrentBookmarks();
       }, 0);
       btnInput.value = "";
-      
     }
+
   }
 
   bookmarkToggle.onmouseover = function(){ // Timer icon tooltip on mouseover
@@ -923,4 +923,10 @@ function saveBookmark(){
     
   }
 }
+
+setTimeout(function() {
+     document.getElementsByClassName("timerbox")[0].style.display = "none";
+     document.getElementsByClassName("createbookmark")[0].style.display = "none";
+}, 0);
+
 // end of doc
