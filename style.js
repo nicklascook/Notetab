@@ -79,7 +79,10 @@ function textEditorStorage(){
         if(data.toDoList != undefined){
           textEditorDocument.getElementsByClassName('textEditorBody')[0].innerHTML += data.toDoList;
           saveHandler(save, 300);
-           chrome.storage.sync.set({'toDoList': undefined});
+          setTimeout(function() {
+             chrome.storage.sync.set({'toDoList': undefined});
+          }, 500);
+          
         }
       })
     },0)
