@@ -1,8 +1,9 @@
+// initalise the iframe
 var textEditor = document.getElementById('texteditor');
 var textEditorDocument = textEditor.contentWindow.document;
-textEditorDocument.designMode="on";
+textEditorDocument.designMode="on"; // allow editing
 textEditorDocument.close();
-var textEditorHead = textEditor.contentDocument.getElementsByTagName("head")[0];
+var textEditorHead = textEditor.contentDocument.getElementsByTagName("head")[0]; // link stylesheet
 var link = document.createElement('link');
 link.setAttribute("rel", "stylesheet");
 link.setAttribute("type", "text/css");
@@ -51,7 +52,6 @@ textEditor.contentWindow.addEventListener("paste", function(e) { // intercept pa
 
 // Set automatic focus to the text area on page load
 textEditor.focus();
-
 // store, save and prepare text in the main texteditor section
 function textEditorStorage(){
   var saveHandler = _makeDelayed();
@@ -60,37 +60,28 @@ function textEditorStorage(){
   function save() {
       chrome.storage.sync.set({'textEditor': textEditorDocument.getElementsByClassName('textEditorBody')[0].innerHTML});
     }
-  // Throttle save so that it only occurs after 1 second without a keypress.
+  // Throttle save so that it only occurs after 300 ms without a keypress.
     textEditor.contentWindow.addEventListener('keypress', function() {
       saveHandler(save, 300);
     });
 
      textEditor.addEventListener('blur', save);
 
-    chrome.storage.sync.get('textEditor', function(data) {
-      textEditorDocument.getElementsByClassName('textEditorBody')[0].innerHTML = data.textEditor ? data.textEditor : '';
-      if(textEditorDocument.getElementsByClassName('textEditorBody')[0].innerHTML == ""){
-        textEditorDocument.getElementsByClassName('textEditorBody')[0].innerHTML = "<h1'><u>Welcome to <i style='color:#03A9F4'>Notetab</i>!</u></h1><div>Anything you type here will be synced with Chrome.</div><div>The toolbar on the right has a timer and notepads.</div><div>Change theme in the settings or toggle background images.</div><div><br></div><div>Check the Github for future updates and features:&nbsp;</div><div><u style='color:#03A9F4'>https://github.com/nicklascook/Notetab</u></div><div><br></div><h1><u>Features:</u></h1><div>Header: <b>\u2318 ' , ' <u>or</u> &nbsp;<span class='icon-windows8'></span>&nbsp; ' , '</b></div><div>Subheader: <b>\u2318 ' . ' <u>or</u> &nbsp;<span class='icon-windows8'></span>&nbsp; ' . '</b></div><div>Normal Text: <b>\u2318 ' / ' <u>or</u> &nbsp;<span class='icon-windows8'></span>&nbsp; ' / '</b></div><div><p>Cycle between header, subheader and normal text with , . / keys + \u2318 or <span class='icon-windows8'></span></p><br></div><div><b>Bold:</b><b>\u2318B</b></div><div><u>Underline:</u><span style='font-size: 26px;'> </span><span style='font-size: 26px;'>\u2318U</span></div><div><i>Italics:</i><span style='font-size: 26px;'>\u2318I</span></div>"
-      }
-      // If on previous version (>1.3) then add old data to new text editor, save, then change storage to undefined.
-      // can be deleted after adequate time has passed ( 1-2 weeks)
-    setTimeout(function(){
-      chrome.storage.sync.get('toDoList', function(data){
-        if(data.toDoList != undefined){
-          textEditorDocument.getElementsByClassName('textEditorBody')[0].innerHTML += data.toDoList;
-          saveHandler(save, 300);
-          setTimeout(function() {
-             chrome.storage.sync.set({'toDoList': undefined});
-          }, 500);
-          
+    chrome.storage.sync.get('textEditor', function(data) { // get data from storage
+      setTimeout(function() {
+        textEditorDocument.getElementsByClassName('textEditorBody')[0].innerHTML = data.textEditor ? data.textEditor : ''; // set data in iframe
+        setTimeout(function() {
+          if(textEditorDocument.getElementsByClassName('textEditorBody')[0].innerHTML == ""){ // if no data (first time user), display instructions
+          fadeIn(document.getElementsByClassName('info')[0]);
         }
-      })
-    },0)
+        }, 0);
+        
+      }, 0);
+      
     });
 }
 
-textEditorStorage();
-  // test
+textEditorStorage(); // run storage function
 
 
   function _makeDelayed() {
@@ -101,12 +92,12 @@ textEditorStorage();
     };
   }
 
-  function fadeIn(elem){
+  function fadeIn(elem){ // fade in element ( opacity + display )
     var opacityCount = 0;
     elem.style.opacity = 0;
     elem.style.display = "block";
     var id = setInterval(function(){
-      if(opacityCount<1){
+      if(opacityCount<=0.9){
         opacityCount += 0.1;
         elem.style.opacity = opacityCount;
       }else{
@@ -114,11 +105,11 @@ textEditorStorage();
       }
     },15)
   }
-   function fadeOut(elem){
+   function fadeOut(elem){ // fade out element ( opacity + display )
     var opacityCount = 1;
     elem.style.opacity = 1;
     var id = setInterval(function(){
-      if(opacityCount>0){
+      if(opacityCount>=0.1){
         opacityCount -= 0.1;
         elem.style.opacity = opacityCount;
       }else{
@@ -154,7 +145,7 @@ textEditorStorage();
   }
   function countDownTime(){
     displayTime(timeToString()[0], timeToString()[1]); // shows time initally
-    if(timerTime == 0){ // when timer hits 0, blink colors
+    if(timerTime == 0){ // when timer hits 0, play sound
       active =false;
       setTimeout(function () {
         var audio = new Audio('alarm_sound.mp3');
@@ -166,21 +157,21 @@ textEditorStorage();
       }, 0);
     } else{
 
-      setTimeout(function () {
+      setTimeout(function () { // run every second while timer is active
         if (active){
-          timerTime --;
-          displayTime(timeToString()[0], timeToString()[1]);
+          timerTime --; // reduce time
+          displayTime(timeToString()[0], timeToString()[1]); // display reduced time
           countDownTime();
-          reduceBackdisplayHeight();;
+          reduceBackdisplayHeight();
         }
       }, 1000);
       }
     }
-    var heightTracker = 100;
+    var heightTracker = 100; // % of height of backdisplay
     var backdisplay = document.getElementsByClassName('timerbox__backdisplay')[0];
-    function reduceBackdisplayHeight(){
+    function reduceBackdisplayHeight(){ // animate backdisplay height
       var reduceCount = 0;
-      var id = setInterval(function() {
+      var id = setInterval(function() { // interval of 10ms
         if(!active){
           clearInterval(id);
           setTimeout(function () {
@@ -207,9 +198,9 @@ textEditorStorage();
 
 
     }
-      document.getElementsByClassName("icon-play_arrow")[0].onclick = function(){
+      document.getElementsByClassName("icon-play_arrow")[0].onclick = function(){ // start timer button
         if(timerTime == 0){
-          timerTime = 60;
+          timerTime = 60; // default time of 60 seconds if none is given
         }
         if(!active){
           if (maintainCount){
@@ -230,12 +221,12 @@ textEditorStorage();
 
 
       }
-      document.getElementsByClassName("icon-pause")[0].onclick = function(){
+      document.getElementsByClassName("icon-pause")[0].onclick = function(){ // pause button functionality
         active = false;
         document.getElementsByClassName("icon-play_arrow")[0].style.display = "block";
         document.getElementsByClassName("icon-pause")[0].style.display = "none";
       }
-      document.getElementsByClassName("timerbox__reset")[0].onclick = function(){
+      document.getElementsByClassName("timerbox__reset")[0].onclick = function(){ // reset button
         maintainCount = false;
         active = false;
         timerTime = 0;
@@ -244,7 +235,7 @@ textEditorStorage();
         document.getElementsByClassName("icon-pause")[0].style.display = "none";
 
       }
-      document.getElementsByClassName("timerbox__plusminus")[0].onclick = function(){
+      document.getElementsByClassName("timerbox__plusminus")[0].onclick = function(){ // Plus time button
           maintainCount = false;
           timerTime += 30;
           active = false;
@@ -253,14 +244,14 @@ textEditorStorage();
           document.getElementsByClassName("icon-pause")[0].style.display = "none";
 
       }
-      document.getElementsByClassName("timerbox__plusminus")[1].onclick = function(){
+      document.getElementsByClassName("timerbox__plusminus")[1].onclick = function(){ // Minus time button
         maintainCount = false;
         if(timerTime>=30){
           timerTime -= 30;
         } else if (timerTime<30) {
           timerTime =0;
         }
-        document.getElementsByClassName("icon-play_arrow")[0].style.display = "block";
+        document.getElementsByClassName("icon-play_arrow")[0].style.display = "block"; // play button shown by default
         document.getElementsByClassName("icon-pause")[0].style.display = "none";
         active = false;
         displayTime(timeToString()[0], timeToString()[1]);
@@ -273,7 +264,7 @@ textEditorStorage();
       HOW IT WORKS: GLOBAL VARIABLE DETERMINES WHETHER OR NOT AN 'ADDITIONAL' WINDOW IS CURRENTLY DISPLAYED, IF IT IS, THE BUTTON THEN
       HIDES THAT WINDOW AND SHOWS THE CORRECT ONE.
       */
-      var currentlyShown = [false,""];
+      var currentlyShown = [false,""]; // [is element currently shown, identifier for document.get]
       function addToCurrentlyShown(classidentifier){
         fadeIn(document.getElementsByClassName(classidentifier)[0]);
         // document.getElementsByClassName(classidentifier)[0].style.display = "block";
@@ -286,7 +277,7 @@ textEditorStorage();
       }
 
       
-      var bookmarkToggle = document.getElementsByClassName("bookmarktoggle")[0].parentNode;
+      var bookmarkToggle = document.getElementsByClassName("bookmarktoggle")[0].parentNode; // show bookmark menu
       bookmarkToggle.onclick = function(){ // bookmark toggle icon click event
         if(currentlyShown[0]==false){
           addToCurrentlyShown("createbookmark");
@@ -301,7 +292,7 @@ textEditorStorage();
 
 
 
-      var timerIcon = document.getElementsByClassName("toolbar__icons--timer")[0];
+      var timerIcon = document.getElementsByClassName("toolbar__icons--timer")[0]; // timer menu
       timerIcon.onclick = function(){ // Timer icon click event
         if(currentlyShown[0]==false){
           addToCurrentlyShown("timerbox");
@@ -327,9 +318,12 @@ textEditorStorage();
 
       }
       timerIcon.onmouseout = function(){ // Timer icon tooltip on mouseout
-        if (document.getElementsByClassName("tooltip")[0]){
+        setTimeout(function() {
+          if (document.getElementsByClassName("tooltip")[0]){
           document.getElementsByClassName("tooltip")[0].parentNode.removeChild(document.getElementsByClassName("tooltip")[0]);
-        }
+          }
+        }, 0);
+        
       }
 
       // tooltip for add button
@@ -344,9 +338,11 @@ textEditorStorage();
           tooltipWrap.style.right = "100px";
       }
       addIcon.onmouseout = function(){ // add icon tooltip on mouseout
-        if (document.getElementsByClassName("tooltip")[0]){
+        setTimeout(function() {
+          if (document.getElementsByClassName("tooltip")[0]){
           document.getElementsByClassName("tooltip")[0].parentNode.removeChild(document.getElementsByClassName("tooltip")[0]);
-        }
+          }
+        }, 0);
       }
 
       // tooltip for settings button
@@ -360,9 +356,11 @@ textEditorStorage();
           tooltipWrap.style.right = "100px";
       }
       settingsIcon.onmouseout = function(){ // add icon tooltip on mouseout
-        if (document.getElementsByClassName("tooltip")[0]){
+        setTimeout(function() {
+          if (document.getElementsByClassName("tooltip")[0]){
           document.getElementsByClassName("tooltip")[0].parentNode.removeChild(document.getElementsByClassName("tooltip")[0]);
-        }
+          }
+        }, 0);
       }
 
 
@@ -395,20 +393,20 @@ textEditorStorage();
 
       // settings theme functionality
       var currentTheme = "";
-      function findTheme(){
+      function findTheme(){ // find the current theme from chrome storage
         chrome.storage.sync.get("theme", function(data){
           if(data.theme == undefined){
-            chrome.storage.sync.set({"theme":"dark"});
+            chrome.storage.sync.set({"theme":"dark"}); // default to dark if first time use
           }
             currentTheme = data.theme;
         })
       }
-      function switchTheme(){
+      function switchTheme(){ // switch to the theme according to the currentTheme variable
         var theme = currentTheme;
 
         if (theme == "light"){
           chrome.storage.sync.set({"theme":"light"});
-          document.getElementsByClassName('container')[0].classList.add("container--lighttheme");
+          document.getElementsByClassName('container')[0].classList.add("container--lighttheme"); // container--lighttheme controls most of the display
           document.getElementsByClassName('settings__theme--light')[0].classList.add("settings__theme--active");
           document.getElementsByClassName('settings__theme--dark')[0].classList.remove("settings__theme--active");
           textEditor.contentDocument.getElementsByTagName("body")[0].classList.add("lighttheme");
@@ -432,16 +430,16 @@ textEditorStorage();
           document.getElementsByClassName('settings__theme--dark')[0].classList.add("settings__theme--active");
         }
       }
-      setTimeout(function() {
+      setTimeout(function() { // run on page load - find theme, then switch to it
         switchTheme(findTheme());
       },100);
       
-      document.getElementsByClassName('settings__theme--light')[0].onclick = function(){
+      document.getElementsByClassName('settings__theme--light')[0].onclick = function(){ // theme button - light 
         currentTheme = "light";
         chrome.storage.sync.set({"theme":"light"});
         switchTheme();
       }
-      document.getElementsByClassName('settings__theme--dark')[0].onclick = function(){
+      document.getElementsByClassName('settings__theme--dark')[0].onclick = function(){ // theme button - dark
         currentTheme = "dark";
         chrome.storage.sync.set({"theme":"dark"});
         switchTheme()
@@ -450,7 +448,7 @@ textEditorStorage();
       // changes the background to an image from the array imgurImages
        function randomBackgroundImage(){
         var imgurImages =["7yOB0Gw", "iMt9E","9uUjGxZ","54deiOy","6dfIT0V","Wj6acBM","F3MrDRB","P6XwfBF","uYPLPth","tuhylfj","IhVFz","5Gbmza1","Si7YKS9","YMRoa","RHADN","dLjcZUA","OK69cgs","IKWu7","dZIRDmC","EVMuBcO","dV3PFYf","vWqGbB4","2O1EXxo","fLJX6z7","GEzJfcm"];
-        var randomImageNumber = Math.floor(Math.random()*(imgurImages.length));
+        var randomImageNumber = Math.floor(Math.random()*(imgurImages.length)); // get a random number from 0 to the length
         document.getElementsByClassName('container')[0].style.backgroundImage = "url(https://i.imgur.com/"+imgurImages[randomImageNumber] +".jpg)"; // adds .jpg to code + imgur link
       }
   
@@ -515,7 +513,7 @@ textEditorStorage();
       //==============================================================================================================================================================================
       // NOTEPADS==============================================================================================================================================================================
       //
-      var notepadColors = {"white":"#fff","blue":"#3F51B5","red":"#f44336","purple":"#9C27B0","green":"#4CAF50","yellow":"#FF9800","teal":"#009688"};
+      var notepadColors = {"white":"#fff","blue":"#3F51B5","teal":"#009688","purple":"#9C27B0","green":"#4CAF50","yellow":"#FF9800","teal":"#009688"};
       //
 
       /* Adding a new notepad -> Check which notes are currently not in use, if all 5 are used up -> give error
@@ -591,7 +589,7 @@ textEditorStorage();
             newNote.className = ("toolbar__icons--notebook icon-event_note " +name);
             for(var k=1;k<=5;k++){
               if("note"+k == name){
-                var matchColors = ["blue","red","purple","green","yellow"];
+                var matchColors = ["blue","teal","purple","green","yellow"];
                 var matchColor = matchColors[k-1];
                 var noteCol = notepadColors[matchColor];
               }
@@ -681,6 +679,7 @@ textEditorStorage();
             }
 
             newNote.onmouseover = function(){ // create the  icon tooltip on mouseover
+              setTimeout(function() {
                 var tooltipWrap = document.createElement("div"); //creates div
                 tooltipWrap.className = 'tooltip'; //adds class
                 tooltipWrap.style.backgroundColor = noteCol;
@@ -704,6 +703,8 @@ textEditorStorage();
                   tooltipWrap.style.top = (146 + top)+"px";
                   tooltipWrap.style.right = "100px";
                 }, 10);
+              }, 0);
+                
 
 
 
@@ -763,15 +764,14 @@ textEditorStorage();
 
 
 var bookmarksArray = [];
-function findCurrentBookmarks(){
-  bookmarksArray = [];
+function findCurrentBookmarks(){ // find current bookmarks from storage
+  bookmarksArray = []; // reset array
   chrome.storage.sync.get(function(data){
     setTimeout(function() {
-       console.log(data.bookmarks);
-      if(data.bookmarks != undefined){
-        bookmarksArray = data.bookmarks;
-        removeOldBookmarkElements();
-        createBmarkItems();
+      if(data.bookmarks != undefined){ // if any exist:
+        bookmarksArray = data.bookmarks; //set array to sync array
+        removeOldBookmarkElements(); // remove visual elements on page
+        createBmarkItems(); // create links and divs
         createBmarkLinks();
       }
     }, 0);
@@ -790,7 +790,7 @@ function removeOldBookmarkElements(){
           }
         }
 }
-function createBmarkItems(){
+function createBmarkItems(){ // create divs inside createbookmark__list
   for(var i = 0; i<bookmarksArray.length; i++){
     var itemDiv = document.createElement("div");
     itemDiv.className = "row item";
@@ -805,7 +805,7 @@ function createBmarkItems(){
     document.getElementsByClassName("createbookmark__list")[0].appendChild(itemDiv);
   }
 }
-function deleteBookmarkOnclick(elem,url){
+function deleteBookmarkOnclick(elem,url){ // delete button function
   elem.onclick = function(){
     removeBookmark(url);
     setTimeout(function() {
@@ -813,7 +813,7 @@ function deleteBookmarkOnclick(elem,url){
     }, 0);
   }
 }
-function removeBookmark(url){
+function removeBookmark(url){ // pass through 2 functions due to closure
     chrome.storage.sync.get(["bookmarks"], function(data) {
         var array = data["bookmarks"]?data["bookmarks"]:[];
         
@@ -828,12 +828,12 @@ function removeBookmark(url){
         chrome.storage.sync.set(jsonObj);
     });
 }
-function createBmarkLinks(){
+function createBmarkLinks(){ // create links on page
   for(var i = 0; i<bookmarksArray.length; i++){
       var link = document.createElement("a");
       link.href = "http://"+ bookmarksArray[i];
       var img = document.createElement("img");
-      img.src = "https://logo.clearbit.com/http:/" + bookmarksArray[i]+"?size=40";
+      img.src = "https://logo.clearbit.com/https:/" + bookmarksArray[i]+"?size=40"; // clearbit service to find higher quality 
 
       link.appendChild(img);
       imageOnError(img, bookmarksArray[i]);
@@ -863,9 +863,9 @@ function imageOnError(image, url){
   
 }
 
+// INITIAL LOADING AND DISPLAYING OF BOOKMARKS 
 setTimeout(function() {
   findCurrentBookmarks();
-  // createBmarkItems();
 }, 0);
 
 
@@ -875,12 +875,13 @@ setTimeout(function() {
     var btnInput = document.getElementsByClassName("createbookmark__create--input")[0];
     // createBmarkBtn
     if(btnSpan.className == "icon-add"){
-      btnSpan.className = "icon-check"
-      createBmarkBtn.style.backgroundColor = "#EC407A";
+      btnSpan.className = "icon-check";
+      btnSpan.parentNode.classList.add("check")
+      // createBmarkBtn.style.backgroundColor = "#EC407A";
       fadeIn(btnInput);
     } else{
       btnSpan.className = "icon-add"
-      createBmarkBtn.style.backgroundColor = "#03A9F4";
+      btnSpan.parentNode.classList.remove("check")
       fadeOut(btnInput);
       saveBookmark();
       setTimeout(function() {
@@ -903,9 +904,11 @@ setTimeout(function() {
     }
   }
   bookmarkToggle.onmouseout = function(){ // Timer icon tooltip on mouseout
-    if (document.getElementsByClassName("tooltip")[0]){
-      document.getElementsByClassName("tooltip")[0].parentNode.removeChild(document.getElementsByClassName("tooltip")[0]);
-    }
+    setTimeout(function() {
+          if (document.getElementsByClassName("tooltip")[0]){
+          document.getElementsByClassName("tooltip")[0].parentNode.removeChild(document.getElementsByClassName("tooltip")[0]);
+          }
+        }, 0);
   }
 
 function saveBookmark(){
@@ -927,9 +930,35 @@ function saveBookmark(){
   }
 }
 
+// fix icons not loading properly - display with opacity = 0, then hide
 setTimeout(function() {
      document.getElementsByClassName("timerbox")[0].style.display = "none";
+     document.getElementsByClassName("timerbox")[0].style.opacity = 1;
+
      document.getElementsByClassName("createbookmark")[0].style.display = "none";
+     document.getElementsByClassName("createbookmark")[0].style.opacity = 1;
+
+     document.getElementsByClassName("settings")[0].style.display = "none";
+     document.getElementsByClassName("settings")[0].style.opacity = 1;
+     
+     document.getElementsByClassName("info")[0].style.display = "none";
+     document.getElementsByClassName("info")[0].style.opacity = 1;
 }, 0);
 
+// INSTRUCTIONS FUNCTIONALITY
+var infoBtn = document.getElementsByClassName('infobtn')[0];
+infoBtn.onclick = function(){
+  if(document.getElementsByClassName("info")[0].style.display != "block"){
+    fadeIn(document.getElementsByClassName("info")[0]);
+  } else{
+    fadeOut(document.getElementsByClassName("info")[0]);
+  }
+}
+document.getElementsByClassName("exit")[0].onclick = function(){
+  if(document.getElementsByClassName("info")[0].style.display != "block"){
+    fadeIn(document.getElementsByClassName("info")[0]);
+  } else{
+    fadeOut(document.getElementsByClassName("info")[0]);
+  }
+}
 // end of doc

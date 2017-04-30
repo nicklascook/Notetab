@@ -95,6 +95,9 @@
 .icon-chronometer:before {
   content: "\e904"; }
 
+.icon-info:before {
+  content: "\e88e"; }
+
 html, body {
   font-size: 16px;
   font-family: 'Roboto', sans-serif;
@@ -111,14 +114,67 @@ html, body {
 .container--lighttheme {
   background-color: #fff;
   color: #1f364d; }
+  .container--lighttheme .info {
+    background-color: white;
+    color: #1f364d; }
+    .container--lighttheme .info h1 {
+      color: white;
+      background-color: #f44336; }
+    .container--lighttheme .info strong {
+      color: black; }
+    .container--lighttheme .info span {
+      color: #4a148c; }
+    .container--lighttheme .info .exit {
+      color: white; }
+      .container--lighttheme .info .exit:hover {
+        color: #4a148c; }
   .container--lighttheme .textarea textarea {
     color: #1f364d; }
+  .container--lighttheme .bookmarks button {
+    background-color: #f44336; }
+    .container--lighttheme .bookmarks button:hover span {
+      color: #4a148c; }
+  .container--lighttheme .createbookmark {
+    background-color: white; }
+    .container--lighttheme .createbookmark h2 {
+      background-color: #f44336; }
+    .container--lighttheme .createbookmark .createbookmark__list .item {
+      background-color: white;
+      color: #f44336;
+      border-color: #f44336; }
+      .container--lighttheme .createbookmark .createbookmark__list .item h3 {
+        color: #f44336;
+        font-weight: 500; }
+      .container--lighttheme .createbookmark .createbookmark__list .item:hover {
+        background-color: #f44336; }
+        .container--lighttheme .createbookmark .createbookmark__list .item:hover h3 {
+          color: white; }
+      .container--lighttheme .createbookmark .createbookmark__list .item span {
+        color: white; }
+        .container--lighttheme .createbookmark .createbookmark__list .item span:hover {
+          color: #4a148c; }
+    .container--lighttheme .createbookmark .createbookmark__create .createbookmark__button {
+      background-color: #4a148c; }
+      .container--lighttheme .createbookmark .createbookmark__create .createbookmark__button:hover {
+        background-color: #621ab9; }
+    .container--lighttheme .createbookmark .createbookmark__create input {
+      background-color: white;
+      border-color: #4a148c;
+      color: #1f364d; }
+      .container--lighttheme .createbookmark .createbookmark__create input:focus {
+        border-color: #f44336; }
+    .container--lighttheme .createbookmark .createbookmark__create .check {
+      background-color: #f44336; }
+      .container--lighttheme .createbookmark .createbookmark__create .check:hover {
+        background-color: #f55a4e; }
   .container--lighttheme .toolbar {
-    background-color: #ec407a; }
+    background-color: #f44336; }
     .container--lighttheme .toolbar .toolbar__icons hr {
-      border: solid 4px #facbdb;
+      border: solid 4px #fccbc7;
       box-shadow: none;
       opacity: 0.2; }
+    .container--lighttheme .toolbar .toolbar__icons span:hover {
+      color: #4a148c; }
   .container--lighttheme .notepad {
     background-color: #ec407a;
     color: #0e2439; }
@@ -128,46 +184,67 @@ html, body {
   .container--lighttheme .createnotepad {
     background-color: white; }
     .container--lighttheme .createnotepad .createnotepad__name input {
-      background-color: #ec407a; }
+      background-color: #f44336; }
     .container--lighttheme .createnotepad .createnotepad__name input:hover, .container--lighttheme .createnotepad .createnotepad__name input:focus {
-      background-color: #ee5387; }
+      background-color: #f55549; }
     .container--lighttheme .createnotepad .createnotepad__name input:focus + .underline {
       transform: scale(1);
-      background-color: #03a9f4; }
+      background-color: #4a148c; }
     .container--lighttheme .createnotepad .createnotepad__name .underline {
-      background-color: #60ccfd; }
+      background-color: #7a26e0; }
     .container--lighttheme .createnotepad button {
-      border-color: #ec407a;
-      color: #ec407a;
+      border-color: #f44336;
+      color: #f44336;
       padding: 7px; }
     .container--lighttheme .createnotepad button:hover {
-      background-color: #03a9f4;
+      background-color: #f55549;
       color: white;
-      border-color: white; }
+      border-color: #f44336; }
   .container--lighttheme .settings {
     color: #777777;
     background-color: white; }
     .container--lighttheme .settings .settings__header {
       box-shadow: none;
       color: white;
-      background-color: #ec407a;
+      background-color: #f44336;
       border-color: #ec407a; }
+      .container--lighttheme .settings .settings__header span:hover {
+        color: #4a148c; }
     .container--lighttheme .settings .settings__theme h2 {
-      color: #777777; }
+      color: #4a148c; }
     .container--lighttheme .settings .settings__theme span {
       color: #aaaaaa; }
     .container--lighttheme .settings .settings__theme .settings__theme--active {
-      color: #ec407a; }
+      color: #4a148c; }
     .container--lighttheme .settings .settings__theme span:hover {
-      color: #03a9f4; }
+      color: #4a148c; }
+    .container--lighttheme .settings .settings__image h2 {
+      color: #4a148c; }
+    .container--lighttheme .settings .settings__image .switch .slider {
+      background-color: #686868; }
+      .container--lighttheme .settings .settings__image .switch .slider:before {
+        background-color: #bdbdbd; }
+      .container--lighttheme .settings .settings__image .switch .slider:hover:before {
+        background-color: #d7d7d7; }
+    .container--lighttheme .settings .settings__image .switch input:checked + .slider:hover:before {
+      background-color: #a369ea; }
+    .container--lighttheme .settings .settings__image .switch input:checked + .slider {
+      background-color: #9553e6; }
+    .container--lighttheme .settings .settings__image .switch input:focus + .slider {
+      box-shadow: 0 0 1px #b41249; }
+    .container--lighttheme .settings .settings__image .switch input:checked + .slider:before {
+      background-color: #621ab9;
+      -webkit-transform: translateX(20px);
+      -ms-transform: translateX(20px);
+      transform: translateX(20px); }
   .container--lighttheme .timerbox {
-    background-color: white;
+    background-color: #710e06;
     border: none;
-    color: #1f364d; }
+    color: white; }
     .container--lighttheme .timerbox .timerbox__backdisplay {
-      background-color: #ec407a; }
+      background-color: #f44336; }
     .container--lighttheme .timerbox span:hover {
-      color: #03a9f4; }
+      color: #7a26e0; }
 
 .textarea {
   margin: 0 auto;
@@ -224,6 +301,7 @@ html, body {
 
 .timerbox {
   background-color: #1f364d;
+  opacity: 0;
   height: 280px;
   position: absolute;
   right: 100px;
@@ -466,7 +544,7 @@ iframe {
 .settings {
   background: #1f364d;
   box-shadow: 0 10px 28px rgba(0, 0, 0, 0.15), 0 10px 10px rgba(0, 0, 0, 0.22);
-  display: none;
+  opacity: 0;
   height: 300px;
   position: absolute;
   right: 100px;
@@ -487,6 +565,16 @@ iframe {
       text-align: center;
       text-transform: uppercase;
       font-size: 1.5rem; }
+    .settings .settings__header span {
+      position: absolute;
+      right: 17px;
+      top: 13px;
+      font-size: 1.5rem;
+      cursor: pointer;
+      border-radius: 100%;
+      padding-bottom: 1px; }
+      .settings .settings__header span:hover {
+        color: #ec407a; }
   .settings .settings__theme {
     color: white;
     padding-top: 10px;
@@ -651,7 +739,8 @@ iframe {
   color: white;
   text-align: center;
   padding-bottom: 5px;
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.2), 0 10px 10px rgba(0, 0, 0, 0.22); }
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.2), 0 10px 10px rgba(0, 0, 0, 0.22);
+  opacity: 0; }
   .createbookmark h2 {
     text-align: center;
     background-color: #03a9f4;
@@ -723,7 +812,8 @@ iframe {
       .createbookmark .createbookmark__create .createbookmark__button:focus {
         outline: 0; }
       .createbookmark .createbookmark__create .createbookmark__button:hover {
-        box-shadow: 1px 1px 30px rgba(0, 0, 0, 0.45), 5px 5px 10px rgba(0, 0, 0, 0.22); }
+        box-shadow: 1px 1px 30px rgba(0, 0, 0, 0.45), 5px 5px 10px rgba(0, 0, 0, 0.22);
+        background-color: #23b9fc; }
       .createbookmark .createbookmark__create .createbookmark__button span {
         padding-left: 2px; }
     .createbookmark .createbookmark__create input {
@@ -744,6 +834,10 @@ iframe {
       .createbookmark .createbookmark__create input:focus {
         border-color: #ec407a;
         outline: none; }
+    .createbookmark .createbookmark__create .check {
+      background-color: #ec407a; }
+      .createbookmark .createbookmark__create .check:hover {
+        background-color: #ee578a; }
     .createbookmark .createbookmark__create ::-webkit-input-placeholder {
       /* Chrome/Opera/Safari */
       color: #b2b2b2; }
@@ -756,3 +850,53 @@ iframe {
     .createbookmark .createbookmark__create :-moz-placeholder {
       /* Firefox 18- */
       color: #b2b2b2; }
+
+.info {
+  width: 700px;
+  height: 600px;
+  background-color: #1f364d;
+  position: absolute;
+  color: #fff;
+  opacity: 0;
+  top: 20px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  text-align: center;
+  padding-bottom: 30px;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22); }
+  .info h1 {
+    text-align: center;
+    width: 100%;
+    background-color: #03a9f4;
+    margin-top: 0;
+    padding-bottom: 20px;
+    padding-top: 20px;
+    text-transform: uppercase;
+    font-weight: lighter;
+    letter-spacing: 0.1rem; }
+  .info p {
+    padding-left: 20px;
+    padding-right: 20px;
+    font-size: 1.1rem; }
+    .info p:first-of-type {
+      margin-top: 40px; }
+  .info strong {
+    color: darkgrey; }
+  .info span {
+    color: #03a9f4; }
+  .info a {
+    color: #14b4fc;
+    font-size: 1.2rem; }
+    .info a:visited {
+      color: #14b4fc; }
+  .info h2 {
+    margin-top: 40px; }
+  .info .exit {
+    position: absolute;
+    top: 20px;
+    right: 40px;
+    font-size: 1.8rem;
+    cursor: pointer; }
+    .info .exit:hover {
+      color: #ec407a; }
