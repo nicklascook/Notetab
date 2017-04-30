@@ -60,21 +60,23 @@ function textEditorStorage(){
   function save() {
       chrome.storage.sync.set({'textEditor': textEditorDocument.getElementsByClassName('textEditorBody')[0].innerHTML});
     }
-  // Throttle save so that it only occurs after 300 ms without a keypress.
-    textEditor.contentWindow.addEventListener('keypress', function() {
-      saveHandler(save, 300);
-    });
+  
 
-     textEditor.addEventListener('blur', save);
+     
 
     chrome.storage.sync.get('textEditor', function(data) { // get data from storage
       setTimeout(function() {
         textEditorDocument.getElementsByClassName('textEditorBody')[0].innerHTML = data.textEditor ? data.textEditor : ''; // set data in iframe
+        textEditor.addEventListener('blur', save);
+        // Throttle save so that it only occurs after 300 ms without a keypress.
+        textEditor.contentWindow.addEventListener('keypress', function() {
+          saveHandler(save, 300);
+        });
         setTimeout(function() {
           if(textEditorDocument.getElementsByClassName('textEditorBody')[0].innerHTML == ""){ // if no data (first time user), display instructions
           fadeIn(document.getElementsByClassName('info')[0]);
         }
-        }, 0);
+        }, 150);
         
       }, 0);
       
@@ -395,9 +397,13 @@ textEditorStorage(); // run storage function
       var currentTheme = "";
       function findTheme(){ // find the current theme from chrome storage
         chrome.storage.sync.get("theme", function(data){
-          if(data.theme == undefined){
+
+          setTimeout(function() {
+            if(data.theme == undefined){
             chrome.storage.sync.set({"theme":"dark"}); // default to dark if first time use
           }
+          }, 200);
+          
             currentTheme = data.theme;
         })
       }
@@ -432,7 +438,7 @@ textEditorStorage(); // run storage function
       }
       setTimeout(function() { // run on page load - find theme, then switch to it
         switchTheme(findTheme());
-      },100);
+      },0);
       
       document.getElementsByClassName('settings__theme--light')[0].onclick = function(){ // theme button - light 
         currentTheme = "light";

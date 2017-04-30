@@ -146,7 +146,8 @@ html, body {
         color: #f44336;
         font-weight: 500; }
       .container--lighttheme .createbookmark .createbookmark__list .item:hover {
-        background-color: #f44336; }
+        background-color: #f44336;
+        border-color: transparent; }
         .container--lighttheme .createbookmark .createbookmark__list .item:hover h3 {
           color: white; }
       .container--lighttheme .createbookmark .createbookmark__list .item span {
